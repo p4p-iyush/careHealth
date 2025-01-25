@@ -1,0 +1,90 @@
+.login-container {
+  display: flex;
+  flex-direction: column; /* Stack heading and cards vertically */
+  align-items: center;
+  min-height: 78vh;
+  padding: 20px;
+  background: linear-gradient(to bottom, #ffffff, #f0f0f5);
+}
+
+.login-heading {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #353256;
+  margin-bottom: 0.5rem;
+  margin-top: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  animation: fadeIn 1s ease-out;
+}
+
+.login-subheading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 2rem;
+  animation: fadeIn 1.5s ease-out;
+}
+
+.login-cards-wrapper {
+  display: flex;
+  flex-wrap: nowrap; /* Ensure cards are in one line */
+  gap: 25px; /* Space between the cards */
+  justify-content: center;
+  overflow-x: auto; /* Allow horizontal scrolling if cards exceed screen width */
+  padding: 10px;
+  width: 100%;
+}
+
+.login-type-container{
+  display: flex;
+  gap: 30px; /* Space between login type buttons */
+  align-items: center;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+.login-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  width: 250px;
+  height: 160px;
+  font-size: 18px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.login-card svg {
+  margin-bottom: 15px;
+  color: #353256;
+  font-size: 3rem;
+}
+
+.login-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  background-color: #f8f9ff;
+}
+
+.login-card:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
