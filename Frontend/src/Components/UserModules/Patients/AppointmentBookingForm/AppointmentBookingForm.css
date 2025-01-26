@@ -1,0 +1,110 @@
+/* Container Styling */
+.AppointmentBookingForm-container {
+  margin: 20px auto;
+  background: #ffffff;
+  padding: 30px;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+.AppointmentBookingForm-heading {
+  text-align: center;
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+/* Form Layout */
+.AppointmentBookingForm-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Field Container */
+.AppointmentBookingForm-field {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+.AppointmentBookingForm-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #34495e;
+  margin-bottom: 8px;
+}
+
+/* Input and Select Elements */
+.AppointmentBookingForm-input,
+.AppointmentBookingForm-select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #dcdde1;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #34495e;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #f9f9f9;
+}
+
+.AppointmentBookingForm-input:focus,
+.AppointmentBookingForm-select:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+}
+
+/* Error Message */
+.AppointmentBookingForm-error {
+  font-size: 0.9rem;
+  color: #e74c3c;
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+/* Button Styling */
+.AppointmentBookingForm-button {
+  background-color: #3498db;
+  color: #ffffff;
+  font-size: 1.1rem;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
+  text-align: center;
+}
+
+.AppointmentBookingForm-button:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.AppointmentBookingForm-button:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .AppointmentBookingForm-container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .AppointmentBookingForm-heading {
+    font-size: 1.8rem;
+  }
+
+  .AppointmentBookingForm-button {
+    font-size: 1rem;
+    padding: 12px;
+  }
+}
