@@ -1,0 +1,67 @@
+.doctor-registration-container {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.doctor-registration-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.doctor-registration-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+.doctor-registration-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: bold;
+}
+
+.doctor-registration-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.doctor-registration-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.doctor-registration-button:hover {
+    background-color: #4cae4c;
+}
+
+.doctor-registration-login-text {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.doctor-registration-login-text a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.doctor-registration-login-text a:hover {
+    text-decoration: underline;
+}
