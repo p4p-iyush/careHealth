@@ -25,25 +25,34 @@ const AppointmentBookingForm = () => {
   };
 
   const checkAvailability = async () => {
-    if (formData.date && formData.time && formData.department) {
+    if (formData.date && formData.department) {
       try {
         const response = await axios.post('http://localhost:5000/check-availability', {
           date: formData.date,
-          time: formData.time,
           department: formData.department,
         });
-        setAvailability(response.data.available);
+  
+        const unavailableSlots = response.data.unavailableSlots || []; // Ensures it's always an array
+        // console.log("unavailableSlots:",unavailableSlots);
+  
+        // Filter out the unavailable slots from the predefined slots
+        const availableSlots = predefinedSlots.filter(slot => !unavailableSlots.includes(slot));
+        // console.log("availableSlots:",availableSlots,"unavailableSlots:", unavailableSlots);
+        setAvailability(availableSlots); // Store available slots
       } catch (error) {
         console.error('Error checking availability:', error);
       }
     }
   };
+  
+
 
   useEffect(() => {
-    if (formData.date && formData.time && formData.department) {
+    // Check availability when department, date, or time changes
+    if (formData.date && formData.department) {
       checkAvailability();
     }
-  }, [formData.date, formData.time, formData.department]);
+  }, [formData.date, formData.department]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -106,50 +115,6 @@ const AppointmentBookingForm = () => {
         </div>
 
         <div className="AppointmentBookingForm-field">
-          <label className="AppointmentBookingForm-label">Date:</label>
-          <input
-            className="AppointmentBookingForm-input"
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="AppointmentBookingForm-field">
-          <label className="AppointmentBookingForm-label">Time Slot:</label>
-          <select
-            className="AppointmentBookingForm-select"
-            name="time"
-            value={formData.time}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select a time slot</option>
-            {predefinedSlots.map((slot, index) => (
-              <option key={index} value={slot}>
-                {slot}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="AppointmentBookingForm-field">
-          <label className="AppointmentBookingForm-label">Appointment Type:</label>
-          <select
-            className="AppointmentBookingForm-select"
-            name="type"
-            value={formData.type}
-            onChange={handleChange}
-          >
-            <option value="General">General</option>
-            <option value="Emergency">Emergency</option>
-            <option value="VIP">VIP</option>
-          </select>
-        </div>
-
-        <div className="AppointmentBookingForm-field">
           <label className="AppointmentBookingForm-label">Department:</label>
           <select
             className="AppointmentBookingForm-select"
@@ -164,6 +129,53 @@ const AppointmentBookingForm = () => {
             <option value="Orthopedics">Orthopedics</option>
             <option value="Pediatrics">Pediatrics</option>
             <option value="General Medicine">General Medicine</option>
+          </select>
+        </div>
+
+        <div className="AppointmentBookingForm-field">
+          <label className="AppointmentBookingForm-label">Date:</label>
+          <input
+            className="AppointmentBookingForm-input"
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            required
+            min={new Date().toISOString().split("T")[0]} // Prevents past dates
+          />
+        </div>
+
+        <div className="AppointmentBookingForm-field">
+          <label className="AppointmentBookingForm-label">Time Slot:</label>
+          <select
+            className="AppointmentBookingForm-select"
+            name="time"
+            value={formData.time}
+            onChange={handleChange}
+            required
+            disabled={!formData.date || !formData.department} // Disable time selection if department or date is not selected
+          >
+            <option value="">Select a time slot</option>
+            {availability && availability.map((slot, index) => (
+              <option key={index} value={slot}>
+                {slot}
+              </option>
+            ))}
+          </select>
+        </div>
+
+
+        <div className="AppointmentBookingForm-field">
+          <label className="AppointmentBookingForm-label">Appointment Type:</label>
+          <select
+            className="AppointmentBookingForm-select"
+            name="type"
+            value={formData.type}
+            onChange={handleChange}
+          >
+            <option value="General">General</option>
+            <option value="Emergency">Emergency</option>
+            <option value="VIP">VIP</option>
           </select>
         </div>
 

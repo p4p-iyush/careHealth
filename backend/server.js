@@ -30,14 +30,24 @@ const Appointment = mongoose.model('Appointment', appointmentSchema);
 // Endpoint to check time slot availability
 app.post('/check-availability', async (req, res) => {
     try {
-        const { date, time, department } = req.body;
-        const existingAppointment = await Appointment.findOne({ date, time, department });
-        res.json({ available: !existingAppointment });
+        const { date, department } = req.body;
+
+        // Find all appointments for the given date and department
+        const existingAppointments = await Appointment.find({ date, department });
+
+        // Get all booked time slots
+        const bookedSlots = existingAppointments.map(appointment => appointment.time);
+        // console.log("bookedSlots:",bookedSlots,"existingAppointments:",existingAppointments);
+
+        // Send back the booked slots as unavailable
+        res.json({ unavailableSlots: bookedSlots });
     } catch (error) {
         console.error('Error checking availability:', error);
         res.status(500).json({ message: 'Error checking availability' });
     }
 });
+
+  
 
 // Endpoint to book an appointment
 app.post('/book-appointment', async (req, res) => {
