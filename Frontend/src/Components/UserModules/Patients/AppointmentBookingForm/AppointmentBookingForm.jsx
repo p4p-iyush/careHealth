@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 import './AppointmentBookingForm.css';
 
-const predefinedSlots = ['09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM'];
-
 const AppointmentBookingForm = () => {
+  // Get the userDetails from location state
+  const location = useLocation();
+  const { userDetails } = location.state || {}; // Default to empty object if no state is passed
+
+  // Check if userDetails is available
+  if (!userDetails) {
+    return <div>No user data available!</div>; // Handle case where no user data is available
+  }
+
+  const predefinedSlots = ['09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM'];
+
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
+    name: userDetails.name || '',   // Default to userDetails if available
+    email: userDetails.email || '', // Default to userDetails if available
+    phone: userDetails.contact || '', // Default to userDetails if available
     date: '',
     time: '',
     type: 'General',
@@ -31,21 +41,17 @@ const AppointmentBookingForm = () => {
           date: formData.date,
           department: formData.department,
         });
-  
+
         const unavailableSlots = response.data.unavailableSlots || []; // Ensures it's always an array
-        // console.log("unavailableSlots:",unavailableSlots);
-  
-        // Filter out the unavailable slots from the predefined slots
+
         const availableSlots = predefinedSlots.filter(slot => !unavailableSlots.includes(slot));
-        // console.log("availableSlots:",availableSlots,"unavailableSlots:", unavailableSlots);
+
         setAvailability(availableSlots); // Store available slots
       } catch (error) {
         console.error('Error checking availability:', error);
       }
     }
   };
-  
-
 
   useEffect(() => {
     // Check availability when department, date, or time changes
@@ -163,7 +169,6 @@ const AppointmentBookingForm = () => {
             ))}
           </select>
         </div>
-
 
         <div className="AppointmentBookingForm-field">
           <label className="AppointmentBookingForm-label">Appointment Type:</label>

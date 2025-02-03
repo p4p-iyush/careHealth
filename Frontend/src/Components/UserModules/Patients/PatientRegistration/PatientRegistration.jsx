@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./PatientRegistration.css";
 
-const PatientRegister = () => {
+export default function PatientRegister() {
   const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -8,128 +11,61 @@ const PatientRegister = () => {
     contact: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    confirm_password: "",
     bloodGroup: "",
     address: "",
   });
+
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted", formData);
+
+    if (formData.password !== formData.confirm_password) {
+      setError("Passwords do not match!");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:5000/patient_register", formData);
+      alert(response.data); // Show success message
+      navigate("/patient-login"); // Redirect to login page
+    } catch (error) {
+      setError("Registration failed. Try again.");
+      console.error("Error registering:", error);
+    }
   };
 
   return (
-    <div className="patientregistration-container">
-      <h1 className="patientregistration-title">Patient Register</h1>
-      <form className="patientregistration-form" onSubmit={handleSubmit}>
-        <label className="patientregistration-label" htmlFor="name">
-          Full Name:
-        </label>
-        <input
-          className="patientregistration-input"
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
+    <div className="register-container">
+      <h2>Patient Registration</h2>
+      <form onSubmit={handleSubmit}>
+        {error && <p className="error-message">{error}</p>}
 
-        <label className="patientregistration-label" htmlFor="age">
-          Age:
-        </label>
-        <input
-          className="patientregistration-input"
-          type="number"
-          id="age"
-          name="age"
-          value={formData.age}
-          onChange={handleChange}
-          required
-        />
+        <input type="text" name="name" placeholder="Name" onChange={handleChange} required />
+        <input type="number" name="age" placeholder="Age" onChange={handleChange} required />
 
-        <label className="patientregistration-label" htmlFor="gender">
-          Gender:
-        </label>
-        <select
-          className="patientregistration-input"
-          id="gender"
-          name="gender"
-          value={formData.gender}
-          onChange={handleChange}
-          required
-        >
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
+        {/* Gender Dropdown */}
+        <select name="gender" onChange={handleChange} required>
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
         </select>
 
-        <label className="patientregistration-label" htmlFor="contact">
-          Contact Number:
-        </label>
-        <input
-          className="patientregistration-input"
-          type="tel"
-          id="contact"
-          name="contact"
-          value={formData.contact}
-          onChange={handleChange}
-          required
-        />
+        <input type="text" name="contact" placeholder="Contact" onChange={handleChange} required />
+        <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
+        <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
+        <input type="password" name="confirm_password" placeholder="Confirm Password" onChange={handleChange} required />
 
-        <label className="patientregistration-label" htmlFor="email">
-          Email:
-        </label>
-        <input
-          className="patientregistration-input"
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-
-        <label className="patientregistration-label" htmlFor="password">
-          Password:
-        </label>
-        <input
-          className="patientregistration-input"
-          type="password"
-          id="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-
-        <label className="patientregistration-label" htmlFor="confirmPassword">
-          Confirm Password:
-        </label>
-        <input
-          className="patientregistration-input"
-          type="password"
-          id="confirmPassword"
-          name="confirmPassword"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          required
-        />
-
-        <label className="patientregistration-label" htmlFor="bloodGroup">
-          Blood Group:
-        </label>
-        <select
-          className="patientregistration-input"
-          id="bloodGroup"
-          name="bloodGroup"
-          value={formData.bloodGroup}
-          onChange={handleChange}
-        >
+        {/* Blood Group Dropdown */}
+        <select name="bloodGroup" onChange={handleChange} required>
+          <option value="">Select Blood Group</option>
           <option value="A+">A+</option>
           <option value="A-">A-</option>
           <option value="B+">B+</option>
@@ -140,26 +76,10 @@ const PatientRegister = () => {
           <option value="AB-">AB-</option>
         </select>
 
-        <label className="patientregistration-label" htmlFor="address">
-          Address:
-        </label>
-        <textarea
-          className="patientregistration-input"
-          id="address"
-          name="address"
-          value={formData.address}
-          onChange={handleChange}
-        ></textarea>
+        <input type="text" name="address" placeholder="Address" onChange={handleChange} required />
 
-        <button className="patientregistration-button" type="submit">
-          Register
-        </button>
+        <button type="submit">Register</button>
       </form>
-      <p className="patientregistration-login-text">
-        Already have an account? <a href="login.html">Login</a>
-      </p>
     </div>
   );
-};
-
-export default PatientRegister;
+}

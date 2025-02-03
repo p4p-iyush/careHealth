@@ -1,6 +1,6 @@
 .login-container {
   display: flex;
-  flex-direction: column; /* Stack heading and cards vertically */
+  flex-direction: column; 
   align-items: center;
   margin-top: 3rem;
   min-height: 70vh;
@@ -37,13 +37,16 @@
   width: 100%;
 }
 
-.login-type-container{
-  display: flex;
-  gap: 30px; /* Space between login type buttons */
-  align-items: center;
-  justify-content: center;
+.login-type-container {
+  display: grid !important;
   margin-top: 3rem;
+  grid-template-columns: repeat(2, 1fr); 
+  grid-template-rows: repeat(2, 1fr); /* Create 2 equal-height rows */
+  gap: 20px; /* Space between the grid items */
+  justify-items: center; /* Center the items horizontally */
+  align-items: center; /* Center the items vertically */
 }
+
 
 .login-card {
   display: flex;

@@ -4,6 +4,11 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+const Patient = require('./db/PatientRegistration');
+const Doctor = require('./db/DoctorRegistration');
+const InventoryManager = require('./db/InventoryManagerRegistration');
+const Appointment = require('./db/AppointmentSchema');
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -13,20 +18,8 @@ mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.log(err));
 
-const appointmentSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    phone: String,
-    date: String,
-    time: String,
-    type: String,
-    department: String,
-    reached: { type: Boolean, default: false },
-    createdAt: { type: Date, default: Date.now }
-});
 
-const Appointment = mongoose.model('Appointment', appointmentSchema);
-
+// ############################### Appointment OPD management #########################################
 // Endpoint to check time slot availability
 app.post('/check-availability', async (req, res) => {
     try {
@@ -46,8 +39,6 @@ app.post('/check-availability', async (req, res) => {
         res.status(500).json({ message: 'Error checking availability' });
     }
 });
-
-  
 
 // Endpoint to book an appointment
 app.post('/book-appointment', async (req, res) => {
@@ -92,7 +83,6 @@ app.delete('/cancel-appointment/:id', async (req, res) => {
     }
 });
 
-
 // Endpoint to reschedule an appointment
 app.put('/reschedule-appointment/:id', async (req, res) => {
     try {
@@ -128,6 +118,95 @@ app.get('/appointments', async (req, res) => {
         res.status(500).json({ message: 'Error fetching appointments' });
     }
 });
+
+// ###############################  registration management #########################################
+// Route to handle patient registration form submissions
+app.post('/patient_register', async (req, res) => {
+    try {
+        const password = req.body.password;
+        const confirm_password = req.body.confirm_password;
+
+        if (password === confirm_password) {
+            const patientRegistered = new Patient({
+                name: req.body.name,
+                age: req.body.age,
+                gender: req.body.gender,
+                contact: req.body.contact,
+                email: req.body.email,
+                password: req.body.password,
+                confirm_password: req.body.confirm_password,
+                bloodGroup: req.body.bloodGroup,
+                address: req.body.address,
+            });
+
+            const registered = await patientRegistered.save();
+            console.log("Patient registered: ", registered);
+            res.status(201).send("Patient registered successfully");
+        } else {
+            res.status(400).send("Passwords do not match");
+        }
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});
+
+// Route to handle doctor registration form submissions
+app.post('/doctor_register', async (req, res) => {
+    try {
+        const newDoctor = new Doctor({
+            name: req.body.name,
+            contact: req.body.contact,
+            email: req.body.email,
+            password: req.body.password,
+            confirm_password: req.body.confirm_password,
+            specialization: req.body.specialization,
+            experience: req.body.experience,
+            qualification: req.body.qualification,
+        });
+
+        const registeredDoctor = await newDoctor.save();
+        res.status(201).send("Doctor registered successfully");
+    } catch (err) {
+        res.status(400).send(`Error: ${err.message}`);
+    }
+});
+
+// Route to handle inventory manager registration form submissions
+app.post('/register-inventory-manager', async (req, res) => {
+    try {
+        const newInventoryManager = new InventoryManager({
+            name: req.body.name,
+            age: req.body.age,
+            gender: req.body.gender,
+            contact: req.body.contact,
+            email: req.body.email,
+            password: req.body.password,
+            department: req.body.department,
+            yearsOfExperience: req.body['years-of-experience'],
+        });
+
+        const registeredInventoryManager = await newInventoryManager.save();
+        res.status(201).send("Inventory Manager registered successfully");
+    } catch (err) {
+        res.status(400).send(`Error: ${err.message}`);
+    }
+});
+
+// ###############################  login management #########################################
+// Route to handle user login
+app.post("/patient_login", async (req, res) =>{
+    try{
+        const{ email , password }= req.body;
+        const patient = await Patient.findOne({ email: email, password: password});
+        if(!patient){
+            return res.status(404).send("User not found");
+        }
+        res.json({patient});
+    }
+    catch(err){
+        res.status(500).send(`Error: ${err.message}`);
+    }
+} )
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
