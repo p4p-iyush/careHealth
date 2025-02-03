@@ -14,10 +14,19 @@ const appointmentSchema = new mongoose.Schema({
         required: true, 
         match: [/^\d{10}$/, "Phone number must be 10 digits"]
     },
-    appointmentDateTime: { type: Date, required: true }, // Combines date & time
+    date: { 
+        type: String, 
+        required: true, 
+        match: [/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format"]
+    },
+    time: { 
+        type: String, 
+        required: true, 
+        // match: [/^([01]\d|2[0-3]):([0-5]\d)$/, "Time must be in HH:MM 24-hour format"]
+    },
     type: { type: String, required: true, enum: ["General", "Emergency", "Follow-up"] },
     department: { type: String, required: true },
-    reached: { type: Boolean, default: false },
+    reached: { type: Boolean, default: false }, // To track if the patient arrived
     createdAt: { type: Date, default: Date.now }
 });
 
