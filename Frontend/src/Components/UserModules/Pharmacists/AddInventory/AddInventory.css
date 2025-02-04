@@ -1,0 +1,80 @@
+/* AddInventory Styles */
+.addinventory-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f8ff;
+    padding: 20px;
+}
+
+.addinventory-title {
+    font-size: 36px;
+    color: #004080;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.addinventory-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.addinventory-input {
+    padding: 15px;
+    font-size: 16px;
+    border: 1px solid #b3d9ff;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+}
+
+.addinventory-input:focus {
+    border-color: #0073e6;
+    outline: none;
+}
+
+.addinventory-btn {
+    margin-left: 10px;
+    padding: 15px;
+    background-color: #0088cc;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.addinventory-btn:hover {
+    background-color: #005fa3;
+    transform: scale(1.05);
+}
+
+.addinventory-btn:active {
+    background-color: #004080;
+    transform: scale(0.95);
+}
+
+.addinventory-label {
+    font-weight: bold;
+    color: #004080;
+}
+
+.addinventory-error-message {
+    color: red;
+    font-size: 14px;
+    text-align: center;
+}
+
+.addinventory-buttons {
+    display: flex;
+    justify-content: space-between;
+}

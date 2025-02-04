@@ -1,0 +1,64 @@
+.ExpiryUpdate-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f8ff;
+    padding: 20px;
+}
+
+.ExpiryUpdate-title {
+    font-size: 36px;
+    color: #004080;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.ExpiryUpdate-current-date {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #333;
+}
+
+.ExpiryUpdate-input {
+    padding: 15px;
+    font-size: 16px;
+    border: 1px solid #b3d9ff;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+    margin-bottom: 20px;
+}
+
+.ExpiryUpdate-input:focus {
+    border-color: #0073e6;
+    outline: none;
+}
+
+.ExpiryUpdate-update-btn, .ExpiryUpdate-back-btn {
+    padding: 15px;
+    background-color: #0088cc;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin: 10px 0;
+}
+
+.ExpiryUpdate-update-btn:hover, .ExpiryUpdate-back-btn:hover {
+    background-color: #005fa3;
+    transform: scale(1.05);
+}
+
+.ExpiryUpdate-update-btn:active, .ExpiryUpdate-back-btn:active {
+    background-color: #004080;
+    transform: scale(0.95);
+}
+
+.ExpiryUpdate-loading, .ExpiryUpdate-error, .ExpiryUpdate-not-found {
+    text-align: center;
+    font-size: 18px;
+    color: #ff0000;
+}
