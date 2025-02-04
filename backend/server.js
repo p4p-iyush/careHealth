@@ -51,6 +51,7 @@ app.post('/book-appointment', async (req, res) => {
         }
 
         const newAppointment = new Appointment({ name, email, phone, date, time, type, department });
+        console.log(newAppointment);
         await newAppointment.save();
 
         res.json({ message: 'Appointment booked successfully' });
@@ -158,7 +159,7 @@ app.post('/doctor_register', async (req, res) => {
             contact: req.body.contact,
             email: req.body.email,
             password: req.body.password,
-            confirm_password: req.body.confirm_password,
+            confirm_password: req.body.confirm_Password,
             specialization: req.body.specialization,
             experience: req.body.experience,
             qualification: req.body.qualification,
@@ -181,8 +182,9 @@ app.post('/register-inventory-manager', async (req, res) => {
             contact: req.body.contact,
             email: req.body.email,
             password: req.body.password,
+            confirm_password: req.body.confirm_password,
             department: req.body.department,
-            yearsOfExperience: req.body['years-of-experience'],
+            yearsOfExperience: req.body.yearsOfExperience,
         });
 
         const registeredInventoryManager = await newInventoryManager.save();
@@ -207,6 +209,42 @@ app.post("/patient_login", async (req, res) =>{
         res.status(500).send(`Error: ${err.message}`);
     }
 } )
+app.post("/doctor_login", async (req, res) =>{
+    try{
+        const{ email , password }= req.body;
+        const doctor = await Doctor.findOne({ email: email, password: password});
+        if(!doctor){
+            return res.status(404).send("User not found");
+        }
+        res.json({doctor});
+    }
+    catch(err){
+        res.status(500).send(`Error: ${err.message}`);
+    }
+} )
+app.post("/pharmacy_login", async (req, res) =>{
+    try{
+        const{ email , password }= req.body;
+        const pharmacy = await InventoryManager.findOne({ email: email, password: password});
+        if(!pharmacy){
+            return res.status(404).send("User not found");
+        }
+        res.json({pharmacy});
+    }
+    catch(err){
+        res.status(500).send(`Error: ${err.message}`);
+    }
+} )
+
+// ###############################  doctor section ###############################
+// Route to get all patient of that doctor
+app.get('/doctor_patient_list/:id',(req,res)=>{
+    const id = req.params.id;
+    const doctor = Doctor.findById(id);
+    const department = doctor.specialization;
+    const patient = Patient.findOne({department: department});
+    console.log(patient)
+})
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
