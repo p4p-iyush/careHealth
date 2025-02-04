@@ -33,7 +33,7 @@ export default function PatientLogin() {
       alert("Login Successful!");
 
       // Pass the response data to the next page using navigate
-      navigate("/patient-dashboard", { state: { userDetails } }); // Passing user details as state
+      navigate("/main-dashboard", { state: { userDetails } }); // Passing user details as state
     } catch (error) {
       setError("Invalid email or password");
       console.error("Login error:", error);

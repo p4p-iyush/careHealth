@@ -194,7 +194,7 @@ app.post('/inventory_register', async (req, res) => {
     }
 });
 // Route to handle admin registration form sumission
-app.post('/doctor_register', async (req, res) => {
+app.post('/admin_register', async (req, res) => {
     try {
         const newDoctor = new Doctor({
             name: req.body.name,
@@ -230,10 +230,6 @@ app.post("/patient_login", async (req, res) =>{
         res.status(500).send(`Error: ${err.message}`);
     }
 } )
-<<<<<<< HEAD
-=======
-// Route to handle doctor login
->>>>>>> 170a44af9efbbc7e3c9b99197c06dd40b401df05
 app.post("/doctor_login", async (req, res) =>{
     try{
         const{ email , password }= req.body;
@@ -247,32 +243,6 @@ app.post("/doctor_login", async (req, res) =>{
         res.status(500).send(`Error: ${err.message}`);
     }
 } )
-<<<<<<< HEAD
-app.post("/pharmacy_login", async (req, res) =>{
-    try{
-        const{ email , password }= req.body;
-        const pharmacy = await InventoryManager.findOne({ email: email, password: password});
-        if(!pharmacy){
-            return res.status(404).send("User not found");
-        }
-        res.json({pharmacy});
-    }
-    catch(err){
-        res.status(500).send(`Error: ${err.message}`);
-    }
-} )
-
-// ###############################  doctor section ###############################
-// Route to get all patient of that doctor
-app.get('/doctor_patient_list/:id',(req,res)=>{
-    const id = req.params.id;
-    const doctor = Doctor.findById(id);
-    const department = doctor.specialization;
-    const patient = Patient.findOne({department: department});
-    console.log(patient)
-})
-=======
->>>>>>> 170a44af9efbbc7e3c9b99197c06dd40b401df05
 
 // Route to handle inventory  login
 
@@ -304,6 +274,17 @@ app.post("/admin_login", async (req, res) =>{
         res.status(500).send(`Error: ${err.message}`);
     }
 } )
+// ###############################  doctor section ###############################
+// Route to get all patient of that doctor
+app.get('/doctor_patient_list/:id',(req,res)=>{
+    const id = req.params.id;
+    const doctor = Doctor.findById(id);
+    const department = doctor.specialization;
+    const patient = Patient.findOne({department: department});
+    console.log(patient)
+})
+
+
 
 
 

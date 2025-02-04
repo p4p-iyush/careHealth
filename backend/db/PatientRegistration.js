@@ -46,6 +46,11 @@ const patientSchema = new mongoose.Schema({
     address: {
         type: String,
     },
+    userRole: {
+        type: String,
+        required: true,
+        default: 'patient' 
+    },
 }, {
     timestamps: true, // Adds createdAt and updatedAt fields
 });

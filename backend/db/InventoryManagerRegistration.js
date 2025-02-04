@@ -36,9 +36,13 @@ const inventoryManagerSchema = new mongoose.Schema({
         required: true,
     },
     yearsOfExperience: {
-        type: Number,
+        type: Number, // Change from String to Number
         required: true,
-        min: [0, 'Experience cannot be negative'], // Ensures experience is not negative
+    },
+    userRole: {
+        type: String,
+        required: true,
+        default: 'pharmacist' 
     },
 }, {
     timestamps: true, // Adds createdAt and updatedAt fields

@@ -1,129 +1,94 @@
 import React, { useState } from "react";
-import './InventoryManagerRegister.css'
-const InventoryManagerRegister = () => {
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import './PharmacyRegistration.css';
+
+const PharmacyRegistration = () => {
   const [formData, setFormData] = useState({
     name: "",
     contact: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    confirm_password: "", // Ensure correct naming
     department: "",
-    yearsOfExperience: "",
+    yearsOfExperience: "", // Ensure it's converted to number before sending
   });
 
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    setFormData({
+      ...formData,
+      [name]: name === "yearsOfExperience" ? (value ? Number(value) : "") : value, // Convert to number only if value exists
+    });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted", formData);
+
+    if (formData.password !== formData.confirm_password) {
+      setError("Passwords do not match!");
+      return;
+    }
+
+    // Ensure yearsOfExperience is not an empty string
+    if (!formData.yearsOfExperience) {
+      setError("Years of Experience is required.");
+      return;
+    }
+
+    try {
+      const payload = {
+        ...formData,
+        years_of_experience: Number(formData.yearsOfExperience), // Match backend naming
+    };
+    
+
+      const response = await axios.post("http://localhost:5000/register-inventory-manager", payload);
+      alert(response.data.message || "Registration Successful!");
+      navigate("/pharmacy-login"); 
+    } catch (error) {
+      setError(error.response?.data?.message || "Registration failed. Try again.");
+      console.error("Error details:", error.response?.data);
+    }
   };
 
   return (
-    <div className="inventrymanagerregister-container">
-      <h1 className="inventrymanagerregister-title">Inventory Manager Register</h1>
-      <form className="inventrymanagerregister-form" onSubmit={handleSubmit}>
-        <label className="inventrymanagerregister-label" htmlFor="name">
-          Full Name:
-        </label>
-        <input
-          className="inventrymanagerregister-input"
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
+    <div className="inventory-manager-register-container">
+      <h1 className="inventory-manager-register-title">Inventory Manager Register</h1>
+      {error && <p className="error-message">{error}</p>}
+      <form className="inventory-manager-register-form" onSubmit={handleSubmit}>
+        <label htmlFor="name">Full Name:</label>
+        <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
 
-        <label className="inventrymanagerregister-label" htmlFor="contact">
-          Contact Number:
-        </label>
-        <input
-          className="inventrymanagerregister-input"
-          type="tel"
-          id="contact"
-          name="contact"
-          value={formData.contact}
-          onChange={handleChange}
-          required
-        />
+        <label htmlFor="contact">Contact Number:</label>
+        <input type="tel" id="contact" name="contact" value={formData.contact} onChange={handleChange} required />
 
-        <label className="inventrymanagerregister-label" htmlFor="email">
-          Email:
-        </label>
-        <input
-          className="inventrymanagerregister-input"
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
+        <label htmlFor="email">Email:</label>
+        <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
 
-        <label className="inventrymanagerregister-label" htmlFor="password">
-          Password:
-        </label>
-        <input
-          className="inventrymanagerregister-input"
-          type="password"
-          id="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
+        <label htmlFor="password">Password:</label>
+        <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} required />
 
-        <label className="inventrymanagerregister-label" htmlFor="confirmPassword">
-          Confirm Password:
-        </label>
-        <input
-          className="inventrymanagerregister-input"
-          type="password"
-          id="confirmPassword"
-          name="confirmPassword"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          required
-        />
+        <label htmlFor="confirm_password">Confirm Password:</label>
+        <input type="password" id="confirm_password" name="confirm_password" value={formData.confirm_password} onChange={handleChange} required />
 
-        <label className="inventrymanagerregister-label" htmlFor="department">
-          Department:
-        </label>
-        <input
-          className="inventrymanagerregister-input"
-          type="text"
-          id="department"
-          name="department"
-          value={formData.department}
-          onChange={handleChange}
-          required
-        />
+        <label htmlFor="department">Department:</label>
+        <input type="text" id="department" name="department" value={formData.department} onChange={handleChange} required />
 
-        <label className="inventrymanagerregister-label" htmlFor="yearsOfExperience">
-          Years of Experience:
-        </label>
-        <input
-          className="inventrymanagerregister-input"
-          type="number"
-          id="yearsOfExperience"
-          name="yearsOfExperience"
-          value={formData.yearsOfExperience}
-          onChange={handleChange}
-          required
-        />
+        <label htmlFor="yearsOfExperience">Years of Experience:</label>
+        <input type="number" id="yearsOfExperience" name="yearsOfExperience" value={formData.yearsOfExperience} onChange={handleChange} required />
 
-        <button className="inventrymanagerregister-button" type="submit">
-          Register
-        </button>
+        <button type="submit">Register</button>
       </form>
-      <p className="inventrymanagerregister-login-text">
-        Already have an account? <a href="inventory_manager_login.html">Login</a>
+      <p>
+        Already have an account? <a href="/pharmacy-login">Login</a>
       </p>
     </div>
   );
 };
 
-export default InventoryManagerRegister;
+export default PharmacyRegistration;

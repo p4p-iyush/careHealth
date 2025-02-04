@@ -36,9 +36,10 @@ export default function PatientRegister() {
       alert(response.data); // Show success message
       navigate("/patient-login"); // Redirect to login page
     } catch (error) {
-      setError("Registration failed. Try again.");
-      console.error("Error registering:", error);
+      setError(error.response?.data?.message || "Registration failed. Try again.");
+      console.error("Error details:", error.response?.data);
     }
+    
   };
 
   return (

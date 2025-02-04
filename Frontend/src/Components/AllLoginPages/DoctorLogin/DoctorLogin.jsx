@@ -1,25 +1,38 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Basic validation
-    if (!email || !password) {
+    
+    if (!formData.email || !formData.password) {
       setError("Both fields are required!");
       return;
     }
 
-    // Mock authentication (Replace this with actual API call)
-    if (email === "test@example.com" && password === "password123") {
-      alert("Login successful!");
-      setError("");
-    } else {
-      setError("Invalid email or password!");
+    try {
+      const response = await axios.post("http://localhost:5000/doctor_login", formData);
+
+      // Assuming 'response.data' contains the user details
+      const userDetails = response.data;
+      localStorage.setItem("userDetails", JSON.stringify(userDetails));
+
+      alert("Login Successful!");
+
+      // Pass the response data to the next page using navigate
+      navigate("/doctor-dashboard", { state: { userDetails } });
+    } catch (error) {
+      setError("Invalid email or password");
+      console.error("Login error:", error);
     }
   };
 
@@ -31,9 +44,11 @@ const Login = () => {
           <label>Email:</label>
           <input
             type="email"
+            name="email"  // ✅ Added name attribute
             placeholder="Enter email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formData.email}
+            onChange={handleChange}
+            required
           />
         </div>
 
@@ -41,9 +56,11 @@ const Login = () => {
           <label>Password:</label>
           <input
             type="password"
+            name="password"  // ✅ Fixed the name attribute
             placeholder="Enter password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formData.password}  // ✅ Fixed value binding
+            onChange={handleChange}
+            required
           />
         </div>
 
@@ -51,6 +68,9 @@ const Login = () => {
 
         <button type="submit">Login</button>
       </form>
+      <p className="register-link">
+        Don't have an account? <Link to="/doctor-registration">Register Now</Link>
+      </p>
     </div>
   );
 };

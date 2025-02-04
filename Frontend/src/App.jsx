@@ -21,6 +21,7 @@ import PatientDashboard from './Components/Dashboard/PatientDashboard/PatientDas
 import DoctorDashboard from './Components/Dashboard/DoctorDashboard/DoctorDashboard';
 import AdminDashboard from './Components/Dashboard/AdminDashboard/AdminDashboard';
 import PharmacyDashboard from './Components/Dashboard/PharmacyDashboard/PharmacyDashboard';
+import MainDashboard from './Components/Dashboard/MainDashboard/MainDashboard';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
         <Route path="/doctor-login" element={<DoctorLogin/>} />
         <Route path="/pharmacy-login" element={<PharmacyLogin/>} />
         {/* routes for registration */}
+        
         <Route path="/patient-registration" element={<PatientResgistration/>} />
         <Route path="/doctor-registration" element={<DoctorResgistration/>} />
         <Route path="/pharmacy-registration" element={<PharmacyResgistration/>} />
@@ -47,7 +49,8 @@ function App() {
         <Route path="/doctor-dashboard" element={<DoctorDashboard/>} />
         <Route path="/admin-dashboard" element={<AdminDashboard/>} />
         <Route path="/pharmacy-dashboard" element={<PharmacyDashboard/>} />
-        
+        <Route path ="/main-dashboard" element={<MainDashboard/>} />
+                
       </Routes>
       {/* <Footer /> */}
     </Router>
