@@ -1,0 +1,84 @@
+.ExpiredProduct-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ExpiredProduct-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.ExpiredProduct-list {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ExpiredProduct-thead {
+    background-color: #3b7ddd;
+    color: white;
+}
+
+.ExpiredProduct-list th,
+.ExpiredProduct-list td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.ExpiredProduct-list th {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.ExpiredProduct-row:hover {
+    background-color: #f1f1f1;
+}
+
+.ExpiredProduct-action-btn {
+    padding: 5px 10px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.ExpiredProduct-action-btn:hover {
+    background-color: #2e78b0;
+}
+
+.ExpiredProduct-back-btn, .ExpiredProduct-home-btn {
+    padding: 15px 25px;
+    margin-left: 10px;
+    background-color: #4a90e2;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+    text-align: center;
+}
+
+.ExpiredProduct-back-btn:hover, .ExpiredProduct-home-btn:hover {
+    background-color: #45a049;
+}
+
+.ExpiredProduct-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}

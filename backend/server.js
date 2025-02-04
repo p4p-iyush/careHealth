@@ -173,7 +173,7 @@ app.post('/doctor_register', async (req, res) => {
 });
 
 // Route to handle inventory manager registration form submissions
-app.post('/register-inventory-manager', async (req, res) => {
+app.post('/inventory_register', async (req, res) => {
     try {
         const newInventoryManager = new InventoryManager({
             name: req.body.name,
@@ -193,6 +193,27 @@ app.post('/register-inventory-manager', async (req, res) => {
         res.status(400).send(`Error: ${err.message}`);
     }
 });
+// Route to handle admin registration form sumission
+app.post('/doctor_register', async (req, res) => {
+    try {
+        const newDoctor = new Doctor({
+            name: req.body.name,
+            contact: req.body.contact,
+            email: req.body.email,
+            password: req.body.password,
+            specialization: req.body.specialization,
+            experience: req.body.experience,
+            qualification: req.body.qualification,
+        });
+
+        const registeredDoctor = await newDoctor.save();
+        res.status(201).send("Doctor registered successfully");
+    } catch (err) {
+        res.status(400).send(`Error: ${err.message}`);
+    }
+});
+
+
 
 // ###############################  login management #########################################
 // Route to handle user login
@@ -209,6 +230,10 @@ app.post("/patient_login", async (req, res) =>{
         res.status(500).send(`Error: ${err.message}`);
     }
 } )
+<<<<<<< HEAD
+=======
+// Route to handle doctor login
+>>>>>>> 170a44af9efbbc7e3c9b99197c06dd40b401df05
 app.post("/doctor_login", async (req, res) =>{
     try{
         const{ email , password }= req.body;
@@ -222,6 +247,7 @@ app.post("/doctor_login", async (req, res) =>{
         res.status(500).send(`Error: ${err.message}`);
     }
 } )
+<<<<<<< HEAD
 app.post("/pharmacy_login", async (req, res) =>{
     try{
         const{ email , password }= req.body;
@@ -245,6 +271,42 @@ app.get('/doctor_patient_list/:id',(req,res)=>{
     const patient = Patient.findOne({department: department});
     console.log(patient)
 })
+=======
+>>>>>>> 170a44af9efbbc7e3c9b99197c06dd40b401df05
 
+// Route to handle inventory  login
+
+app.post("/inventory_manager_login", async (req, res) =>{
+    try{
+        const{ email , password }= req.body;
+        const inventoryManager = await InventoryManager.findOne({ email: email, password: password});
+        if(!inventoryManager){
+            return res.status(404).send("User not found");
+        }
+        res.json({inventoryManager});
+    }
+    catch(err){
+        res.status(500).send(`Error: ${err.message}`);
+    }
+} )
+// Route to handle admin login 
+
+app.post("/admin_login", async (req, res) =>{
+    try{
+        const{ email , password }= req.body;
+        const admin = await Admin.findOne({ email: email, password: password});
+        if(!admin){
+            return res.status(404).send("User not found");
+        }
+        res.json({admin});
+    }
+    catch(err){
+        res.status(500).send(`Error: ${err.message}`);
+    }
+} )
+
+
+
+// Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

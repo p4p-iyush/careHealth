@@ -1,0 +1,62 @@
+/* LandingPage.css */
+
+.landingpage-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    background-color: #eaf7ff; /* Softer light blue background */
+    padding: 20px;
+}
+
+.landingpage-heading {
+    font-size: 36px;
+    color: #004080; /* Dark blue */
+    margin-bottom: 40px;
+}
+
+.landingpage-options-container {
+    display: flex;
+    gap: 20px;
+}
+
+.landingpage-option-link {
+    display: inline-block;
+    padding: 20px 30px;
+    background-color: #0088cc; /* Blue for button */
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+    text-align: center;
+}
+
+.landingpage-option-link:hover {
+    background-color: #005fa3; /* Dark blue for hover */
+    transform: scale(1.05);
+}
+
+.landingpage-option-link:active {
+    background-color: #004080; /* Darkest blue for active */
+    transform: scale(0.95);
+}
+
+.landingpage-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.landingpage-btn:hover {
+    background-color: #0056b3;
+}
