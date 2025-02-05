@@ -3,9 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './AddInventory.css';
 
-const AddInventory = () => {
-    const [inventoryId, setInventoryId] = useState('');
-    const [name, setName] = useState('');
+const AddItem = () => {
+    const [name, setName] = useState('');       
     const [quantity, setQuantity] = useState('');
     const [cost, setCost] = useState('');
     const [manufacturer, setManufacturer] = useState('');
@@ -15,87 +14,136 @@ const AddInventory = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const addInventoryItem = async (e) => {
+    const addItem = async (e) => {
         e.preventDefault();
         setError(null);
         setLoading(true);
-
-        if (!inventoryId || !name || quantity <= 0 || cost <= 0) {
-            setError('Please provide valid item details!');
-            setLoading(false);
-            return;
+      
+        // Log inputs for debugging
+        console.log({ name, quantity, cost, manufacturer, manufacturingDate, expiryDate });
+      
+        // Validation for empty fields and numeric fields
+        if (!name || !quantity || !cost) {
+          setError('Please provide valid item details!');
+          setLoading(false);
+          return;
         }
-
+      
+        // Ensure quantity and cost are valid numbers
+        if (isNaN(quantity) || isNaN(cost) || quantity <= 0 || cost <= 0) {
+          setError('Quantity and cost must be valid positive numbers.');
+          setLoading(false);
+          return;
+        }
+      
+        // Validate date
         if (manufacturingDate && expiryDate && new Date(manufacturingDate) >= new Date(expiryDate)) {
-            setError('Manufacturing date should be before expiry date.');
+          setError('Manufacturing date should be before expiry date.');
+          setLoading(false);
+          return;
+        }
+      
+        try {
+          // Check if the item already exists
+          const checkResponse = await fetch('http://localhost:5000/api/inventory/check?name=${name}');
+          const checkData = await checkResponse.json();
+          console.log('Check Response:', checkData); // Debug log
+      
+          if (checkResponse.ok && checkData.exists) {
+            setError('This item is already present in the inventory (${checkData.count} times).');
             setLoading(false);
             return;
-        }
-
-        try {
-            const response = await fetch('http://localhost:5000/api/inventory', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    inventory_id: inventoryId,
-                    name,
-                    quantity: parseInt(quantity),
-                    manufacturer,
-                    expiry_date: expiryDate,
-                    manufacturing_date: manufacturingDate,
-                    cost: parseFloat(cost),
-                }),
-            });
-
-            if (!response.ok) throw new Error('Failed to add new item');
-
-            navigate('/inventory');
+          }
+      
+          // Proceed with adding the item
+          const response = await fetch('http://localhost:5000/api/inventory', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name,
+              quantity: parseInt(quantity),
+              manufacturer,
+              expiry_date: expiryDate,
+              manufacturing_date: manufacturingDate,
+              cost: parseFloat(cost),
+            }),
+          });
+      
+          const responseData = await response.json();
+          console.log('Response Data:', responseData); // Debug log
+      
+          if (!response.ok) {
+            setError(responseData.message || 'Failed to add new item');
+            throw new Error(responseData.message);
+          }
+      
+          navigate('/inventory');
         } catch (error) {
-            console.error('Error adding new item:', error);
-            setError(error.message);
+          console.error('Error adding new item:', error);
+          setError(error.message);
         } finally {
-            setLoading(false);
+          setLoading(false);
         }
-    };
+      };
+      
 
     return (
-        <div className="addinventory-container">
-            <h1 className="addinventory-title">Add New Item</h1>
-            <form onSubmit={addInventoryItem} className="addinventory-form">
-                {error && <div className="addinventory-error-message">{error}</div>}
+        <div className="container add-item">
+            <h1>Add New Item</h1>
+            <form onSubmit={addItem} className="add-item-form">
+                {error && <div className="error-message">{error}</div>}
 
-                <label className="addinventory-label">Inventory ID:</label>
-                <input type="text" value={inventoryId} onChange={(e) => setInventoryId(e.target.value)} className="addinventory-input" required />
+                <label>Item Name:</label>
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
 
-                <label className="addinventory-label">Item Name:</label>
-                <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="addinventory-input" required />
+                <label>Quantity:</label>
+                <input
+                    type="number"
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
+                    required
+                    min="1"
+                />
 
-                <label className="addinventory-label">Quantity:</label>
-                <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="addinventory-input" required min="1" />
+                <label>Cost:</label>
+                <input
+                    type="number"
+                    value={cost}
+                    onChange={(e) => setCost(e.target.value)}
+                    required
+                    min="1"
+                />
 
-                <label className="addinventory-label">Cost:</label>
-                <input type="number" value={cost} onChange={(e) => setCost(e.target.value)} className="addinventory-input" required min="1" />
+                <label>Manufacturer:</label>
+                <input type="text" value={manufacturer} onChange={(e) => setManufacturer(e.target.value)} />
 
-                <label className="addinventory-label">Manufacturer:</label>
-                <input type="text" value={manufacturer} onChange={(e) => setManufacturer(e.target.value)} className="addinventory-input" />
+                <label>Manufacturing Date:</label>
+                <input
+                    type="date"
+                    value={manufacturingDate}
+                    onChange={(e) => setManufacturingDate(e.target.value)}
+                    required
+                />
 
-                <label className="addinventory-label">Manufacturing Date:</label>
-                <input type="date" value={manufacturingDate} onChange={(e) => setManufacturingDate(e.target.value)} className="addinventory-input" required />
+                <label>Expiry Date:</label>
+                <input
+                    type="date"
+                    value={expiryDate}
+                    onChange={(e) => setExpiryDate(e.target.value)}
+                    required
+                />
 
-                <label className="addinventory-label">Expiry Date:</label>
-                <input type="date" value={expiryDate} onChange={(e) => setExpiryDate(e.target.value)} className="addinventory-input" required />
-
-                <div className="addinventory-buttons">
-                    <button type="submit" className="addinventory-btn" disabled={loading}>
+                <div>
+                    <button type="submit" className="add-btn" disabled={loading}>
                         {loading ? 'Adding...' : 'Add Item'}
                     </button>
-                    <Link to="/inventory" className="addinventory-btn">Go back</Link>
+                    <Link to="/inventory" className="add-btn">
+                        Go back
+                    </Link>
                 </div>
             </form>
         </div>
     );
 };
 
-export default AddInventory;
-
-
+export default AddItem;

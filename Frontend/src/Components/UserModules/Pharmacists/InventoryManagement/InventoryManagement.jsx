@@ -3,26 +3,27 @@ import { Link } from 'react-router-dom';
 import './InventoryManagement.css';
 
 const InventoryManagement = () => {
-    const [medicines, setMedicines] = useState([]);
+    const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetchMedicines();
+        fetchItems();
     }, []);
 
-    const fetchMedicines = async () => {
+    const fetchItems = async () => {
         setLoading(true);
         try {
             const response = await fetch('http://localhost:5000/api/inventory');
             if (!response.ok) {
-                throw new Error('Failed to fetch medicines');
+                const message = await response.json();
+                throw new Error(`Failed to fetch items: ${message.error}`);
             }
             const data = await response.json();
-            setMedicines(data);
+            setItems(data);
         } catch (error) {
-            setError('Failed to fetch medicines.');
-            console.error('Error fetching medicines:', error);
+            setError(`Failed to fetch items: ${error.message}`);
+            console.error('Error fetching items:', error);
         } finally {
             setLoading(false);
         }
@@ -33,27 +34,32 @@ const InventoryManagement = () => {
     };
 
     return (
-        <div className="InventoryManagement-container">
-            <h1 className="InventoryManagement-title">Manage Medicines</h1>
+        <div className="inventorymanagement-container">
+            <h1>Manage Inventory</h1>
 
-            <div className="InventoryManagement-buttonContainer">
-                <Link to="/add-inventory" className="InventoryManagement-addBtn">Add Item</Link>
-                <Link to="/Expired-product" className="InventoryManagement-expiredProductsBtn">View Expired Products</Link>
-                <Link to="/About-to-expire" className="InventoryManagement-aboutToExpireBtn">View About to Expire Products</Link>
-                <Link to="/pharmacy-dashboard" className="InventoryManagement-homeBtn">Home</Link>
+            <div className="inventorymanagement-button-container">
+                <Link to="/add-inventory" className="inventorymanagement-add-btn">Add Item</Link>
+                <Link to="/expired-product" className="inventorymanagement-expired-products-btn">
+                    View Expired Products
+                </Link>
+                <Link to="/about-to-expire" className="inventorymanagement-abouttoexpire-btn">
+                    View About to Expire Products
+                </Link>
+                <Link to="/pharmacy-dashboard" className="inventorymanagement-home-btn">
+                    Home
+                </Link>
             </div>
-
             <br />
 
             {loading ? (
-                <p className="InventoryManagement-loading">Loading...</p>
+                <p>Loading...</p>
             ) : error ? (
-                <p className="InventoryManagement-errorMessage">{error}</p>
-            ) : medicines.length > 0 ? (
-                <table className="InventoryManagement-medicineList">
+                <p className="inventorymanagement-error-message">{error}</p>
+            ) : items.length > 0 ? (
+                <table className="inventorymanagement-item-list">
                     <thead>
                         <tr>
-                            <th>Medicine Name</th>
+                            <th>Item Name</th>
                             <th>Quantity</th>
                             <th>Cost</th>
                             <th>Manufacture Date</th>
@@ -62,26 +68,27 @@ const InventoryManagement = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {medicines.map((med, index) => (
-                            <tr key={index}>
-                                <td>{med.name}</td>
-                                <td>{med.quantity}</td>
-                                <td>{med.cost}</td>
-                                <td>{formatDate(med.manufacturing_date)}</td>
-                                <td>{formatDate(med.expiry_date)}</td>
+                        {items.map((item) => (
+                            <tr key={item._id}>
+                                <td>{item.name}</td>
+                                <td>{item.quantity}</td>
+                                <td>{item.cost}</td>
+                                <td>{formatDate(item.manufacturing_date)}</td>
+                                <td>{formatDate(item.expiry_date)}</td>
                                 <td>
-                                    <Link to={`/update-quantity/${med._id}`} className="InventoryManagement-updateQuantityBtn">Update Quantity</Link>
+                                    <Link to={`/update-quantity/${item._id}`} className="inventorymanagement-update-quantity-btn">
+                                        Update Quantity
+                                    </Link>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             ) : (
-                <p className="InventoryManagement-noMedicines">No medicines available in inventory.</p>
+                <p>No items available in inventory.</p>
             )}
         </div>
     );
 };
 
-export default InventoryManagement; 
-
+export default InventoryManagement;

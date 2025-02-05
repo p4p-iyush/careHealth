@@ -29,6 +29,7 @@ import PrescriptionDetails from './Components/UserModules/Pharmacists/Prescripti
 import InventoryManagement from './Components/UserModules/Pharmacists/InventoryManagement/InventoryManagement';
 import AddInventory from './Components/UserModules/Pharmacists/AddInventory/AddInventory';
 import AboutToExpire from './Components/UserModules/Pharmacists/ExpiryManagement/AboutToExpire/AboutToExpire';
+import UpdateQuantity from './Components/UserModules/Pharmacists/QuantityManagement/UpdateQuantity';
 import ExpiredProduct from './Components/UserModules/Pharmacists/ExpiryManagement/ExpiredProduct/ExpiredProduct';
 import ExpiryUpdate from './Components/UserModules/Pharmacists/ExpiryManagement/ExpiryUpdate/ExpiryUpdate';
 
@@ -70,8 +71,8 @@ function App() {
       <Route path="/Expired-product" element={<ExpiredProduct />} />
       <Route path="/ExpiryUpdate/:id" element={<ExpiryUpdate />} />
 
-      {/* <Route path="/update-quantity/:id" element={<UpdateQuantity />} />
-      <Route path="/update-quantity/:inventory_id" component={UpdateQuantity} /> */}
+      <Route path="/update-quantity/:id" element={<UpdateQuantity />} />
+      <Route path="/update-quantity/:inventory_id" component={UpdateQuantity} />
      
      
       </Routes>

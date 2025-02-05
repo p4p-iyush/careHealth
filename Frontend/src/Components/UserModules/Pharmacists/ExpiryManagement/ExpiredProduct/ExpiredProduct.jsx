@@ -33,15 +33,15 @@ const ExpiredProduct = () => {
     };
 
     return (
-        <div className="ExpiredProduct-container">
-            <h1 className="ExpiredProduct-title">Expired Products</h1>
+        <div className="container expired-product">
+            <h1>Expired Products</h1>
             {loading ? (
-                <p className="ExpiredProduct-loading">Loading...</p>
+                <p>Loading...</p>
             ) : error ? (
-                <p className="ExpiredProduct-error-message">{error}</p>
+                <p className="error-message">{error}</p>
             ) : expiredProducts.length > 0 ? (
-                <table className="ExpiredProduct-list">
-                    <thead className="ExpiredProduct-thead">
+                <table className="expired-product-list">
+                    <thead>
                         <tr>
                             <th>Item Name</th>
                             <th>Expiry Date</th>
@@ -50,11 +50,11 @@ const ExpiredProduct = () => {
                     </thead>
                     <tbody>
                         {expiredProducts.map((product, index) => (
-                            <tr key={index} className="ExpiredProduct-row">
+                            <tr key={index}>
                                 <td>{product.name}</td>
                                 <td>{formatDate(product.expiry_date)}</td>
                                 <td>
-                                    <Link to={`/ExpiryUpdate/${product._id}`} className="ExpiredProduct-action-btn">
+                                    <Link to={`/ExpiryUpdate/${product._id}`} className="action-btn">
                                         Handle
                                     </Link>
                                 </td>
@@ -63,15 +63,14 @@ const ExpiredProduct = () => {
                     </tbody>
                 </table>
             ) : (
-                <p className="ExpiredProduct-no-products">No expired products available.</p>
+                <p>No expired products available.</p>
             )}
-            <div className="ExpiredProduct-buttons">
-                <Link to="/inventory" className="ExpiredProduct-back-btn">Go back</Link>
-                <Link to="/pharmacy-dashboard" className="ExpiredProduct-home-btn">Home</Link>
+            <div>
+                <Link to="/inventory" className="back-btn">Go back</Link>
+                <Link to="/pharmacy-dashboard" className="home-btn">Home</Link>
             </div>
         </div>
     );
 };
 
 export default ExpiredProduct;
-

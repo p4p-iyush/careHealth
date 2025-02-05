@@ -301,52 +301,95 @@ app.get('/api/inventory', async (req, res) => {
     }
   });
   
-  app.get('/api/inventory/:id', async (req, res) => {
-    try {
-      const item = await Inventory.findById(req.params.id);
-      if (!item) return res.status(404).json({ message: "Product not found" });
-      res.json(item);
-    } catch (error) {
-      res.status(500).json({ message: "Server error" });
+  // fetch item on the basis of id
+app.get('/api/inventory/:id', async (req, res) => {
+  try {
+    const item = await Inventory.findById(req.params.id);
+    if (!item) return res.status(404).json({ message: "Product not found" });
+    res.json(item);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+  
+//update quantity
+app.patch('/api/inventory/:id', async (req, res) => {
+  const { id } = req.params;
+  const { quantity } = req.body;
+
+  try {
+    const updatedItem = await Inventory.findByIdAndUpdate(id, { quantity }, { new: true });
+    if (!updatedItem) {
+      return res.status(404).json({ message: 'Item not found' });
     }
-  });
+    res.json(updatedItem);
+  } catch (error) {
+    console.error('Error updating inventory:', error.message);
+    res.status(500).json({ message: 'Failed to update inventory', error: error.message });
+  }
+});
   
-  app.patch('/api/inventory/:id', async (req, res) => {
-    const { quantity } = req.body;
-    const inventoryId = req.params.id;
-  
-    if (!mongoose.Types.ObjectId.isValid(inventoryId) || typeof quantity !== 'number' || quantity < 0) {
-      return res.status(400).json({ error: 'Invalid input' });
+  // add new item
+app.post('/api/inventory', async (req, res) => {
+  const { name, quantity, manufacturer, expiry_date, manufacturing_date, cost } = req.body;
+
+  if (!name || !quantity || quantity <= 0 || !cost || cost <= 0 || !manufacturing_date) {
+    console.log('Invalid input values');
+    return res.status(400).json({ message: 'Invalid input values' });
+  }
+
+  try {
+    // Check if the item already exists
+    const existingItem = await Inventory.findOne({ name });
+
+    if (existingItem) {
+      return res.status(400).json({ message: 'Item already exists in the inventory' });
     }
-  
-    try {
-      const updatedInventory = await Inventory.findByIdAndUpdate(
-        inventoryId,
-        { $set: { quantity } },
-        { new: true, runValidators: true }
-      );
-      if (!updatedInventory) return res.status(404).json({ error: 'Inventory item not found' });
-      res.json({ message: 'Quantity updated successfully', inventoryItem: updatedInventory });
-    } catch (error) {
-      res.status(500).json({ error: 'Error updating quantity' });
+
+    const newItem = new Inventory({
+      name,
+      quantity,
+      manufacturer,
+      expiry_date,
+      manufacturing_date,
+      cost,
+    });
+
+    await newItem.save();
+    res.status(201).json(newItem);
+  } catch (error) {
+    console.error('Error adding new inventory item:', error);
+    res.status(500).json({ message: 'Failed to add inventory item' });
+  }
+});
+
+// API to check if an item already exists in the inventory
+// Check if name query is present
+app.get('/api/inventory/check', async (req, res) => {
+  const { name } = req.query;
+
+  if (!name) {
+    console.log('No item name provided in query');
+    return res.status(400).json({ message: 'Item name is required' });
+  }
+
+  try {
+    console.log('Checking inventory for item:', name);
+    
+    // Count how many items exist with the same name
+    const count = await Inventory.countDocuments({ name });
+
+    if (count > 0) {
+      return res.status(200).json({ exists: true, count });
+    } else {
+      return res.status(200).json({ exists: false });
     }
-  });
-  
-  app.post('/api/inventory', async (req, res) => {
-    const { inventory_id, name, quantity, manufacturer, expiry_date, manufacturing_date, cost } = req.body;
-  
-    if (!inventory_id || !name || !quantity || quantity <= 0 || !cost || cost <= 0 || !manufacturing_date) {
-      return res.status(400).json({ message: 'Invalid input values' });
-    }
-  
-    try {
-      const newItem = new Inventory({ inventory_id, name, quantity, manufacturer, expiry_date, manufacturing_date, cost });
-      await newItem.save();
-      res.status(201).json(newItem);
-    } catch (error) {
-      res.status(500).json({ message: 'Failed to add inventory item' });
-    }
-  });
+  } catch (error) {
+    console.error('Error checking inventory item:', error);
+    return res.status(500).json({ message: 'Failed to check item in inventory' });
+  }
+});
   
   app.get('/api/expired-products', async (req, res) => {
     try {
@@ -425,6 +468,43 @@ app.get('/api/inventory', async (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
   });
+
+  // Doctor Section
+  // Route to get all patient of that doctor
+app.get('/doctor_patient_list/:id', async (req, res) => {
+  try {
+      const id = req.params.id;
+      const doctor = await Doctor.findById(id);
+
+      if (!doctor) {
+          return res.status(404).json({ message: "Doctor not found" });
+      }
+
+      const department = doctor.specialization;
+      const patients = await Appointment.find({ department: department });
+
+      console.log("doctor data:", doctor, "patients:", patients);
+
+      // Corrected sort function
+      res.status(200).json({ 
+          doctor, 
+          patients: patients.sort((a, b) => new Date(a.date) - new Date(b.date)) 
+      });
+
+  } catch (error) {
+      console.error("Error fetching doctor or patients:", error);
+      res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+
+// dome data
+app.get('/api/inventory', (req, res) => {
+  res.json([
+      { name: "Paracetamol", quantity: 50, cost: 10 },
+      { name: "Ibuprofen", quantity: 30, cost: 15 }
+  ]);
+});
 
 
 

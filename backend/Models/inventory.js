@@ -1,20 +1,14 @@
-const mongoose = require("mongoose");
+// models/Inventory.js
+const mongoose = require('mongoose');
 
-const inventorySchema = new mongoose.Schema({
-  inventory_id: { type: String, required: true, unique: true }, // Custom ID for each inventory item
-  name: { type: String, required: true },                      // General name for any inventory item
-  quantity: { type: Number, required: true, default: 0 },       // Stock quantity (renamed from `stock`)
-  manufacturer: { type: String },                               // Optional field for manufacturer
-  expiry_date: { type: Date, required :true },                                  // Optional field for expiry date
-  manufacturing_date: { type: Date  , required: true},
-  cost: { type: Number}
-
+const InventorySchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  quantity: { type: Number, required: true },
+  manufacturer: { type: String },
+  expiry_date: { type: Date },
+  manufacturing_date: { type: Date, required: true },
+  cost: { type: Number, required: true },
 });
 
-inventorySchema.path("quantity").get(function (num) {
-  return Math.floor(num); 
-});
-
-const Inventory = mongoose.model("Inventory", inventorySchema);
-
+const Inventory = mongoose.model('Inventory', InventorySchema);
 module.exports = Inventory;
