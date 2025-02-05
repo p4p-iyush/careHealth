@@ -56,9 +56,9 @@ const Login = () => {
           <label>Password:</label>
           <input
             type="password"
-            name="password"  // ✅ Fixed the name attribute
+            name="password" 
             placeholder="Enter password"
-            value={formData.password}  // ✅ Fixed value binding
+            value={formData.password}  
             onChange={handleChange}
             required
           />

@@ -63,7 +63,7 @@ const PatientList = () => {
           ))}
         </tbody>
       </table>
-      <Link to="/" className="abouttoexpire">
+      <Link to="/pharmacy-dashboard" className="abouttoexpire">
         Home
       </Link>
     </div>

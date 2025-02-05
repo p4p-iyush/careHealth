@@ -18,13 +18,23 @@ import DisplayBookedAppointment from './Components/OPDQ/DisplayBookedAppointment
 import AppointmentBookingForm from './Components/UserModules/Patients/AppointmentBookingForm/AppointmentBookingForm';
 
 import PatientDashboard from './Components/Dashboard/PatientDashboard/PatientDashboard';
-import DoctorDashboard from './Components/Dashboard/DoctorDashboard/DoctorDashboard';
-import AdminDashboard from './Components/Dashboard/AdminDashboard/AdminDashboard';
-import PharmacyDashboard from './Components/Dashboard/PharmacyDashboard/PharmacyDashboard';
-import MainDashboard from './Components/Dashboard/MainDashboard/MainDashboard';
+import DoctorDashboard from './Components/UserModules/Doctor/DoctorDashboard/DoctorDashboard';
+import AdminDashboard from './Components/UserModules/Admin/AdminDashboard/AdminDashboard';
+import PharmacyDashboard from './Components/UserModules/Pharmacists/Dashboard/PharmacyDashboard';
+// import MainDashboard from './Components/Dashboard/MainDashboard/MainDashboard';
 
-import Add_patient_med from './Components/UserModules/Doctor/Doctor_add_patient/Add_patient_med';
+//Inventory
+import PatientList from './Components/UserModules/Pharmacists/PatientList/PatientList';
+import PrescriptionDetails from './Components/UserModules/Pharmacists/Prescription/PrescriptionDetail';
+import InventoryManagement from './Components/UserModules/Pharmacists/InventoryManagement/InventoryManagement';
+import AddInventory from './Components/UserModules/Pharmacists/AddInventory/AddInventory';
+import AboutToExpire from './Components/UserModules/Pharmacists/ExpiryManagement/AboutToExpire/AboutToExpire';
+import UpdateQuantity from './Components/UserModules/Pharmacists/QuantityManagement/UpdateQuantity';
+import ExpiredProduct from './Components/UserModules/Pharmacists/ExpiryManagement/ExpiredProduct/ExpiredProduct';
+import ExpiryUpdate from './Components/UserModules/Pharmacists/ExpiryManagement/ExpiryUpdate/ExpiryUpdate';
 
+
+// import ExpiryUpdate from './Components/UserModules/Pharmacists/QuantityManagement/UpdateQuantity';
 
 function App() {
   return ( 
@@ -39,8 +49,7 @@ function App() {
         <Route path="/admin-login" element={<AdminLogin/>} />
         <Route path="/doctor-login" element={<DoctorLogin/>} />
         <Route path="/pharmacy-login" element={<PharmacyLogin/>} />
-
-        {/* routes for registration */}
+        {/* routes for registration */} 
         <Route path="/patient-registration" element={<PatientResgistration/>} />
         <Route path="/doctor-registration" element={<DoctorResgistration/>} />
         <Route path="/pharmacy-registration" element={<PharmacyResgistration/>} />
@@ -54,13 +63,22 @@ function App() {
         <Route path="/patient-dashboard" element={<PatientDashboard/>} />
         <Route path="/doctor/:doctorId" element={<DoctorDashboard />} />
         <Route path="/admin-dashboard" element={<AdminDashboard/>} />
-        <Route path="/pharmacy-dashboard" element={<PharmacyDashboard/>} />
-        <Route path ="/main-dashboard" element={<MainDashboard/>} />
+        <Route path="/pharmacy-dashboard" element={<PharmacyDashboard />} />
+        {/* <Route path ="/main-dashboard" element={<MainDashboard/>} /> */}
 
-        {/* routes for doctor */}
-        <Route path="/add-patient-med" element={<Add_patient_med/>} />
+      {/* Routes for Pharmaciest */}
+      <Route path="/patient-list" element={<PatientList/>} />
+      <Route path="/prescription/:id" element={<PrescriptionDetails />} />
+      <Route path="/inventory" element={<InventoryManagement />} />
+      <Route path="/add-inventory" element={<AddInventory />} /> {/* Add AddMedicine route */}   
+      <Route path="/about-to-expire" element={<AboutToExpire />} />
+      <Route path="/Expired-product" element={<ExpiredProduct />} />
+      <Route path="/ExpiryUpdate/:id" element={<ExpiryUpdate />} />
 
-                
+      <Route path="/update-quantity/:id" element={<UpdateQuantity />} />
+      <Route path="/update-quantity/:inventory_id" component={UpdateQuantity} />
+     
+     
       </Routes>
       {/* <Footer /> */}
     </Router>

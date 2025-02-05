@@ -63,7 +63,7 @@ const AboutToExpire = () => {
             )}
             <div className="AboutToExpire-buttons">
                 <Link to="/inventory" className="AboutToExpire-back-btn">Go back</Link>
-                <Link to="/" className="AboutToExpire-home-btn">Home</Link>
+                <Link to="/pharmacy-dashboard" className="AboutToExpire-home-btn">Home</Link>
             </div>
         </div>
     );

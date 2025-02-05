@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
 import PatientDashboard from "../PatientDashboard/PatientDashboard";
 import AdminDashboard from "../AdminDashboard/AdminDashboard";
-import PharmacyDashboard from "../PharmacyDashboard/PharmacyDashboard";
+import PharmacyDashboard from "../../UserModules/Pharmacists/Dashboard/PharmacyDashboard";
 import DoctorDashboard from "../DoctorDashboard/DoctorDashboard";
 
 const MainDashboard = () => {

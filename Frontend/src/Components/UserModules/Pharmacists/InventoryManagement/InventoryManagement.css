@@ -1,0 +1,77 @@
+/* InventoryManagement.css */
+
+/* Container styling */
+.inventorymanagement-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.inventorymanagement-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.inventorymanagement-button-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.inventorymanagement-add-btn, 
+.inventorymanagement-expired-products-btn, 
+.inventorymanagement-abouttoexpire-btn, 
+.inventorymanagement-home-btn {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.inventorymanagement-add-btn:hover, 
+.inventorymanagement-expired-products-btn:hover, 
+.inventorymanagement-abouttoexpire-btn:hover, 
+.inventorymanagement-home-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Table styling */
+.inventorymanagement-item-list {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.inventorymanagement-item-list th, 
+.inventorymanagement-item-list td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.inventorymanagement-item-list th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.inventorymanagement-item-list tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.inventorymanagement-item-list tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Error message styling */
+.inventorymanagement-error-message {
+    color: red;
+    text-align: center;
+}
+
+/* Loading message styling */
+.inventorymanagement-container p {
+    text-align: center;
+}

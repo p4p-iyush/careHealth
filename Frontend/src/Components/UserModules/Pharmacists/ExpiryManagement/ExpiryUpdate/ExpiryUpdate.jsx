@@ -43,7 +43,7 @@ const ExpiryUpdate = () => {
                 throw new Error('Failed to update expiry date');
             }
 
-            navigate('/Expired-product');
+            navigate('/inventory');
         } catch (error) {
             setError('Failed to update expiry date.');
             console.error('Error updating expiry date:', error);

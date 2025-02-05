@@ -46,7 +46,7 @@ const UpdateQuantity = () => {
             if (!response.ok) {
                 throw new Error('Failed to update quantity');
             }
-            navigate('/');
+            navigate('/inventory');
         } catch (error) {
             setError('Failed to update quantity.');
             console.error('Error updating quantity:', error); // Log the error details
