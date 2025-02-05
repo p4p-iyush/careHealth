@@ -4,14 +4,19 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const Patient = require('./db/PatientRegistration');
-const Doctor = require('./db/DoctorRegistration');
-const InventoryManager = require('./db/InventoryManagerRegistration');
-const Appointment = require('./db/AppointmentSchema');
+// Importing schemas and models
+const Admin = require('./Models/AdminRegistration');
+const Patient = require('./Models/PatientRegistration');
+const Doctor = require('./Models/DoctorRegistration');
+const InventoryManager = require('./Models/InventoryManagerRegistration');
+const Appointment = require('./Models/AppointmentSchema');
+const Inventory = require('./Models/Inventory')
+const PatientPrescriptions = require('./Models/Patientprescription');
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+// app.use(express.json());
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
@@ -202,8 +207,6 @@ app.post('/admin_register', async (req, res) => {
             email: req.body.email,
             password: req.body.password,
             specialization: req.body.specialization,
-            experience: req.body.experience,
-            qualification: req.body.qualification,
         });
 
         const registeredDoctor = await newDoctor.save();
@@ -274,6 +277,7 @@ app.post("/admin_login", async (req, res) =>{
         res.status(500).send(`Error: ${err.message}`);
     }
 } )
+
 // ###############################  doctor section ###############################
 // Route to get all patient of that doctor
 app.get('/doctor_patient_list/:id',(req,res)=>{
@@ -284,6 +288,143 @@ app.get('/doctor_patient_list/:id',(req,res)=>{
     console.log(patient)
 })
 
+
+
+// ############# krish section ###############################
+// ################# Inventory Routes ###############################
+app.get('/api/inventory', async (req, res) => {
+    try {
+      const inventory = await Inventory.find().sort({ expiry_date: 1 });
+      res.json(inventory);
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to fetch inventory' });
+    }
+  });
+  
+  app.get('/api/inventory/:id', async (req, res) => {
+    try {
+      const item = await Inventory.findById(req.params.id);
+      if (!item) return res.status(404).json({ message: "Product not found" });
+      res.json(item);
+    } catch (error) {
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+  
+  app.patch('/api/inventory/:id', async (req, res) => {
+    const { quantity } = req.body;
+    const inventoryId = req.params.id;
+  
+    if (!mongoose.Types.ObjectId.isValid(inventoryId) || typeof quantity !== 'number' || quantity < 0) {
+      return res.status(400).json({ error: 'Invalid input' });
+    }
+  
+    try {
+      const updatedInventory = await Inventory.findByIdAndUpdate(
+        inventoryId,
+        { $set: { quantity } },
+        { new: true, runValidators: true }
+      );
+      if (!updatedInventory) return res.status(404).json({ error: 'Inventory item not found' });
+      res.json({ message: 'Quantity updated successfully', inventoryItem: updatedInventory });
+    } catch (error) {
+      res.status(500).json({ error: 'Error updating quantity' });
+    }
+  });
+  
+  app.post('/api/inventory', async (req, res) => {
+    const { inventory_id, name, quantity, manufacturer, expiry_date, manufacturing_date, cost } = req.body;
+  
+    if (!inventory_id || !name || !quantity || quantity <= 0 || !cost || cost <= 0 || !manufacturing_date) {
+      return res.status(400).json({ message: 'Invalid input values' });
+    }
+  
+    try {
+      const newItem = new Inventory({ inventory_id, name, quantity, manufacturer, expiry_date, manufacturing_date, cost });
+      await newItem.save();
+      res.status(201).json(newItem);
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to add inventory item' });
+    }
+  });
+  
+  app.get('/api/expired-products', async (req, res) => {
+    try {
+      const expiredItems = await Inventory.find({ expiry_date: { $lt: new Date() } });
+      if (expiredItems.length > 0) res.json(expiredItems);
+      else res.status(404).json({ message: 'No expired products found' });
+    } catch (error) {
+      res.status(500).json({ message: 'Server Error' });
+    }
+  });
+  
+  app.get('/api/about_to_expire', async (req, res) => {
+    try {
+      const twoMonthsLater = new Date();
+      twoMonthsLater.setMonth(twoMonthsLater.getMonth() + 2);
+      const aboutToExpireItems = await Inventory.find({ expiry_date: { $gte: new Date(), $lte: twoMonthsLater } }).sort({ expiry_date: 1 });
+      res.json(aboutToExpireItems);
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to fetch items about to expire' });
+    }
+  });
+  
+  app.get('/api/expired-products/:id', async (req, res) => {
+    try {
+      const product = await Inventory.findById(req.params.id);
+      if (!product) return res.status(404).json({ message: 'Product not found' });
+      res.json(product);
+    } catch (error) {
+      res.status(500).json({ message: 'Server Error' });
+    }
+  });
+  
+  app.patch('/api/expired-products/:id', async (req, res) => {
+    const { expiry_date } = req.body;
+    if (!expiry_date) return res.status(400).json({ message: 'Invalid expiry date' });
+  
+    try {
+      const updatedProduct = await Inventory.findByIdAndUpdate(req.params.id, { expiry_date }, { new: true });
+      if (!updatedProduct) return res.status(404).json({ message: 'Product not found' });
+      res.json(updatedProduct);
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to update product' });
+    }
+  });
+  
+  // Patient Routes
+  app.get('/api/patients', async (req, res) => {
+    try {
+      const patients = await PatientPrescriptions.find({ handled_by_pharmacist: false }).sort({ prescri_date: -1 });
+      res.json(patients);
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to fetch patients' });
+    }
+  });
+  
+  app.get('/api/patients/:id', async (req, res) => {
+    try {
+      const patient = await PatientPrescriptions.findById(req.params.id);
+      if (!patient) return res.status(404).json({ message: 'Patient not found' });
+      res.json(patient);
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to fetch patient' });
+    }
+  });
+  
+  app.patch('/api/patients/:id', async (req, res) => {
+    try {
+      const updatedPatient = await PatientPrescriptions.findByIdAndUpdate(
+        req.params.id.trim(),
+        { handled_by_pharmacist: true },
+        { new: true }
+      );
+      if (!updatedPatient) return res.status(404).json({ message: 'Patient not found' });
+      res.json(updatedPatient);
+    } catch (error) {
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
 
 
 

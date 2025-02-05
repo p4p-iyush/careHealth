@@ -37,10 +37,10 @@ const InventoryManagement = () => {
             <h1 className="InventoryManagement-title">Manage Medicines</h1>
 
             <div className="InventoryManagement-buttonContainer">
-                <Link to="/add-item" className="InventoryManagement-addBtn">Add Item</Link>
+                <Link to="/add-inventory" className="InventoryManagement-addBtn">Add Item</Link>
                 <Link to="/Expired-product" className="InventoryManagement-expiredProductsBtn">View Expired Products</Link>
                 <Link to="/About-to-expire" className="InventoryManagement-aboutToExpireBtn">View About to Expire Products</Link>
-                <Link to="/" className="InventoryManagement-homeBtn">Home</Link>
+                <Link to="/pharmacy-dashboard" className="InventoryManagement-homeBtn">Home</Link>
             </div>
 
             <br />

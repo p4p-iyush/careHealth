@@ -26,7 +26,7 @@ const Login = () => {
       localStorage.setItem("userDetails", JSON.stringify(userDetails));
 
       alert("Login Successful!");
-      navigate("/main-dashboard", { state: { userDetails } }); 
+      navigate("/pharmacy-dashboard", { state: { userDetails } }); 
     } catch (error) {
       setError("Invalid email or password");
       console.error("Login error:", error);

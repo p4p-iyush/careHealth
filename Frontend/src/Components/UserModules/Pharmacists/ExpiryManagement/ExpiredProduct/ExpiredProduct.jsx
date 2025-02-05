@@ -67,7 +67,7 @@ const ExpiredProduct = () => {
             )}
             <div className="ExpiredProduct-buttons">
                 <Link to="/inventory" className="ExpiredProduct-back-btn">Go back</Link>
-                <Link to="/" className="ExpiredProduct-home-btn">Home</Link>
+                <Link to="/pharmacy-dashboard" className="ExpiredProduct-home-btn">Home</Link>
             </div>
         </div>
     );

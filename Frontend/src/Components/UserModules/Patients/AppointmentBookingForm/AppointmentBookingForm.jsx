@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import './AppointmentBookingForm.css';
@@ -7,6 +8,7 @@ const AppointmentBookingForm = () => {
   // Get the userDetails from location state
   const location = useLocation();
   const { userDetails } = location.state || {}; // Default to empty object if no state is passed
+  const navigate = useNavigate();
 
   // Check if userDetails is available
   if (!userDetails) {
@@ -72,6 +74,7 @@ const AppointmentBookingForm = () => {
       await axios.post('http://localhost:5000/book-appointment', formData);
       setSubmitted(true);
       alert('Appointment booked successfully!');
+      navigate(-1); // Navigate back to previous page
     } catch (error) {
       alert(error.response?.data?.message || 'Error booking appointment');
     } finally {
@@ -129,12 +132,12 @@ const AppointmentBookingForm = () => {
             onChange={handleChange}
             required
           >
-            <option value="">Select Department</option>
-            <option value="Cardiology">Cardiology</option>
-            <option value="Neurology">Neurology</option>
-            <option value="Orthopedics">Orthopedics</option>
-            <option value="Pediatrics">Pediatrics</option>
-            <option value="General Medicine">General Medicine</option>
+              <option value="">Select Department</option>
+              <option value="Cardiology">Cardiology</option>
+              <option value="Neurology">Neurology</option>
+              <option value="Orthopedics">Orthopedics</option>
+              <option value="Pediatrics">Pediatrics</option>
+              <option value="General Medicine">General Medicine</option>
           </select>
         </div>
 
