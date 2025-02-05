@@ -17,7 +17,7 @@ import AppointmentList from './Components/OPDQ/AppointmentsList';
 import DisplayBookedAppointment from './Components/OPDQ/DisplayBookedAppointment';
 import AppointmentBookingForm from './Components/UserModules/Patients/AppointmentBookingForm/AppointmentBookingForm';
 
-import PatientDashboard from './Components/Dashboard/PatientDashboard/PatientDashboard';
+import PatientDashboard from './Components/UserModules/Patients/PatientDashboard/PatientDashboard';
 import DoctorDashboard from './Components/UserModules/Doctor/DoctorDashboard/DoctorDashboard';
 import AdminDashboard from './Components/UserModules/Admin/AdminDashboard/AdminDashboard';
 import PharmacyDashboard from './Components/UserModules/Pharmacists/Dashboard/PharmacyDashboard';
