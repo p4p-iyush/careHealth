@@ -4,10 +4,10 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const Patient = require('./db/PatientRegistration');
-const Doctor = require('./db/DoctorRegistration');
-const InventoryManager = require('./db/InventoryManagerRegistration');
-const Appointment = require('./db/AppointmentSchema');
+const Patient = require('./Models/PatientRegistration');
+const Doctor = require('./Models/DoctorRegistration');
+const InventoryManager = require('./Models/InventoryManagerRegistration');
+const Appointment = require('./Models/AppointmentSchema');
 
 const app = express();
 app.use(cors());
@@ -72,7 +72,7 @@ app.delete('/cancel-appointment/:id', async (req, res) => {
         }
 
         const deletedAppointment = await Appointment.findByIdAndDelete(id);
-        
+
         if (!deletedAppointment) {
             return res.status(404).json({ message: 'Appointment not found' });
         }
@@ -217,72 +217,101 @@ app.post('/admin_register', async (req, res) => {
 
 // ###############################  login management #########################################
 // Route to handle user login
-app.post("/patient_login", async (req, res) =>{
-    try{
-        const{ email , password }= req.body;
-        const patient = await Patient.findOne({ email: email, password: password});
-        if(!patient){
+app.post("/patient_login", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const patient = await Patient.findOne({ email: email, password: password });
+        if (!patient) {
             return res.status(404).send("User not found");
         }
-        res.json({patient});
+        res.json({ patient });
     }
-    catch(err){
+    catch (err) {
         res.status(500).send(`Error: ${err.message}`);
     }
-} )
-app.post("/doctor_login", async (req, res) =>{
-    try{
-        const{ email , password }= req.body;
-        const doctor = await Doctor.findOne({ email: email, password: password});
-        if(!doctor){
+})
+app.post("/doctor_login", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const doctor = await Doctor.findOne({ email: email, password: password });
+        if (!doctor) {
             return res.status(404).send("User not found");
         }
-        res.json({doctor});
+        res.json({ doctor });
     }
-    catch(err){
+    catch (err) {
         res.status(500).send(`Error: ${err.message}`);
     }
-} )
+})
 
 // Route to handle inventory  login
 
-app.post("/inventory_manager_login", async (req, res) =>{
-    try{
-        const{ email , password }= req.body;
-        const inventoryManager = await InventoryManager.findOne({ email: email, password: password});
-        if(!inventoryManager){
+app.post("/inventory_manager_login", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const inventoryManager = await InventoryManager.findOne({ email: email, password: password });
+        if (!inventoryManager) {
             return res.status(404).send("User not found");
         }
-        res.json({inventoryManager});
+        res.json({ inventoryManager });
     }
-    catch(err){
+    catch (err) {
         res.status(500).send(`Error: ${err.message}`);
     }
-} )
+})
 // Route to handle admin login 
 
-app.post("/admin_login", async (req, res) =>{
-    try{
-        const{ email , password }= req.body;
-        const admin = await Admin.findOne({ email: email, password: password});
-        if(!admin){
+app.post("/admin_login", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const admin = await Admin.findOne({ email: email, password: password });
+        if (!admin) {
             return res.status(404).send("User not found");
         }
-        res.json({admin});
+        res.json({ admin });
     }
-    catch(err){
+    catch (err) {
         res.status(500).send(`Error: ${err.message}`);
     }
-} )
+})
 // ###############################  doctor section ###############################
 // Route to get all patient of that doctor
-app.get('/doctor_patient_list/:id',(req,res)=>{
-    const id = req.params.id;
-    const doctor = Doctor.findById(id);
-    const department = doctor.specialization;
-    const patient = Patient.findOne({department: department});
-    console.log(patient)
-})
+app.get('/doctor_patient_list/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const doctor = await Doctor.findById(id);
+
+        if (!doctor) {
+            return res.status(404).json({ message: "Doctor not found" });
+        }
+
+        const department = doctor.specialization;
+        const patients = await Appointment.find({ department: department });
+
+        console.log("doctor data:", doctor, "patients:", patients);
+
+        // Corrected sort function
+        res.status(200).json({ 
+            doctor, 
+            patients: patients.sort((a, b) => new Date(a.date) - new Date(b.date)) 
+        });
+
+    } catch (error) {
+        console.error("Error fetching doctor or patients:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
+
+// dome data
+app.get('/api/inventory', (req, res) => {
+    res.json([
+        { name: "Paracetamol", quantity: 50, cost: 10 },
+        { name: "Ibuprofen", quantity: 30, cost: 15 }
+    ]);
+});
+
+
 
 
 

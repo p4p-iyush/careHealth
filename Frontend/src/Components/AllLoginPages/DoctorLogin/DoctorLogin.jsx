@@ -13,7 +13,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.email || !formData.password) {
       setError("Both fields are required!");
       return;
@@ -25,11 +25,11 @@ const Login = () => {
       // Assuming 'response.data' contains the user details
       const userDetails = response.data;
       localStorage.setItem("userDetails", JSON.stringify(userDetails));
-
+      console.log(`User Details: ${JSON.stringify(userDetails)}`);
       alert("Login Successful!");
-
+      console.log(userDetails.doctor._id);
       // Pass the response data to the next page using navigate
-      navigate("/doctor-dashboard", { state: { userDetails } });
+      navigate(`/doctor/${userDetails.doctor._id}`, { state: { userDetails } });
     } catch (error) {
       setError("Invalid email or password");
       console.error("Login error:", error);

@@ -25,6 +25,7 @@ const appointmentSchema = new mongoose.Schema({
         // match: [/^([01]\d|2[0-3]):([0-5]\d)$/, "Time must be in HH:MM 24-hour format"]
     },
     type: { type: String, required: true, enum: ["General", "Emergency", "Follow-up"] },
+    status: { type: String, required: true, enum: ["Pending", "Completed", "Cancelled"] ,default: "Pending" },
     department: { type: String, required: true },
     reached: { type: Boolean, default: false }, // To track if the patient arrived
     createdAt: { type: Date, default: Date.now }
