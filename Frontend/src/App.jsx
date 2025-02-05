@@ -23,7 +23,7 @@ import AdminDashboard from './Components/Dashboard/AdminDashboard/AdminDashboard
 import PharmacyDashboard from './Components/Dashboard/PharmacyDashboard/PharmacyDashboard';
 import MainDashboard from './Components/Dashboard/MainDashboard/MainDashboard';
 
-import Add_patient_med from './Components/UserModules/Doctor/Add_patient_med';
+import Add_patient_med from './Components/UserModules/Doctor/Doctor_add_patient/Add_patient_med';
 
 
 function App() {
