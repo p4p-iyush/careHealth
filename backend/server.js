@@ -478,18 +478,29 @@ app.get('/api/patients/:id', async (req, res) => {
 });
 
 app.patch('/api/patients/:id', async (req, res) => {
+    const { id } = req.params;
+    const { handled_by_pharmacist, grand_total } = req.body;
+  
     try {
-        const updatedPatient = await PatientPrescriptions.findByIdAndUpdate(
-            req.params.id.trim(),
-            { handled_by_pharmacist: true },
-            { new: true }
-        );
-        if (!updatedPatient) return res.status(404).json({ message: 'Patient not found' });
-        res.json(updatedPatient);
+      const updateFields = { handled_by_pharmacist };
+  
+      // Include grand_total in the update if it's provided
+      if (grand_total !== undefined) {
+        updateFields.grand_total = grand_total;
+      }
+  
+      const updatedPatient = await Patient.findByIdAndUpdate(id, updateFields, { new: true });
+  
+      if (!updatedPatient) {
+        return res.status(404).json({ message: 'Patient not found' });
+      }
+  
+      res.json(updatedPatient);
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+      console.error('Error updating patient status:', error.message);
+      res.status(500).json({ message: 'Failed to update patient status', error: error.message });
     }
-});
+  });
 
 // Doctor Section
 // Route to get all patient of that doctor
@@ -521,13 +532,6 @@ app.get('/doctor_patient_list/:id', async (req, res) => {
 
 
 // dome data
-app.get('/api/inventory', (req, res) => {
-    res.json([
-        { name: "Paracetamol", quantity: 50, cost: 10 },
-        { name: "Ibuprofen", quantity: 30, cost: 15 }
-    ]);
-});
-
 
 
 app.get('/doctor_patient_list/:id', async (req, res) => {
@@ -558,14 +562,6 @@ app.get('/doctor_patient_list/:id', async (req, res) => {
 
 
 // dome data
-app.get('/api/inventory', (req, res) => {
-    res.json([
-        { name: "Paracetamol", quantity: 50, cost: 10 },
-        { name: "Ibuprofen", quantity: 30, cost: 15 }
-    ]);
-});
-
-
 // Start the server
 const PORT = process.env.PORT || 5000; // Use the environment variable PORT or default to 5000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

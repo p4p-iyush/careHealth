@@ -1,21 +1,21 @@
+// Patient Schema
 const mongoose = require('mongoose');
 
-// Patient Schema
 const patientSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  age: { type: Number, required: true },
+  name: { type: String, required: true, trim: true },
+  age: { type: Number, required: true, min: 0 },
   prescription: [
     {
-      medicine_name: { type: String, required: true },
-      quantity: { type: Number, required: true },
+      medicine_name: { type: String, required: true, trim: true },
+      quantity: { type: Number, required: true, min: 1 },
     },
   ],
-  prescri_date: { type: Date, required: true },
-  doctor_id: { type: String, required: true },
-  handled_by_pharmacist: { type: Boolean, default: false } // New field
+  prescri_date: { type: Date, required: true, default: Date.now },
+  doctor_id: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Doctor' },
+  handled_by_pharmacist: { type: Boolean, default: false },
+  grand_total: { type: Number, default: 0, min: 0 }, // New field for total cost
 });
 
-// Prevent OverwriteModelError
-const Patient = mongoose.models.Patient || mongoose.model('Patient', patientSchema);
+const Patient = mongoose.model('Patient', patientSchema);
 
 module.exports = Patient;
