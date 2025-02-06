@@ -16,6 +16,6 @@ const patientSchema = new mongoose.Schema({
   grand_total: { type: Number, default: 0, min: 0 }, // New field for total cost
 });
 
-const Patient = mongoose.model('Patient', patientSchema);
+const Patient = mongoose.model('Patients', patientSchema);
 
 module.exports = Patient;
