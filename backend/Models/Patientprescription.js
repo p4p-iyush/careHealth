@@ -16,6 +16,6 @@ const patientSchema = new mongoose.Schema({
 });
 
 // Prevent OverwriteModelError
-const Patient = mongoose.models.Patient || mongoose.model('Patient', patientSchema);
+const Patient = mongoose.models.Patient || mongoose.model('Patients', patientSchema);
 
 module.exports = Patient;

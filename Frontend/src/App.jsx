@@ -18,8 +18,8 @@ import DisplayBookedAppointment from './Components/OPDQ/DisplayBookedAppointment
 import AppointmentBookingForm from './Components/UserModules/Patients/AppointmentBookingForm/AppointmentBookingForm';
 
 import PatientDashboard from './Components/Dashboard/PatientDashboard/PatientDashboard';
-import DoctorDashboard from './Components/Dashboard/DoctorDashboard/DoctorDashboard';
-import AdminDashboard from './Components/Dashboard/AdminDashboard/AdminDashboard';
+// import DoctorDashboard from './Components/UserModules/Doctors/DoctorDashboard/DoctorDashboard';
+// import AdminDashboard from './Components/Dashboard/AdminDashboard/AdminDashboard';
 import PharmacyDashboard from './Components/UserModules/Pharmacists/Dashboard/PharmacyDashboard';
 // import MainDashboard from './Components/Dashboard/MainDashboard/MainDashboard';
 
@@ -57,8 +57,8 @@ function App() {
         <Route path="/appointment-list" element={<AppointmentList/>} />
         {/* routes for dashboard */}
         <Route path="/patient-dashboard" element={<PatientDashboard/>} />
-        <Route path="/doctor-dashboard" element={<DoctorDashboard/>} />
-        <Route path="/admin-dashboard" element={<AdminDashboard/>} />
+        {/* <Route path="/doctor-dashboard" element={<DoctorDashboard/>} /> */}
+        {/* <Route path="/admin-dashboard" element={<AdminDashboard/>} /> */}
         <Route path="/pharmacy-dashboard" element={<PharmacyDashboard />} />
         {/* <Route path ="/main-dashboard" element={<MainDashboard/>} /> */}
 

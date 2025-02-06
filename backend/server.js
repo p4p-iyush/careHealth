@@ -289,7 +289,6 @@ app.get('/doctor_patient_list/:id',(req,res)=>{
 })
 
 
-
 // ############# krish section ###############################
 // ################# Inventory Routes ###############################
 app.get('/api/inventory', async (req, res) => {
