@@ -276,11 +276,17 @@ app.post("/admin_login", async (req, res) => {
     catch (err) {
         res.status(500).send(`Error: ${err.message}`);
     }
+} )
+
+// ###############################  doctor section ###############################
+// Route to get all patient of that doctor
+app.get('/doctor_patient_list/:id',(req,res)=>{
+    const id = req.params.id;
+    const doctor = Doctor.findById(id);
+    const department = doctor.specialization;
+    const patient = Patient.findOne({department: department});
+    console.log(patient)
 })
-
-
-
-
 
 
 

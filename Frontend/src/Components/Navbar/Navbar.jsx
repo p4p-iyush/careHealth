@@ -5,6 +5,12 @@ import './Navbar.css'
 const Navbar = ({ userRole }) => {
   const renderAdminLinks = () => (
     <>
+    <li>
+        <a href="/admin-dashboard">
+            <FaHome size={20} />
+            Home
+          </a>
+    </li>
       <li>
         <a href="/admin-dashboard">
           <FaCog size={20} />
@@ -17,22 +23,46 @@ const Navbar = ({ userRole }) => {
           Manage Users
         </a>
       </li>
+      <li>
+          <a href="/">
+            <FaSignOutAlt size={20} />
+            Logout
+          </a>
+        </li>
     </>
   )
 
   const renderPharmacistLinks = () => (
     <>
+    <li>
+        <a href="/pharmacy-dashboard">
+            <FaHome size={20} />
+            Home
+          </a>
+    </li>
       <li>
-        <a href="/manage-medicines">
+        <a href="/inventory">
           <FaClipboardList size={20} />
           Manage Medicines
         </a>
       </li>
+      <li>
+          <a href="/">
+            <FaSignOutAlt size={20} />
+            Logout
+          </a>
+        </li>
     </>
   )
 
   const renderPatientLinks = () => (
     <>
+    <li>
+        <a href="/patient-dashboard">
+            <FaHome size={20} />
+            Home
+          </a>
+    </li>
       <li>
         <a href="/appointments">
           <FaClipboardList size={20} />
@@ -45,11 +75,23 @@ const Navbar = ({ userRole }) => {
           My Prescriptions
         </a>
       </li>
+      <li>
+          <a href="/">
+            <FaSignOutAlt size={20} />
+            Logout
+          </a>
+        </li>
     </>
   )
 
   const renderDoctorLinks = () => (
     <>
+    <li>
+        <a href="/doctor-dashboard">
+            <FaHome size={20} />
+            Home
+          </a>
+    </li>
       <li>
         <a href="/view-patients">
           <FaStethoscope size={20} />
@@ -62,6 +104,28 @@ const Navbar = ({ userRole }) => {
           Manage Appointments
         </a>
       </li>
+      <li>
+          <a href="/">
+            <FaSignOutAlt size={20} />
+            Logout
+          </a>
+        </li>
+    </>
+  )
+  const renderGuestLinks = () => (
+    <>
+    <li>
+        <a href="/">
+            <FaHome size={20} />
+            Home
+          </a>
+    </li>
+      <li>
+        <a href="/login">
+        <FaSignOutAlt size={20} />
+          Login
+        </a>
+      </li>
     </>
   )
 
@@ -70,23 +134,12 @@ const Navbar = ({ userRole }) => {
       <div className="navbar-brand">
         <h2>OPD Management</h2>
       </div>
-      <ul className="navbar-links">
-        <li>
-          <a href="/home">
-            <FaHome size={20} />
-            Home
-          </a>
-        </li>
+      <ul className="navbar-links">  
+        {userRole === 'guest' && renderGuestLinks()}
         {userRole === 'admin' && renderAdminLinks()}
         {userRole === 'pharmacist' && renderPharmacistLinks()}
         {userRole === 'patient' && renderPatientLinks()}
         {userRole === 'doctor' && renderDoctorLinks()}
-        <li>
-          <a href="/logout">
-            <FaSignOutAlt size={20} />
-            Logout
-          </a>
-        </li>
       </ul>
     </nav>
   )
