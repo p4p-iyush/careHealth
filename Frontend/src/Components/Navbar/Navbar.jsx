@@ -6,7 +6,7 @@ const Navbar = ({ userRole }) => {
   const renderAdminLinks = () => (
     <>
     <li>
-        <a href="/">
+        <a href="/admin-dashboard">
             <FaHome size={20} />
             Home
           </a>
@@ -35,7 +35,7 @@ const Navbar = ({ userRole }) => {
   const renderPharmacistLinks = () => (
     <>
     <li>
-        <a href="/">
+        <a href="/pharmacy-dashboard">
             <FaHome size={20} />
             Home
           </a>
@@ -58,7 +58,7 @@ const Navbar = ({ userRole }) => {
   const renderPatientLinks = () => (
     <>
     <li>
-        <a href="/">
+        <a href="/patient-dashboard">
             <FaHome size={20} />
             Home
           </a>
@@ -87,7 +87,7 @@ const Navbar = ({ userRole }) => {
   const renderDoctorLinks = () => (
     <>
     <li>
-        <a href="/">
+        <a href="/doctor-dashboard">
             <FaHome size={20} />
             Home
           </a>
