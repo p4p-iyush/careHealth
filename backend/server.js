@@ -48,14 +48,14 @@ app.post('/check-availability', async (req, res) => {
 // Endpoint to book an appointment
 app.post('/book-appointment', async (req, res) => {
     try {
-        const { name, email, phone, date, time, type, department } = req.body;
+        const { name, patientId, email, phone, date, time, type, department } = req.body;
         const existingAppointment = await Appointment.findOne({ date, time, department });
 
         if (existingAppointment) {
             return res.status(400).json({ message: 'Time slot already booked' });
         }
 
-        const newAppointment = new Appointment({ name, email, phone, date, time, type, department });
+        const newAppointment = new Appointment({ name,patientId,  email, phone, date, time, type, department });
         console.log(newAppointment);
         await newAppointment.save();
 
@@ -173,7 +173,7 @@ app.post('/doctor_register', async (req, res) => {
         const registeredDoctor = await newDoctor.save();
         res.status(201).send("Doctor registered successfully");
     } catch (err) {
-        res.status(400).send(`Error: ${ err.message }`);
+        res.status(400).send(`Error: ${err.message}`);
     }
 });
 
@@ -195,7 +195,7 @@ app.post('/inventory_register', async (req, res) => {
         const registeredInventoryManager = await newInventoryManager.save();
         res.status(201).send("Inventory Manager registered successfully");
     } catch (err) {
-        res.status(400).send(`Error: ${ err.message }`);
+        res.status(400).send(`Error: ${err.message}`);
     }
 });
 // Route to handle admin registration form sumission
@@ -212,7 +212,7 @@ app.post('/admin_register', async (req, res) => {
         const registeredDoctor = await newDoctor.save();
         res.status(201).send("Doctor registered successfully");
     } catch (err) {
-        res.status(400).send(`Error: ${ err.message }`);
+        res.status(400).send(`Error: ${err.message}`);
     }
 });
 
@@ -230,7 +230,7 @@ app.post("/patient_login", async (req, res) => {
         res.json({ patient });
     }
     catch (err) {
-        res.status(500).send(`Error: ${ err.message }`);
+        res.status(500).send(`Error: ${err.message}`);
     }
 })
 app.post("/doctor_login", async (req, res) => {
@@ -243,7 +243,7 @@ app.post("/doctor_login", async (req, res) => {
         res.json({ doctor });
     }
     catch (err) {
-        res.status(500).send(`Error: ${ err.message }`);
+        res.status(500).send(`Error: ${err.message}`);
     }
 })
 
@@ -259,7 +259,7 @@ app.post("/inventory_manager_login", async (req, res) => {
         res.json({ inventoryManager });
     }
     catch (err) {
-        res.status(500).send(`Error: ${ err.message }`);
+        res.status(500).send(`Error: ${err.message}`);
     }
 })
 // Route to handle admin login 
@@ -274,41 +274,13 @@ app.post("/admin_login", async (req, res) => {
         res.json({ admin });
     }
     catch (err) {
-        res.status(500).send(`Error: ${ err.message }`);
+        res.status(500).send(`Error: ${err.message}`);
     }
 })
 
-// ###############################  doctor section ###############################
-// Route to get all patient of that doctor
-// Route to get all patient of that doctor
-app.get('/doctor_patient_list/:id', async (req, res) => {
-    try {
-        const id = req.params.id;
-        const doctor = await Doctor.findById(id);
-
-        if (!doctor) {
-            return res.status(404).json({ message: "Doctor not found" });
-        }
-
-        const department = doctor.specialization;
-        const patients = await Appointment.find({ department: department });
-
-        console.log("doctor data:", doctor, "patients:", patients);
-
-        // Corrected sort function
-        res.status(200).json({ 
-            doctor, 
-            patients: patients.sort((a, b) => new Date(a.date) - new Date(b.date)) 
-        });
-
-    } catch (error) {
-        console.error("Error fetching doctor or patients:", error);
-        res.status(500).json({ message: "Internal Server Error" });
-    }
-});
 
 
-// dome data
+
 
 
 
@@ -318,10 +290,25 @@ app.get('/api/inventory', async (req, res) => {
     try {
         const inventory = await Inventory.find().sort({ expiry_date: 1 });
         res.json(inventory);
+        // console.log('inventory', inventory)
     } catch (error) {
         res.status(500).json({ message: 'Failed to fetch inventory' });
     }
 });
+//search item from  inventory 
+app.get('/search/inventory', async (req, res) => {
+    try {
+        const search = req.query.search || "";
+        const inventory = await Inventory.find({
+            name: { $regex: search, $options: "i" }, // Case-insensitive regex search
+        })
+        res.json(inventory);
+    } catch (error) {
+        console.error("Error fetching inventory:", error);
+        res.status(500).json({ message: "Failed to fetch inventory" });
+    }
+});
+
 
 // fetch item on the basis of id
 app.get('/api/inventory/:id', async (req, res) => {
@@ -480,29 +467,31 @@ app.get('/api/patients/:id', async (req, res) => {
 app.patch('/api/patients/:id', async (req, res) => {
     const { id } = req.params;
     const { handled_by_pharmacist, grand_total } = req.body;
-  
-    try {
-      const updateFields = { handled_by_pharmacist };
-  
-      // Include grand_total in the update if it's provided
-      if (grand_total !== undefined) {
-        updateFields.grand_total = grand_total;
-      }
-  
-      const updatedPatient = await Patient.findByIdAndUpdate(id, updateFields, { new: true });
-  
-      if (!updatedPatient) {
-        return res.status(404).json({ message: 'Patient not found' });
-      }
-  
-      res.json(updatedPatient);
-    } catch (error) {
-      console.error('Error updating patient status:', error.message);
-      res.status(500).json({ message: 'Failed to update patient status', error: error.message });
-    }
-  });
 
-// Doctor Section
+    try {
+        const updateFields = { handled_by_pharmacist };
+
+        // Include grand_total in the update if it's provided
+        if (grand_total !== undefined) {
+            updateFields.grand_total = grand_total;
+        }
+
+        const updatedPatient = await Patient.findByIdAndUpdate(id, updateFields, { new: true });
+
+        if (!updatedPatient) {
+            return res.status(404).json({ message: 'Patient not found' });
+        }
+
+        res.json(updatedPatient);
+    } catch (error) {
+        console.error('Error updating patient status:', error.message);
+        res.status(500).json({ message: 'Failed to update patient status', error: error.message });
+    }
+});
+
+
+
+// ###############################  doctor section ###############################
 // Route to get all patient of that doctor
 app.get('/doctor_patient_list/:id', async (req, res) => {
     try {
@@ -530,38 +519,71 @@ app.get('/doctor_patient_list/:id', async (req, res) => {
     }
 });
 
+// Route to create a patient percription
+// POST route to add a patient's prescription
+app.post('/save-prescription', async (req, res) => {
+    const {
+        patientName,
+        doctorName,
+        medicines,
+        patientId,
+        doctorId,
+        handledByPharmacist,
+        grandTotal,
+    } = req.body;
 
-// dome data
-
-
-app.get('/doctor_patient_list/:id', async (req, res) => {
     try {
-        const id = req.params.id;
-        const doctor = await Doctor.findById(id);
-
-        if (!doctor) {
-            return res.status(404).json({ message: "Doctor not found" });
-        }
-
-        const department = doctor.specialization;
-        const patients = await Appointment.find({ department: department });
-
-        console.log("doctor data:", doctor, "patients:", patients);
-
-        // Corrected sort function
-        res.status(200).json({
-            doctor,
-            patients: patients.sort((a, b) => new Date(a.date) - new Date(b.date))
+        // Create a new patient prescription document
+        const newPatient = new PatientPrescriptions({
+            patient_name: patientName,
+            doctor_name: doctorName,
+            prescription: medicines.map((med) => ({
+                medicine_name: med.name,
+                quantity: med.quantity,
+                dosage: med.dose,
+                duration: med.duration,
+            })),
+            doctor_id: doctorId,
+            patient_id: patientId,
+            handled_by_pharmacist: handledByPharmacist || false,
+            grand_total: grandTotal || 0,
         });
 
+        // Save the document to the database
+        const savedPatient = await newPatient.save();
+
+        res.status(201).json({
+            message: 'Prescription added successfully!',
+            data: savedPatient,
+        });
     } catch (error) {
-        console.error("Error fetching doctor or patients:", error);
-        res.status(500).json({ message: "Internal Server Error" });
+        console.error(error);
+        res.status(500).json({
+            message: 'An error occurred while saving the prescription.',
+            error: error.message,
+        });
+    }
+});
+
+// ###############################  patient section ###############################
+// Route to show patient prescription 
+app.get('/patient/prescription/:id', async (req, res) => {
+    try {
+        const patientId = req.params.id;
+        console.log(patientId);
+        const patientPrescriptions = await PatientPrescriptions.findOne({ patient_id: patientId });
+        console.log(patientPrescriptions);
+
+        if (!patientPrescriptions) {
+            return res.status(404).json({ message: 'Prescription not found' });
+        }
+        res.json(patientPrescriptions);
+    } catch (err) {
+        console.error(err);
     }
 });
 
 
-// dome data
 // Start the server
 const PORT = process.env.PORT || 5000; // Use the environment variable PORT or default to 5000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

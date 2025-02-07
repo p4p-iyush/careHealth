@@ -68,7 +68,7 @@ const DoctorDashboard = () => {
                 <td>{patient.date}</td>
                 <td>{patient.time}</td>
                 <td>
-                  <Link to="/add-patient-med">Enter</Link>
+                  <Link to="/add-patient-med" state={{ patient, doctor }}>Enter</Link>
                 </td>
               </tr>
             ))}

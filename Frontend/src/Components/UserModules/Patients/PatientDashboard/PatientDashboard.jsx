@@ -7,7 +7,7 @@ const PatientDashboard = () => {
   // Get user details from the state passed by navigate
   const location = useLocation();
   const { userDetails } = location.state || {};  // Default to empty object if no state is passed
-  // console.log("User details in PatientDashboard:", userDetails);
+  console.log("User details in PatientDashboard:", userDetails);
 
   if (!userDetails) {
     return <div>No user data available!</div>; // Handle case where no user data is available
@@ -17,10 +17,14 @@ const PatientDashboard = () => {
     <div>
       <nav>
         <h1>Patient Dashboard</h1>
-        <Link to="/appointment-booking" state={{userDetails: userDetails.patient}}>
-        <h2>Appointments</h2>
+        <Link to="/appointment-booking" state={{ userDetails: userDetails.patient }}>
+          <h2>Appointments</h2>
         </Link>
-        <h2>Prescriptions</h2>
+        <Link to={`/patient/prescription/${userDetails.patient._id}`} state={{ userDetails: userDetails.patient }}>
+
+          View Prescription
+        </Link>
+
         <h2>Medication</h2>
         <h2>Health Records</h2>
       </nav>

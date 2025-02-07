@@ -33,6 +33,11 @@ import UpdateQuantity from './Components/UserModules/Pharmacists/QuantityManagem
 import ExpiredProduct from './Components/UserModules/Pharmacists/ExpiryManagement/ExpiredProduct/ExpiredProduct';
 import ExpiryUpdate from './Components/UserModules/Pharmacists/ExpiryManagement/ExpiryUpdate/ExpiryUpdate';
 
+//Doctor
+import Add_patient_med from './Components/UserModules/Doctor/Doctor_add_patient/Add_patient_med'
+
+// patient
+import Prescription_portal from './Components/UserModules/Patients/PatientPrescription/PatientPrescrption'
 
 // import ExpiryUpdate from './Components/UserModules/Pharmacists/QuantityManagement/UpdateQuantity';
 
@@ -78,7 +83,12 @@ function App() {
       <Route path="/update-quantity/:id" element={<UpdateQuantity />} />
       <Route path="/update-quantity/:inventory_id" component={UpdateQuantity} />
      
-     
+     {/*Doctor routes */}
+     <Route path="add-patient-med" element={<Add_patient_med/>}></Route>
+
+     {/* Patient routes */}
+     <Route path="/patient/prescription/:id" element={<Prescription_portal />} />
+
       </Routes>
       {/* <Footer /> */}
     </Router>

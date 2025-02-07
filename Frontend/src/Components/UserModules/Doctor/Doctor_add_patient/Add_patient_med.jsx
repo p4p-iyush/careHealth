@@ -1,101 +1,203 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const AddPatientMed = () => {
-  const [formData, setFormData] = useState({
-    patientName: "",
-    medicineName: "",
-    dosage: "",
-    frequency: "",
-    startDate: "",
-    endDate: "",
-  });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [selectedMed, setSelectedMed] = useState([]);
+  const [selectedMedSet, setSelectedMedSet] = useState(new Set());
+  const [patientName, setPatientName] = useState("");
+  const [doctorName, setDoctorName] = useState("");
 
-  // Handle input changes
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const location = useLocation();
+  const { patient, doctor } = location.state || {};
+  // console.log(patient);
+
+  useEffect(() => {
+    if (patient && doctor) {
+      setPatientName(patient.name);
+      setDoctorName(doctor.name);
+    }
+  }, [patient, doctor]);
+
+  useEffect(() => {
+    const fetchMed = () => {
+      if (searchTerm.trim() === "") {
+        setSuggestions([]);
+        return;
+      }
+      fetch(`http://localhost:5000/search/inventory?search=${searchTerm}`)
+        .then((res) => res.json())
+        .then((data) => setSuggestions(data))
+        .catch((err) => console.error(err));
+    };
+
+    fetchMed();
+  }, [searchTerm]);
+
+  const handleSelectMed = (suggestion) => {
+    setSelectedMed((prevMed) => [
+      ...prevMed,
+      { ...suggestion, quantity: 1, dose: "1x/day", duration: "1 week" },
+    ]);
+    setSelectedMedSet((prevSet) => new Set(prevSet).add(suggestion._id));
+    setSearchTerm("");
+    setSuggestions([]);
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    // Simple validation
-    if (!formData.patientName || !formData.medicineName || !formData.dosage) {
-      alert("Please fill in all required fields.");
-      return;
-    }
-
-    console.log("Form Data Submitted:", formData);
-    alert("Medication added successfully!");
-
-    // Reset form after submission
-    setFormData({
-      patientName: "",
-      medicineName: "",
-      dosage: "",
-      frequency: "",
-      startDate: "",
-      endDate: "",
+  const handleRemoveMed = (id) => {
+    setSelectedMed((prevMed) => prevMed.filter((med) => med._id !== id));
+    setSelectedMedSet((prevSet) => {
+      const updatedSet = new Set(prevSet);
+      updatedSet.delete(id);
+      return updatedSet;
     });
   };
 
-  return (
-    <div className="container">
-      <h1>Add Patient Medication</h1>
-      <form onSubmit={handleSubmit}>
-        <label>Patient Name:</label>
-        <input
-          type="text"
-          name="patientName"
-          value={formData.patientName}
-          onChange={handleChange}
-          required
-        />
+  const handleFieldChange = (id, field, value) => {
+    setSelectedMed((prevMed) =>
+      prevMed.map((med) =>
+        med._id === id ? { ...med, [field]: value } : med
+      )
+    );
+  };
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/save-prescription", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          patientId: patient.patientId,
+          doctorId: doctor._id,
+          patientName,
+          doctorName,
+          medicines: selectedMed,
+        }),
+      });
 
+      const data = await response.json();
+      if (response.ok) {
+        alert("Prescription saved successfully!");
+      } else {
+        alert(`Error: ${data.error}`);
+      }
+    } catch (err) {
+      console.error("Error while saving prescription:", err);
+    }
+  };
+
+
+  return (
+    <div className="component-add-patient-med-container">
+      {/* Patient and Doctor Info */}
+      <div className="component-add-patient-med-info">
+        <label>
+          Patient Name:
+          <input
+            type="text"
+            value={patient.name}
+            onChange={(e) => setPatientName(e.target.value)}
+            required
+          />
+        </label>
+        <label>
+          Doctor Name:
+          <input
+            type="text"
+            value={doctor.name}
+            onChange={(e) => setDoctorName(e.target.value)}
+            required
+          />
+        </label>
+      </div>
+
+      {/* Selected Medicines */}
+      <div className="component-add-patient-med-selected">
+        {selectedMed.map((med) => (
+          <div className="med-item" key={med._id}>
+            <h3>{med.name}</h3>
+            <label>
+              Quantity:
+              <select
+                value={med.quantity}
+                onChange={(e) =>
+                  handleFieldChange(med._id, "quantity", e.target.value)
+                }
+              >
+                {[1, 2, 3, 4, 5].map((quantity) => (
+                  <option key={quantity} value={quantity}>
+                    {quantity}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Dosage:
+              <select
+                value={med.dose}
+                onChange={(e) =>
+                  handleFieldChange(med._id, "dose", e.target.value)
+                }
+              >
+                {["1x/day", "2x/day", "3x/day"].map((dose) => (
+                  <option key={dose} value={dose}>
+                    {dose}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Duration:
+              <select
+                value={med.duration}
+                onChange={(e) =>
+                  handleFieldChange(med._id, "duration", e.target.value)
+                }
+              >
+                {["1 week", "2 weeks", "1 month"].map((duration) => (
+                  <option key={duration} value={duration}>
+                    {duration}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button onClick={() => handleRemoveMed(med._id)}>✖</button>
+          </div>
+        ))}
+      </div>
+
+      {/* Medicine Search Input */}
+      <div className="component-add-patient-med-search">
         <label>Medicine Name:</label>
         <input
           type="text"
           name="medicineName"
-          value={formData.medicineName}
-          onChange={handleChange}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           required
         />
+        <ul>
+          {suggestions.map((suggestion) => {
+            return !selectedMedSet.has(suggestion._id) ? (
+              <li
+                key={suggestion._id}
+                onClick={() => handleSelectMed(suggestion)}
+              >
+                {suggestion.name}
+              </li>
+            ) : null;
+          })}
+        </ul>
+      </div>
 
-        <label>Dosage (e.g., 500mg):</label>
-        <input
-          type="text"
-          name="dosage"
-          value={formData.dosage}
-          onChange={handleChange}
-          required
-        />
+      {/* Submit Button */}
+      <div className="component-add-patient-med-actions">
+        <button onClick={handleSubmit}>
+          Submit
+        </button>
+      </div>
 
-        <label>Frequency:</label>
-        <select name="frequency" value={formData.frequency} onChange={handleChange}>
-          <option value="">Select Frequency</option>
-          <option value="Once a day">Once a day</option>
-          <option value="Twice a day">Twice a day</option>
-          <option value="Every 6 hours">Every 6 hours</option>
-        </select>
-
-        <label>Start Date:</label>
-        <input
-          type="date"
-          name="startDate"
-          value={formData.startDate}
-          onChange={handleChange}
-        />
-
-        <label>End Date:</label>
-        <input
-          type="date"
-          name="endDate"
-          value={formData.endDate}
-          onChange={handleChange}
-        />
-
-        <button type="submit">Add Medication</button>
-      </form>
     </div>
   );
 };

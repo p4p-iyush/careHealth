@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import './prescription.css';
+import './PrescriptionDetail.css';
 
 const PrescriptionDetails = () => {
     const { id } = useParams();

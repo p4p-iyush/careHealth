@@ -19,6 +19,7 @@ const AppointmentBookingForm = () => {
 
   const [formData, setFormData] = useState({
     name: userDetails.name || '',   // Default to userDetails if available
+    patientId :userDetails._id || '', 
     email: userDetails.email || '', // Default to userDetails if available
     phone: userDetails.contact || '', // Default to userDetails if available
     date: '',

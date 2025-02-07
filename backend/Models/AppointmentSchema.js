@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const appointmentSchema = new mongoose.Schema({
     name: { type: String, required: true, trim: true },
+    patientId:{type: mongoose.Schema.Types.ObjectId, required: true},
     email: { 
         type: String, 
         required: true, 
