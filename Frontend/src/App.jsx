@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route , useLocation  } from 'react-router-dom';
+import React, { useState, useEffect,useRef } from "react";
 import Navbar from './Components/Navbar/Navbar';
 import Footer from './Components/Footer/Footer';
 
@@ -34,14 +35,37 @@ import ExpiredProduct from './Components/UserModules/Pharmacists/ExpiryManagemen
 import ExpiryUpdate from './Components/UserModules/Pharmacists/ExpiryManagement/ExpiryUpdate/ExpiryUpdate';
 
 
-// import ExpiryUpdate from './Components/UserModules/Pharmacists/QuantityManagement/UpdateQuantity';
 
-function App() {
+
+function MainApp() {
+  const location = useLocation();
+  const [userRole, setUserRole] = useState("guest"); // Default role
+  const roleSet = useRef(false); // Track if a role has been assigned
+
+  useEffect(() => {
+    if (location.pathname === "/" || location.pathname === "/admin-login" || location.pathname === "/patient-login" || location.pathname === "/doctor-login" || location.pathname === "/pharmacy-login") {
+      setUserRole("guest");
+      roleSet.current = false; // Reset tracking when on home page
+    } else if (!roleSet.current) {
+      if (location.pathname.includes("/admin-dashboard")) {
+        setUserRole("admin");
+      } else if (location.pathname.includes("/patient-dashboard")) {
+        setUserRole("patient");
+      } else if (location.pathname.includes("/doctor-dashboard")) {
+        setUserRole("doctor");
+      } else if (location.pathname.includes("/pharmacy-dashboard")) {
+        setUserRole("pharmacist");
+      }
+      roleSet.current = true; // Mark that a role has been assigned
+    }
+  }, [location.pathname]);
+
   return ( 
-    <Router>
-      <Navbar userRole={"admin"}/>
+    <>
+      <Navbar userRole={userRole}/>
       <Routes>
         <Route path="/" element={<LoginPage/>} />
+        <Route path="/login" element={<LoginPage/>} />
         {/* routes for loginpage */}
         <Route path="/patient-login" element={<PatientLogin/>} />
         <Route path="/admin-login" element={<AdminLogin/>} />
@@ -77,6 +101,14 @@ function App() {
      
       </Routes>
       {/* <Footer /> */}
+      </>
+  );
+}
+
+const App = () => {
+  return (
+    <Router>
+      <MainApp />
     </Router>
   );
 }
