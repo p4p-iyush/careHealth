@@ -156,7 +156,7 @@ const PrescriptionDetails = () => {
             <header>Prescription & Inventory Management</header>
             <div className="content">
                 <div className="left-section">
-                    <h3>{patient.name}'s Prescription</h3>
+                    <h3>{patient.patient_name}'s Prescription</h3>
                     <table className="prescription-table">
                         <thead>
                             <tr>

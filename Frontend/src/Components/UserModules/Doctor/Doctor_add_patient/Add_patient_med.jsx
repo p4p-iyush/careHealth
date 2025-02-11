@@ -12,7 +12,7 @@ const AddPatientMed = () => {
 
   const location = useLocation();
   const { patient, doctor } = location.state || {};
-  // console.log(patient);
+  console.log(patient);
 
   useEffect(() => {
     if (patient && doctor) {
@@ -75,11 +75,11 @@ const AddPatientMed = () => {
           medicines: selectedMed,
         }),
       });
-
       const data = await response.json();
       if (response.ok) {
         alert("Prescription saved successfully!");
       } else {
+        console.log(data.error)
         alert(`Error: ${data.error}`);
       }
     } catch (err) {

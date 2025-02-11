@@ -276,18 +276,7 @@ app.post("/admin_login", async (req, res) => {
     catch (err) {
         res.status(500).send(`Error: ${err.message}`);
     }
-} )
-
-// ###############################  doctor section ###############################
-// Route to get all patient of that doctor
-app.get('/doctor_patient_list/:id',(req,res)=>{
-    const id = req.params.id;
-    const doctor = Doctor.findById(id);
-    const department = doctor.specialization;
-    const patient = Patient.findOne({department: department});
-    console.log(patient)
 })
-
 
 
 // ############# krish section ###############################
@@ -456,7 +445,7 @@ app.get('/api/patients', async (req, res) => {
         const patients = await PatientPrescriptions.find({ handled_by_pharmacist: false }).sort({ prescri_date: -1 });
         res.json(patients);
     } catch (error) {
-        res.status(500).json({ message: 'Failed to fetch patients' });
+        res.status(500).json({ message: 'Failed to fetch patients' });  
     }
 });
 

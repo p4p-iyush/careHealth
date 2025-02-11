@@ -1,5 +1,7 @@
-import { BrowserRouter as Router, Routes, Route , useLocation  } from 'react-router-dom';
-import React, { useState, useEffect,useRef } from "react";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useRef } from 'react';
 import Navbar from './Components/Navbar/Navbar';
 import Footer from './Components/Footer/Footer';
 
@@ -18,8 +20,6 @@ import AppointmentList from './Components/OPDQ/AppointmentsList';
 import DisplayBookedAppointment from './Components/OPDQ/DisplayBookedAppointment';
 import AppointmentBookingForm from './Components/UserModules/Patients/AppointmentBookingForm/AppointmentBookingForm';
 
-// import DoctorDashboard from './Components/UserModules/Doctors/DoctorDashboard/DoctorDashboard';
-// import AdminDashboard from './Components/Dashboard/AdminDashboard/AdminDashboard';
 import PatientDashboard from './Components/UserModules/Patients/PatientDashboard/PatientDashboard';
 import DoctorDashboard from './Components/UserModules/Doctor/DoctorDashboard/DoctorDashboard';
 import AdminDashboard from './Components/UserModules/Admin/AdminDashboard/AdminDashboard';
@@ -36,7 +36,6 @@ import UpdateQuantity from './Components/UserModules/Pharmacists/QuantityManagem
 import ExpiredProduct from './Components/UserModules/Pharmacists/ExpiryManagement/ExpiredProduct/ExpiredProduct';
 import ExpiryUpdate from './Components/UserModules/Pharmacists/ExpiryManagement/ExpiryUpdate/ExpiryUpdate';
 
-
 //Doctor
 import Add_patient_med from './Components/UserModules/Doctor/Doctor_add_patient/Add_patient_med'
 
@@ -44,9 +43,6 @@ import Add_patient_med from './Components/UserModules/Doctor/Doctor_add_patient/
 import Prescription_portal from './Components/UserModules/Patients/PatientPrescription/PatientPrescrption'
 
 // import ExpiryUpdate from './Components/UserModules/Pharmacists/QuantityManagement/UpdateQuantity';
-
-
-
 function MainApp() {
   const location = useLocation();
   const [userRole, setUserRole] = useState("guest"); // Default role
@@ -72,18 +68,17 @@ function MainApp() {
 
   return ( 
     <>
-      <Navbar userRole={userRole}/>
+     <Navbar userRole={userRole}/>
       <Routes>
         {/* routes for home */}
         <Route path="/" element={<LoginPage/>} />
-        <Route path="/login" element={<LoginPage/>} />
+
         {/* routes for loginpage */}
         <Route path="/patient-login" element={<PatientLogin/>} />
         <Route path="/admin-login" element={<AdminLogin/>} />
         <Route path="/doctor-login" element={<DoctorLogin/>} />
         <Route path="/pharmacy-login" element={<PharmacyLogin/>} />
         {/* routes for registration */} 
-
         <Route path="/patient-registration" element={<PatientResgistration/>} />
         <Route path="/doctor-registration" element={<DoctorResgistration/>} />
         <Route path="/pharmacy-registration" element={<PharmacyResgistration/>} />
@@ -95,8 +90,8 @@ function MainApp() {
 
         {/* routes for dashboard */}
         <Route path="/patient-dashboard" element={<PatientDashboard/>} />
-        {/* <Route path="/doctor-dashboard" element={<DoctorDashboard/>} /> */}
-        {/* <Route path="/admin-dashboard" element={<AdminDashboard/>} /> */}
+        <Route path="/doctor/:doctorId" element={<DoctorDashboard />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard/>} />
         <Route path="/pharmacy-dashboard" element={<PharmacyDashboard />} />
         {/* <Route path ="/main-dashboard" element={<MainDashboard/>} /> */}
 
@@ -112,16 +107,13 @@ function MainApp() {
       <Route path="/update-quantity/:id" element={<UpdateQuantity />} />
       <Route path="/update-quantity/:inventory_id" component={UpdateQuantity} />
      
-    {/*Doctor routes */}
-    <Route path="add-patient-med" element={<Add_patient_med/>}></Route>
+     {/*Doctor routes */}
+     <Route path="add-patient-med" element={<Add_patient_med/>}></Route>
 
-{/* Patient routes */}
-<Route path="/patient/prescription/:id" element={<Prescription_portal />} />
-
-
+     {/* Patient routes */}
+     <Route path="/patient/prescription/:id" element={<Prescription_portal />} />
 
       </Routes>
-      {/* <Footer /> */}
       </>
   );
 }

@@ -39,7 +39,6 @@ const PatientList = () => {
           <tr>
             <th>Patient ID</th>
             <th>Name</th>
-            <th>Age</th>
             <th>Prescription Date</th>
             <th>Prescription</th>
           </tr>
@@ -47,10 +46,9 @@ const PatientList = () => {
         <tbody>
           {patients.map((patient) => (
             <tr key={patient._id}>
-              <td>{patient._id}</td>
-              <td>{patient.name}</td>
-              <td>{patient.age}</td>
-              <td>{new Date(patient.prescri_date).toLocaleDateString()}</td>
+              <td>{patient.patient_id}</td>
+              <td>{patient.patient_name}</td>
+              <td>{new Date(patient.prescription_date).toLocaleDateString()}</td>
               <td>
                 <button
                   onClick={() => handleViewPrescription(patient._id)}
