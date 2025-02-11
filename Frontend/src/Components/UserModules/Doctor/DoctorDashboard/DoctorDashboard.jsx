@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import  { Link } from "react-router-dom";
 
 const DoctorDashboard = () => {
-  const { doctorId } = useParams(); // Get doctorId from the URL
+  // const { doctorId } = useParams(); 
+  // Get doctorId from the URL
   const [doctor, setDoctor] = useState(null);
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const location = useLocation();
+  const { userDetails } = location.state || {};
+
   useEffect(() => {
     const fetchDoctorAndPatients = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/doctor_patient_list/${doctorId}`);
+        const response = await fetch(`http://localhost:5000/doctor_patient_list/${userDetails.doctor._id}`);
         const data = await response.json();
 
         if (response.ok) {
@@ -28,7 +33,7 @@ const DoctorDashboard = () => {
     };
 
     fetchDoctorAndPatients();
-  }, [doctorId]);
+  }, [userDetails.doctor._id]);
 
   return (
     <div className="container">

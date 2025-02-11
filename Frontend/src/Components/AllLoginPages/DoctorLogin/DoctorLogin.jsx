@@ -29,7 +29,7 @@ const Login = () => {
       alert("Login Successful!");
       console.log(userDetails.doctor._id);
       // Pass the response data to the next page using navigate
-      navigate(`/doctor/${userDetails.doctor._id}`, { state: { userDetails } });
+      navigate("/doctor-dashboard", { state: { userDetails } });
     } catch (error) {
       setError("Invalid email or password");
       console.error("Login error:", error);

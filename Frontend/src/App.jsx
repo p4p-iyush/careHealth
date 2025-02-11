@@ -90,7 +90,7 @@ function MainApp() {
 
         {/* routes for dashboard */}
         <Route path="/patient-dashboard" element={<PatientDashboard/>} />
-        <Route path="/doctor/:doctorId" element={<DoctorDashboard />} />
+        <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
         <Route path="/admin-dashboard" element={<AdminDashboard/>} />
         <Route path="/pharmacy-dashboard" element={<PharmacyDashboard />} />
         {/* <Route path ="/main-dashboard" element={<MainDashboard/>} /> */}
