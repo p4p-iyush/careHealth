@@ -566,7 +566,7 @@ app.get('/patient/prescription/:id', async (req, res) => {
     try {
         const patientId = req.params.id;
         console.log(patientId);
-        const patientPrescriptions = await PatientPrescriptions.findOne({ patient_id: patientId });
+        const patientPrescriptions = await PatientPrescriptions.find({ patient_id: patientId });
         console.log(patientPrescriptions);
 
         if (!patientPrescriptions) {

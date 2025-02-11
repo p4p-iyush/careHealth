@@ -41,6 +41,7 @@ import Add_patient_med from './Components/UserModules/Doctor/Doctor_add_patient/
 
 // patient
 import Prescription_portal from './Components/UserModules/Patients/PatientPrescription/PatientPrescrption'
+import Patient_Bill from './Components/UserModules/Patients/PatientBills/PatientBills'
 
 // import ExpiryUpdate from './Components/UserModules/Pharmacists/QuantityManagement/UpdateQuantity';
 function MainApp() {
@@ -113,6 +114,8 @@ function MainApp() {
      {/* Patient routes */}
      <Route path="/patient/prescription/:id" element={<Prescription_portal />} />
 
+     {/* patient bill */}
+<Route path='patient-bill' element={<Patient_Bill/>}></Route>
       </Routes>
       </>
   );
