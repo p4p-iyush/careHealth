@@ -471,7 +471,7 @@ app.patch('/api/patients/:id', async (req, res) => {
             updateFields.grand_total = grand_total;
         }
 
-        const updatedPatient = await Patient.findByIdAndUpdate(id, updateFields, { new: true });
+        const updatedPatient = await PatientPrescriptions.findByIdAndUpdate(id, updateFields, { new: true });
 
         if (!updatedPatient) {
             return res.status(404).json({ message: 'Patient not found' });
@@ -577,6 +577,33 @@ app.get('/patient/prescription/:id', async (req, res) => {
         console.error(err);
     }
 });
+
+// Route to show the patient bills of parmacy
+app.get('/patient/bill/:id', async (req, res) => {
+    try {
+        const patientId = req.params.id;
+
+        // Fetch prescriptions for the given patient_id
+        const patientPrescriptions = await PatientPrescriptions.find({ 
+            patient_id: patientId, 
+            handled_by_pharmacist: true 
+        });
+        
+
+        if (patientPrescriptions.length === 0) {
+            // Send a 404 response if no prescriptions are found
+            return res.status(404).json({ message: 'No prescriptions found for this patient' });
+        }
+
+        // Send the data to the client
+        res.status(200).json({ patientPrescriptions });
+    } catch (err) {
+        // Handle any errors
+        console.error('Error fetching prescriptions:', err.message);
+        res.status(500).json({ message: 'Failed to fetch prescriptions', error: err.message });
+    }
+});
+
 
 
 // Start the server
