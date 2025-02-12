@@ -44,6 +44,14 @@ import Prescription_portal from './Components/UserModules/Patients/PatientPrescr
 import Patient_Bill from './Components/UserModules/Patients/PatientBills/PatientBills'
 
 // import ExpiryUpdate from './Components/UserModules/Pharmacists/QuantityManagement/UpdateQuantity';
+
+//Bad Management
+import ApplyBed from './Components/BedManagement/BedApplication/ApplyBed';
+import BedStatus from './Components/BedManagement/BedStatus/BedStatus';
+import AddBed from './Components/BedManagement/AddBed/AddBed';
+import EditBedPrices from './Components/BedManagement/EditBedPrices/EditBedPrices';
+import AllDischargeBill from './Components/BedManagement/AllDischargeBill/AllDischargeBill';
+
 function MainApp() {
   const location = useLocation();
   const [userRole, setUserRole] = useState("guest"); // Default role
@@ -107,6 +115,13 @@ function MainApp() {
 
       <Route path="/update-quantity/:id" element={<UpdateQuantity />} />
       <Route path="/update-quantity/:inventory_id" component={UpdateQuantity} />
+
+      {/* BadManagement Routes */}
+      <Route path="/bed-application" element={<ApplyBed />} />
+      <Route path="/status" element={<BedStatus />} />
+      <Route path="/bedManagement" element={<AddBed />} />
+      <Route path="/editDefaultPrices" element={<EditBedPrices />} />
+      <Route path="/allDischargeBill" element={<AllDischargeBill />} />
      
      {/*Doctor routes */}
      <Route path="add-patient-med" element={<Add_patient_med/>}></Route>

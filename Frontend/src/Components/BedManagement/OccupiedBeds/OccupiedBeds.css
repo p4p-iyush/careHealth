@@ -1,0 +1,48 @@
+.occupied-beds-container {
+    padding: 20px;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+  }
+  
+  .occupied-beds-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .occupied-beds-table th,
+  .occupied-beds-table td {
+    border: 1px solid #444;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .occupied-beds-table th {
+    background-color: #333;
+  }
+  
+  .occupied-beds-table input {
+    width: 100px;
+    padding: 5px;
+    background-color: #444;
+    color: #ffffff;
+    border: 1px solid #666;
+  }
+  
+  .update-price-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .update-price-button:hover {
+    background-color: #45a049;
+  }
+  
+  .message {
+    color: #4caf50;
+    margin-top: 10px;
+  }
