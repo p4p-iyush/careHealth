@@ -9,9 +9,12 @@ const DoctorDashboard = () => {
   const [doctor, setDoctor] = useState(null);
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [patientdetails, setPatientdetails] = useState([]);
 
   const location = useLocation();
   const { userDetails } = location.state || {};
+  // const { doctorId } = location.state || {};
+
 
   useEffect(() => {
     const fetchDoctorAndPatients = async () => {
@@ -46,7 +49,7 @@ const DoctorDashboard = () => {
           <h3>Dr. {doctor.name}</h3>
           <p><strong>Specialization:</strong> {doctor.specialization}</p>
           <p><strong>Email:</strong> {doctor.email}</p>
-          <p><strong>Phone:</strong> {doctor.phone}</p>
+          <p><strong>Phone:</strong> {doctor.contact}</p>
         </div>
       ) : (
         <p>Doctor not found.</p>
@@ -61,7 +64,10 @@ const DoctorDashboard = () => {
               <th>department</th>
               <th>date</th>
               <th>time</th>
-              <th>Enter</th>
+              <th>Add Prescription</th>
+              <th>View Prescription's</th>
+              <th>Allocate Bed</th>
+            
             </tr>
           </thead>
           <tbody>
@@ -73,8 +79,11 @@ const DoctorDashboard = () => {
                 <td>{patient.date}</td>
                 <td>{patient.time}</td>
                 <td>
-                  <Link to="/add-patient-med" state={{ patient, doctor }}>Enter</Link>
+                  <Link to="/add-patient-med" state={{ patient, doctor }}>ADD</Link>
                 </td>
+                <td><Link to={`/patient/prescription/${patient.patientId}`} state={{ userDetails: patient }}>View Prev Prescription</Link></td>
+                <td><Link to="/bed-application" state={{ patient, doctor }}>ADD</Link></td>
+                
               </tr>
             ))}
           </tbody>

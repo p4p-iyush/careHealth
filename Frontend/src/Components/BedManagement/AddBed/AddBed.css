@@ -1,0 +1,103 @@
+/* Dark Theme Styling */
+.bed-management-container {
+    background-color: #121212;
+    color: #ffffff;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .bed-management-container h1,
+  .bed-management-container h2 {
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  .bed-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 20px auto;
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+  }
+  
+  .bed-form label {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .bed-form select,
+  .bed-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #222;
+    color: #fff;
+  }
+  
+  .bed-form button {
+    background-color: #6200ea;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+  
+  .bed-form button:hover {
+    background-color: #3700b3;
+  }
+  
+  /* Remove Beds Section */
+  .remove-beds-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .remove-bed-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 300px;
+    margin: 10px auto;
+    background: #1e1e1e;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .remove-bed-item span {
+    color: #fff;
+  }
+  
+  .remove-bed-item button {
+    background-color: #ff1744;
+    border: none;
+    padding: 8px;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+  }
+  
+  .remove-bed-item button:hover {
+    background-color: #d50000;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .bed-form {
+      width: 90%;
+    }
+  
+    .remove-bed-item {
+      width: 90%;
+    }
+  }
+  

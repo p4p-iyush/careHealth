@@ -1,0 +1,95 @@
+/* Dark Theme Styling */
+.component-remove-beds {
+    /* max-width: 600px; */
+    margin: auto;
+    padding: 20px;
+    background: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+  
+  .component-title {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #ffffff;
+  }
+  
+  .component-note {
+    text-align: center;
+    font-size: 1rem;
+    color: #bbb;
+    margin-bottom: 15px;
+  }
+  
+  .component-bed-list {
+    display: flex;
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .component-bed-item {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #333;
+    border-radius: 5px;
+    border: 1px solid #444;
+  }
+  
+  .component-bed-info {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ddd;
+  }
+  
+  .component-remove-button {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .component-remove-button:hover {
+    background: #e60000;
+  }
+  
+  .component-no-beds {
+    text-align: center;
+    color: #ff4d4d;
+    font-weight: bold;
+  }
+  
+  .component-message {
+    text-align: center;
+    color: #4caf50;
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 480px) {
+    .component-remove-beds {
+      padding: 15px;
+    }
+  
+    .component-title {
+      font-size: 1.2rem;
+    }
+  
+    .component-bed-item {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .component-remove-button {
+      margin-top: 5px;
+    }
+  }
+  

@@ -13,6 +13,14 @@ const Appointment = require('./Models/AppointmentSchema');
 const Inventory = require('./Models/Inventory')
 const PatientPrescriptions = require('./Models/Patientprescription');
 
+// Import Models
+const Bed = require("./Models/Bed");
+const BedPrice = require("./Models/BedPrice");
+
+// Routes
+const bedManagementRoutes = require("./routes/AllBedManagement.js");
+const dischargeandbillManagementRoute = require("./routes/DischargeAndBill.js");
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -22,6 +30,64 @@ app.use(bodyParser.json());
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.log(err));
+
+
+    // Initialize Bed Data with numeric field - only if no beds or prices exist
+async function initializeBeds() {
+    const bedCount = await Bed.countDocuments(); // Check if any beds exist
+    const priceCount = await BedPrice.countDocuments(); // Check if any prices exist
+  
+    if (bedCount > 0 && priceCount > 0) {
+      console.log("Beds and prices already initialized. Skipping initialization.");
+      return;
+    }
+  
+    const bedCounts = {
+      ICU: 5,
+      Private: 5,
+      General: 10,
+    };
+  
+    const defaultPrices = {
+      ICU: 500,
+      Private: 300,
+      General: 100,
+    };
+  
+    for (const [type, count] of Object.entries(bedCounts)) {
+      for (let i = 1; i <= count; i++) {
+        const prefix = type === "ICU" ? "ICU" : type === "Private" ? "PVT" : "GN";
+        const bedNumber = `${prefix}B${i}`;
+  
+        await Bed.findOneAndUpdate(
+          { bedNumber },
+          { bedNumber, number: i, type, status: "Free" },
+          { upsert: true }
+        );
+      }
+  
+      // Set default price for the bed type
+      await BedPrice.findOneAndUpdate(
+        { bedType: type },
+        { bedType: type, pricePerDay: defaultPrices[type] },
+        { upsert: true }
+      );
+    }
+  
+    console.log("Bed data initialized with default prices.");
+  }
+  
+  mongoose.connection.once("open", () => {
+    initializeBeds();
+  });
+  
+
+
+  // Routes
+  app.use("/api/beds", bedManagementRoutes);
+  app.use("/api/bill", dischargeandbillManagementRoute);
+
+
 
 
 // ############################### Appointment OPD management #########################################

@@ -1,0 +1,70 @@
+/* Dark Theme Styling */
+.discharge-bill-container {
+    background-color: #121212;
+    color: #ffffff;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.discharge-bill-container h1 {
+    text-align: center;
+    color: #ffffff;
+}
+
+/* Table Styling */
+.bill-table {
+    width: 90%;
+    max-width: 800px;
+    background: #1e1e1e;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+}
+
+.bill-table th, 
+.bill-table td {
+    padding: 12px;
+    border: 1px solid #333;
+    text-align: center;
+}
+
+.bill-table th {
+    background-color: #6200ea;
+    color: white;
+    font-weight: bold;
+}
+
+.bill-table tr:nth-child(even) {
+    background-color: #222;
+}
+
+.bill-table tr:hover {
+    background-color: #3700b3;
+    transition: 0.3s;
+}
+
+/* Message Styling */
+.loading-message {
+    text-align: center;
+    font-size: 16px;
+    margin-top: 10px;
+    color: #ffeb3b;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .bill-table {
+        width: 100%;
+    }
+
+    .bill-table th, 
+    .bill-table td {
+        padding: 8px;
+        font-size: 14px;
+    }
+}
