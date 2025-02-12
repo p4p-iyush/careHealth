@@ -35,7 +35,12 @@ const PatientDashboard = () => {
         <Link to="/patient-bill" state={{ userDetails: userDetails.patient }}>
           <h2>Bills</h2>
         </Link>
-        <h2>Health Records</h2>
+        <Link to='/appointment-list' state={{ userDetails: userDetails.patient }} >
+        <h2>Reschedule Appointment </h2>
+        </Link>
+        <Link to='/MedicalReportAnalyzer'>
+        <h2>MedicalReportAnalyzer</h2>
+        </Link>
       </nav>
 
       <div>

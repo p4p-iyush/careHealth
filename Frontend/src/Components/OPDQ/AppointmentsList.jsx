@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AppointmentsList.css';
+import { useLocation } from 'react-router-dom';
 
 const predefinedSlots = ['09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM'];
 
@@ -10,13 +11,17 @@ const AppointmentsList = () => {
     const [rescheduleData, setRescheduleData] = useState(null);
     const [availability, setAvailability] = useState([]);
 
+    const location = useLocation();
+    const { userDetails } = location.state || {};
+    console.log("userDetails",userDetails);
+    console.log("userDetails id :",userDetails._id)
     useEffect(() => {
         fetchAppointments();
     }, []);
 
     const fetchAppointments = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/opdRoutes/appointments');
+            const response = await axios.get(`http://localhost:5000/opdRoutes/appointments/${userDetails._id}`);
             setAppointments(response.data);
         } catch (error) {
             console.error('Error fetching appointments:', error);

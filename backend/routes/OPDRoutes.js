@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Appointment = require('../Models/AppointmentSchema');
+const Patient = require('../Models/PatientRegistration')
 
 router.post('/check-availability', async (req, res) => {
     try {
@@ -31,7 +32,7 @@ router.post('/book-appointment', async (req, res) => {
             return res.status(400).json({ message: 'Time slot already booked' });
         }
 
-        const newAppointment = new Appointment({ name,patientId,  email, phone, date, time, type, department });
+        const newAppointment = new Appointment({ name, patientId, email, phone, date, time, type, department });
         console.log(newAppointment);
         await newAppointment.save();
 
@@ -100,5 +101,29 @@ router.get('/appointments', async (req, res) => {
         res.status(500).json({ message: 'Error fetching appointments' });
     }
 });
+router.get('/appointments/:id', async (req, res) => {
+    try {
+        const { id } = req.params; // Extract patient ID from route parameters
+        // console.log("Patient ID:", id);
+
+        // Find the patient by ID
+        const patient = await Patient.findById(id);
+        if (!patient) {
+            return res.status(404).json({ message: 'Patient not found' });
+        }
+        // console.log("Patient:", patient);
+
+        // Find appointments associated with the patient
+        const patientAppointments = await Appointment.find({ patientId: id });
+        if (!patientAppointments.length) {
+            return res.status(404).json({ message: 'No appointments found for this patient' });
+        }
+
+        res.json(patientAppointments); // Send the appointments as the response
+    }catch (err) {
+        res.status(500).json({ message: 'Error fetching appointments' });
+    }
+});
+
 
 module.exports = router;
