@@ -1,17 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-import './PatientDashboard.css';  // Make sure to import your styles
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import Chatbot from "../../../Chatbot/Chatbot"
+import "./PatientDashboard.css";
 
 const PatientDashboard = () => {
-  // Get user details from the state passed by navigate
   const location = useLocation();
-  const { userDetails } = location.state || {};  // Default to empty object if no state is passed
-  // console.log("User details in PatientDashboard:", userDetails);
+  const { userDetails } = location.state || {}; // Get userDetails from state
+
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false); // State to toggle chatbot
 
   if (!userDetails) {
-    return <div>No user data available!</div>; // Handle case where no user data is available
+    return <div>No user data available!</div>;
   }
+
+  const toggleChatbot = () => {
+    setIsChatbotOpen(!isChatbotOpen); // Toggle chatbot visibility
+  };
 
   return (
     <div>
@@ -21,10 +26,13 @@ const PatientDashboard = () => {
           <h2>Appointments</h2>
         </Link>
 
-        <Link to={`/patient/prescription/${userDetails.patient._id}`} state={{ userDetails: userDetails.patient }}>
+        <Link
+          to={`/patient/prescription/${userDetails.patient._id}`}
+          state={{ userDetails: userDetails.patient }}
+        >
           <h2>View Prescription</h2>
         </Link>
-        <Link to='/patient-bill'  state={{ userDetails: userDetails.patient }}>
+        <Link to="/patient-bill" state={{ userDetails: userDetails.patient }}>
           <h2>Bills</h2>
         </Link>
         <h2>Health Records</h2>
@@ -59,8 +67,26 @@ const PatientDashboard = () => {
           </tbody>
         </table>
       </div>
+
+      <div className="chatbot_logo" onClick={toggleChatbot}>
+        <img
+          src="https://cdni.iconscout.com/illustration/premium/thumb/online-medical-chatbot-service-5588600-4655407.png"
+          alt="Chatbot"
+        />
+      </div>
+
+      {/* Chatbot Popup */}
+      {isChatbotOpen && (
+        <div className="chatbot_popup">
+          <div className="chatbot_header">
+            {/* <h3>Chatbot</h3> */}
+            <button onClick={toggleChatbot} className="close_button">X</button>
+          </div>
+          <Chatbot /> {/* Render the Chatbot component */}
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default PatientDashboard;
