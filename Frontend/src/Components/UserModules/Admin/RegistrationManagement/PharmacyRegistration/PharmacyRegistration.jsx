@@ -47,7 +47,7 @@ const PharmacyRegistration = () => {
     };
     
 
-      const response = await axios.post("http://localhost:5000/inventory_register", payload);
+      const response = await axios.post("http://localhost:5000/api/register/inventory_register", payload);
       alert(response.data.message || "Registration Successful!");
       navigate("/pharmacy-login"); 
     } catch (error) {

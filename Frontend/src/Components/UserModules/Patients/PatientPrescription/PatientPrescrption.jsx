@@ -13,7 +13,7 @@ const PatientPrescrption = () => {
         return;
       }
       try {
-        const response = await fetch(`http://localhost:5000/patient/prescription/${userDetails.patientId || userDetails._id }`);
+        const response = await fetch(`http://localhost:5000/prescriptions/patient/prescription/${userDetails.patientId || userDetails._id }`);
 
         const data = await response.json();
     

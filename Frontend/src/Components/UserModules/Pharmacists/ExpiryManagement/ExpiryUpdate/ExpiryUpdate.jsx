@@ -17,7 +17,7 @@ const ExpiryUpdate = () => {
     const fetchProduct = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`http://localhost:5000/api/expired-products/${id}`);
+            const response = await fetch(`http://localhost:5000/inventory/api/expired-products/${id}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch product details');
             }
@@ -33,7 +33,7 @@ const ExpiryUpdate = () => {
 
     const handleUpdate = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/expired-products/${id}`, {
+            const response = await fetch(`http://localhost:5000/inventory/api/expired-products/${id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ expiry_date: newExpiryDate }),

@@ -11,7 +11,7 @@ const PatientList = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/patients")
+      .get("http://localhost:5000/inventory/api/patients")
       .then((response) => {
         setPatients(response.data); // Update state with fetched patients
         setLoading(false); // Set loading to false after data is fetched

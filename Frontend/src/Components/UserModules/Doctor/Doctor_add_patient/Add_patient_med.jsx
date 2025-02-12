@@ -27,7 +27,7 @@ const AddPatientMed = () => {
         setSuggestions([]);
         return;
       }
-      fetch(`http://localhost:5000/search/inventory?search=${searchTerm}`)
+      fetch(`http://localhost:5000/inventory/search/inventory?search=${searchTerm}`)
         .then((res) => res.json())
         .then((data) => setSuggestions(data))
         .catch((err) => console.error(err));
@@ -64,7 +64,7 @@ const AddPatientMed = () => {
   };
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:5000/save-prescription", {
+      const response = await fetch("http://localhost:5000/prescriptions/save-prescription", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

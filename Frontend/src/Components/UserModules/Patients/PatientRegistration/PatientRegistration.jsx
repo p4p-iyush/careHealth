@@ -32,7 +32,7 @@ export default function PatientRegister() {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/patient_register", formData);
+      const response = await axios.post("http://localhost:5000/api/register/patient_register", formData);
       alert(response.data); // Show success message
       navigate("/patient-login"); // Redirect to login page
     } catch (error) {

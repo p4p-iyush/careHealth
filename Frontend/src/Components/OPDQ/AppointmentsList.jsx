@@ -16,7 +16,7 @@ const AppointmentsList = () => {
 
     const fetchAppointments = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/appointments');
+            const response = await axios.get('http://localhost:5000/opdRoutes/appointments');
             setAppointments(response.data);
         } catch (error) {
             console.error('Error fetching appointments:', error);
@@ -28,7 +28,7 @@ const AppointmentsList = () => {
 
         setLoading(true);
         try {
-            await axios.delete(`http://localhost:5000/cancel-appointment/${id}`);
+            await axios.delete(`http://localhost:5000/opdRoutes/cancel-appointment/${id}`);
             alert('Appointment cancelled successfully');
             fetchAppointments();
         } catch (error) {
@@ -41,7 +41,7 @@ const AppointmentsList = () => {
     const checkAvailability = async (date, department) => {
         if (date && department) {
             try {
-                const response = await axios.post('http://localhost:5000/check-availability', {
+                const response = await axios.post('http://localhost:5000/opdRoutes/check-availability', {
                     date,
                     department,
                 });
@@ -64,7 +64,7 @@ const AppointmentsList = () => {
 
         setLoading(true);
         try {
-            await axios.put(`http://localhost:5000/reschedule-appointment/${rescheduleData.id}`, {
+            await axios.put(`http://localhost:5000/opdRoutes/reschedule-appointment/${rescheduleData.id}`, {
                 date: rescheduleData.date,
                 time: rescheduleData.time
             });

@@ -20,7 +20,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/doctor_login", formData);
+      const response = await axios.post("http://localhost:5000/api/login/doctor_login", formData);
 
       // Assuming 'response.data' contains the user details
       const userDetails = response.data;

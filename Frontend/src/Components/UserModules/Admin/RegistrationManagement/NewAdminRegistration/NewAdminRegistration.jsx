@@ -30,7 +30,7 @@ const AdminRegistration = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/admin_register", formData);
+      const response = await axios.post("http://localhost:5000/api/register/admin_register", formData);
       console.log("Response received:", response.data);
       alert(response.data);
       navigate("/admin-login");

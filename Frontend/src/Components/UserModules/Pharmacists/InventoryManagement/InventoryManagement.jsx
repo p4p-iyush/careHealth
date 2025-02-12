@@ -14,7 +14,7 @@ const InventoryManagement = () => {
     const fetchItems = async () => {
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:5000/api/inventory');
+            const response = await fetch('http://localhost:5000/inventory/api/inventory');
             if (!response.ok) {
                 const message = await response.json();
                 throw new Error(`Failed to fetch items: ${message.error}`);

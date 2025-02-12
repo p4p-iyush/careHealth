@@ -19,7 +19,7 @@ const DoctorDashboard = () => {
   useEffect(() => {
     const fetchDoctorAndPatients = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/doctor_patient_list/${userDetails.doctor._id}`);
+        const response = await fetch(`http://localhost:5000/doctorRoutes/doctor_patient_list/${userDetails.doctor._id}`);
         const data = await response.json();
 
         if (response.ok) {

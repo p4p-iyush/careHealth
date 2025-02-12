@@ -14,7 +14,7 @@ const ExpiredProduct = () => {
     const fetchExpiredProducts = async () => {
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:5000/api/expired-products');
+            const response = await fetch('http://localhost:5000/inventory/api/expired-products');
             if (!response.ok) {
                 throw new Error('Failed to fetch expired products');
             }

@@ -20,7 +20,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/inventory_manager_login", formData);
+      const response = await axios.post("http://localhost:5000/api/login/inventory_manager_login", formData);
 
       const userDetails = response.data;
       localStorage.setItem("userDetails", JSON.stringify(userDetails));

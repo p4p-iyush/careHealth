@@ -31,7 +31,7 @@ const DoctorRegistration = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/doctor_register", formData);
+      const response = await axios.post("http://localhost:5000/api/register/doctor_register", formData);
       console.log("Response received:", response.data);  // Debug log
       alert(response.data);
       navigate("/doctor-login");

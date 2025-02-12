@@ -40,7 +40,7 @@ const AppointmentBookingForm = () => {
   const checkAvailability = async () => {
     if (formData.date && formData.department) {
       try {
-        const response = await axios.post('http://localhost:5000/check-availability', {
+        const response = await axios.post('http://localhost:5000/opdRoutes/check-availability', {
           date: formData.date,
           department: formData.department,
         });
@@ -72,7 +72,7 @@ const AppointmentBookingForm = () => {
 
     setLoading(true);
     try {
-      await axios.post('http://localhost:5000/book-appointment', formData);
+      await axios.post('http://localhost:5000/opdRoutes/book-appointment', formData);
       setSubmitted(true);
       alert('Appointment booked successfully!');
       navigate(-1); // Navigate back to previous page
