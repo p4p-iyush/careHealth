@@ -13,6 +13,8 @@ const PrescriptionDetails = () => {
     const [inventoryLoading, setInventoryLoading] = useState(true);
     const [updatedQuantities, setUpdatedQuantities] = useState({});
 
+
+    
     // Fetch patient details
     useEffect(() => {
         const fetchPatientDetails = async () => {
@@ -20,7 +22,7 @@ const PrescriptionDetails = () => {
                 const response = await fetch(`http://localhost:5000/api/patients/${id.trim()}`);
                 if (!response.ok) throw new Error('Failed to fetch patient details.');
                 const data = await response.json();
-                console.log("Fetched Patient Data:", data); // Debugging Log
+                // console.log("Fetched Patient Data:", data);
                 setPatient(data);
                 setPrescriptions(formatPrescriptions(data.prescription));
             } catch (err) {
@@ -40,7 +42,7 @@ const PrescriptionDetails = () => {
                 const response = await fetch('http://localhost:5000/api/inventory');
                 if (!response.ok) throw new Error('Failed to fetch inventory.');
                 const data = await response.json();
-                console.log("Fetched Inventory Data:", data); // Debugging Log
+                // console.log("Fetched Inventory Data:", data); // Debugging Log
                 setInventory(data);
             } catch (err) {
                 console.error(err);
@@ -75,11 +77,11 @@ const PrescriptionDetails = () => {
         const match = inventory.find(item => 
             item.name.replace(/\s+/g, '').toLowerCase() === prescription.medicine_name.replace(/\s+/g, '').toLowerCase()
         );
-        console.log(`Matching: Prescription - ${prescription.medicine_name} | Inventory - ${match?.name || "Not Found"}`);
+        // console.log(`Matching: Prescription - ${prescription.medicine_name} | Inventory - ${match?.name || "Not Found"}`);
         return match;
     }).filter(item => item); // Remove undefined values
 
-    console.log("Filtered Inventory Data:", filteredInventory); // Debugging Log
+    // console.log("Filtered Inventory Data:", filteredInventory); 
 
     // Handle quantity input change
     const handleInputChange = (inventoryId, value) => {
@@ -109,14 +111,14 @@ const PrescriptionDetails = () => {
                 const inventoryItem = inventory.find(item => item._id === inventoryId);
                 if (!inventoryItem) return;
                 const newQuantity = Math.max(inventoryItem.quantity - quantityToDeduct, 0);
-                console.log(`Updating: InventoryID: ${inventoryId}, New Quantity: ${newQuantity}`);
+                // console.log(`Updating: InventoryID: ${inventoryId}, New Quantity: ${newQuantity}`);
                 const response = await fetch(`http://localhost:5000/api/inventory/${inventoryId}`, {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ quantity: newQuantity }),
                 });
                 const result = await response.json();
-                console.log('Patch response:', result);
+                // console.log('Patch response:', result);
                 if (!response.ok) {
                     throw new Error(result.message || 'Failed to update inventory');
                 }
@@ -142,6 +144,7 @@ const PrescriptionDetails = () => {
             }));
             navigate('/patient-list');
         } catch (err) {
+            console.log(err);
             console.error('Error in handleSubmitUpdate:', err);
             setError('Failed to update data. Please try again.');
         }

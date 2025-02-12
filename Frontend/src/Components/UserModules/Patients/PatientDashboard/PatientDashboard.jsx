@@ -24,7 +24,7 @@ const PatientDashboard = () => {
         <Link to={`/patient/prescription/${userDetails.patient._id}`} state={{ userDetails: userDetails.patient }}>
           <h2>View Prescription</h2>
         </Link>
-        <Link>
+        <Link to='/patient-bill'  state={{ userDetails: userDetails.patient }}>
           <h2>Bills</h2>
         </Link>
         <h2>Health Records</h2>
