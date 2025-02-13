@@ -1,49 +1,116 @@
-// Dashboard.js
-import './AdminDashboard.css';
-import React from 'react';
-import { FaUserShield, FaUserInjured, FaUserMd, FaPills, FaCalendarCheck, FaHospital, FaBoxes, FaComments, FaAmbulance } from 'react-icons/fa';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function Dashboard() {
+const AdminDashboard = () => {
+  const navigate = useNavigate();
+  const [BedCounts, setBedCounts] = useState({ totalBeds: 0, freeBeds: 0, occupiedBeds: 0 });
+
+  const fetchBedCounts = () => {
+    fetch("http://localhost:5000/api/beds/totalbed")
+      .then((response) => response.json())
+      .then((data) => setBedCounts(data))
+      .catch((error) => console.error("Error fetching bed counts:", error));
+  };
+  const fetchTotalappoinments = () => {
+    fetch("http://localhost:5000/api/appointments")
+      .then((response) => response.json())
+      .then((data) => console.log("Total appointments:", data.length))
+      .catch((error) => console.error("Error fetching total appointments:", error));
+  };
+
+  useEffect(() => {
+    fetchBedCounts();
+  }, []);
+
   return (
-    <div className="admindashboard">
-      <div className="admindashboard-header">
-        <FaUserShield className="admindashboard-icon-header" />
-        <h1 className="admindashboard-title">Admin Dashboard</h1>
-      </div>
-      <div className="admindashboard-cards-row">
-        <div className="admindashboard-card">
-          <FaHospital className="admindashboard-icon" />
-          <div className="admindashboard-card-title">Manage Hospital Details</div>
+    <div className="admin-dashboard-container">
+      {/* Sidebar Section */}
+      <aside className="admin-dashboard-sidebar">
+        <h2>Menu</h2>
+        <div className="admin-dashboard-sidebar-buttons">
+          <button onClick={() => navigate("/dashboard")}>Dashboard</button>
+          <button onClick={() => navigate("/appointment-count")}>Appointments</button>
+          <button onClick={() => navigate("/status")}>Bed Status</button>
+          <button onClick={() => navigate("/inventory")}>Inventory</button>
+          <button onClick={() => navigate("/doctor-registration")}>Doctor Registration</button>
+          <button onClick={() => navigate("/pharmacist-registration")}>Pharmacist Registration</button>
+          <button onClick={() => navigate("/admin-registration")}>Admin Registration</button>
         </div>
-        <div className="admindashboard-card">
-          <FaUserMd className="admindashboard-icon" />
-          <div className="admindashboard-card-title">Manage Doctor Details</div>
-        </div>
-        <div className="admindashboard-card">
-          <FaPills className="admindashboard-icon" />
-          <div className="admindashboard-card-title">Manage Pharmacist Details</div>
-        </div>
-        <div className="admindashboard-card">
-          <FaUserInjured className="admindashboard-icon" />
-          <div className="admindashboard-card-title">Manage Patient Details</div>
-        </div>
-        <div className="admindashboard-card">
-          <FaCalendarCheck className="admindashboard-icon" />
-          <div className="admindashboard-card-title">Manage Appointments</div>
-        </div>
-        <div className="admindashboard-card">
-          <FaAmbulance className="admindashboard-icon" />
-          <div className="admindashboard-card-title">Manage Emergencies</div>
-        </div>
-        <div className="admindashboard-card">
-          <FaBoxes className="admindashboard-icon" />
-          <div className="admindashboard-card-title">Manage Inventory</div>
-        </div>
-        <div className="admindashboard-card">
-          <FaComments className="admindashboard-icon" />
-          <div className="admindashboard-card-title">User Feedback</div>
-        </div>
+      </aside>
+
+      {/* Main Content Section */}
+      <div className="admin-dashboard-main-content-wrapper">
+        {/* Header Section */}
+        <header className="admin-dashboard-header">
+          <h1>Hospital Management System</h1>
+          <p>Welcome, Admin</p>
+        </header>
+
+        {/* Main Content */}
+        <main className="admin-dashboard-main-content">
+          {/* Top Section: Quick Stats */}
+          <section className="admin-dashboard-quick-stats">
+            <div className="admin-dashboard-stat-card">
+              <h3>Total Appointments</h3>
+              <p>90</p>
+              <a href="/appointment-count">View Details</a>
+            </div>
+            <div className="admin-dashboard-stat-card">
+              <h3>Total Beds</h3>
+              <p>{BedCounts.totalBeds}</p>
+              <a href="/bed-status">View Details</a>
+            </div>
+            <div className="admin-dashboard-stat-card">
+              <h3>Total Available Beds</h3>
+              <p>{BedCounts.freeBeds}</p>
+              <a href="/bed-status">View Details</a>
+            </div>
+            <div className="admin-dashboard-stat-card">
+              <h3>Total Occupied Beds</h3>
+              <p>{BedCounts.occupiedBeds}</p>
+              <a href="/bed-status">View Details</a>
+            </div>
+            
+          </section>
+
+          {/* Middle Section: Quick Actions */}
+          <section className="admin-dashboard-quick-actions">
+            <h2>Quick Actions</h2>
+            <div className="admin-dashboard-action-buttons">
+              <button onClick={() => navigate("/editDefaultPrices")}>Change Bed Price</button>
+              <button onClick={() => navigate("/AllDischargeBill")}>View Discharge Bill</button>
+              <button onClick={() => navigate("/doctor-registration")}>Register Doctor</button>
+              <button onClick={() => navigate("/pharmacist-registration")}>Register Pharmacist</button>
+            </div>
+          </section>
+
+          {/* Bottom Section: Recent Activity */}
+          <section className="admin-dashboard-recent-activity">
+            <h2>Recent Activity</h2>
+            <div className="admin-dashboard-activity-list">
+              <div className="admin-dashboard-activity-item">
+                <p><strong>Dr. John Doe</strong> registered a new patient.</p>
+                <span>2 hours ago</span>
+              </div>
+              <div className="admin-dashboard-activity-item">
+                <p><strong>Bed ICUB1</strong> was allocated to a patient.</p>
+                <span>4 hours ago</span>
+              </div>
+              <div className="admin-dashboard-activity-item">
+                <p><strong>Inventory</strong> was updated by Admin.</p>
+                <span>6 hours ago</span>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        {/* Footer Section */}
+        <footer className="admin-dashboard-footer">
+          <p>&copy; 2023 Hospital Management System. All rights reserved.</p>
+        </footer>
       </div>
     </div>
   );
-}
+};
+
+export default AdminDashboard;

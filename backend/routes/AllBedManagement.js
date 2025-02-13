@@ -5,27 +5,40 @@ const Bed = require("../Models/Bed");
 const BedPrice = require("../Models/BedPrice");
 const Application = require("../Models/BedApplication");
 
+
 // Apply for a bed
 router.post("/apply-bed", async (req, res) => {
   try {
-    const { name, email, department, bedType } = req.body;
+    const { name, contact, department, bedType, doctorname } = req.body;
     const freeBed = await Bed.findOne({ type: bedType, status: "Free" });
 
     if (!freeBed) {
       return res.status(400).json({ message: `No ${bedType} bed available` });
     }
 
+    // Update bed status to "Occupied"
     freeBed.status = "Occupied";
     await freeBed.save();
 
-    const application = new Application({ name, email, department, bedType, bedNumber: freeBed.bedNumber });
+    // Create and save application with doctorname
+    const application = new Application({
+      name,
+      contact,
+      department,
+      bedType,
+      doctorname, // Store doctor name
+      bedNumber: freeBed.bedNumber,
+    });
+
     await application.save();
 
     res.json({ message: "Bed allocated successfully", bedNumber: freeBed.bedNumber });
   } catch (error) {
+    console.error("Error allocating bed:", error);
     res.status(500).json({ message: "Error allocating bed" });
   }
 });
+
 
 // Get all bed applications
 router.get("/bed-status", async (req, res) => {
@@ -148,5 +161,117 @@ router.put("/update-default-prices", async (req, res) => {
     res.status(500).json({ error: "Error updating default prices" });
   }
 });
+
+
+// ✅ 1️⃣ Generate Discharge Bill
+router.post("/discharge-bill/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(`Generating bill for patient ID: ${id}`);
+
+    // Find the application
+    const application = await Application.findById(id);
+    if (!application) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+
+    // Calculate Days Stayed
+    const allocationTime = new Date(application.allocationTime || application.createdAt);
+    const currentTime = new Date();
+    const daysStayed = Math.max(1, Math.ceil((currentTime - allocationTime) / (1000 * 60 * 60 * 24)));
+
+    // Get Bed Price
+    const bedPrice = await BedPrice.findOne({ bedType: application.bedType });
+    const pricePerDay = bedPrice ? bedPrice.pricePerDay : 0;
+    const totalCost = daysStayed * pricePerDay;
+
+    // Create and Save Bill
+    const dischargeBill = new DischargeBill({
+      name: application.name,
+      contact: application.contact,
+      department: application.department,
+      bedType: application.bedType,
+      bedNumber: application.bedNumber,
+      allocationTime,
+      daysStayed,
+      totalCost,
+    });
+
+    await dischargeBill.save();
+    console.log("Bill Saved:", dischargeBill);
+
+    // Mark Bed as Free
+    await Bed.updateOne({ bedNumber: application.bedNumber }, { status: "Free" });
+
+    res.json({ message: "Bill generated and saved successfully", dischargeBill });
+  } catch (error) {
+    console.error("Error generating discharge bill:", error);
+    res.status(500).json({ message: "Error generating discharge bill", error: error.message });
+  }
+});
+
+// ✅ 2️⃣ Discharge a Patient
+router.put("/discharge/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(`Discharging patient with ID: ${id}`);
+
+    // Find Application
+    const application = await Application.findById(id);
+    if (!application) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+
+    console.log("Application found:", application);
+
+    // Find and Update Bed Status
+    const bed = await Bed.findOne({ bedNumber: application.bedNumber });
+    if (!bed) {
+      return res.status(404).json({ message: "Bed not found" });
+    }
+
+    console.log("Bed found:", bed);
+    bed.status = "Free"; // or bed.isOccupied = false;
+    await bed.save();
+
+    // Delete the Application
+    await Application.findByIdAndDelete(id);
+
+    res.json({ message: "Patient discharged successfully" });
+  } catch (error) {
+    console.error("Error discharging patient:", error);
+    res.status(500).json({ message: "Internal Server Error", error: error.message });
+  }
+});
+
+// ✅ 3️⃣ Get All Discharge Bills
+router.get("/discharge-bill", async (req, res) => {
+  try {
+    const bills = await DischargeBill.find().sort({ allocationTime: -1 });
+    res.json(bills);
+  } catch (error) {
+    console.error("Error fetching all bills:", error);
+    res.status(500).json({ message: "Internal Server Error", error: error.message });
+  }
+});
+
+router.get("/totalbed", async (req, res) => {
+  try {
+    const totalBeds = await Bed.countDocuments();
+    const freeBeds = await Bed.countDocuments({ status: "Free" });
+    const occupiedBeds = await Bed.countDocuments({ status: "Occupied" });
+
+    console.log("Total Beds:", totalBeds);
+    console.log("Free Beds:", freeBeds);
+    console.log("Occupied Beds:", occupiedBeds);
+    res.json({ totalBeds, freeBeds, occupiedBeds });
+  } catch (error) {
+    console.error("Error fetching bed counts:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
+
 
 module.exports = router;

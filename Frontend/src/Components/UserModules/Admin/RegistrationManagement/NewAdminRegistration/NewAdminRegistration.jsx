@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import './admin_registration.css';
+import './NewAdminRegistration.css';
 
-const AdminRegistration = () => {
+const NewAdminRegistration = () => {
   const [formData, setFormData] = useState({
     name: "",
     contact: "",
@@ -134,4 +134,4 @@ const AdminRegistration = () => {
   );
 };
 
-export default AdminRegistration;
+export default NewAdminRegistration;

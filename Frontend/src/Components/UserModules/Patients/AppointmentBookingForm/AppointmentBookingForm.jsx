@@ -73,9 +73,19 @@ const AppointmentBookingForm = () => {
     setLoading(true);
     try {
       await axios.post('http://localhost:5000/opdRoutes/book-appointment', formData);
+       // Send appointment confirmation email
+    await axios.post('http://localhost:5000/opdRoutes/send-appointment-confirmation', {
+      patientEmail: formData.email,
+      patientName: formData.name,
+      appointmentDate: formData.date,
+      appointmentTime: formData.time,
+      department: formData.department,
+    });
+
       setSubmitted(true);
       alert('Appointment booked successfully!');
       navigate(-1); // Navigate back to previous page
+
     } catch (error) {
       alert(error.response?.data?.message || 'Error booking appointment');
     } finally {

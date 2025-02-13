@@ -21,11 +21,44 @@ const InventoryManagement = () => {
             }
             const data = await response.json();
             setItems(data);
+
+            // Check for shortages after fetching data
+            checkForShortages(data);
         } catch (error) {
             setError(`Failed to fetch items: ${error.message}`);
             console.error('Error fetching items:', error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const checkForShortages = (items) => {
+        const shortageThreshold = 10; 
+        items.forEach((item) => {
+            if (item.quantity < shortageThreshold) {
+                sendMedicineShortageEmail("sighaikrish769@gmail.com", item.name, item.quantity);
+            }
+        });
+    };
+
+    const sendMedicineShortageEmail = async (pharmacistEmail, medicineName, currentStock) => {
+        try {
+            const response = await fetch("http://localhost:5000/send-email", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ pharmacistEmail, medicineName, currentStock }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to send email");
+            }
+
+            const data = await response.json();
+            console.log("Email sent: ", data.message);
+        } catch (error) {
+            console.error("Error sending email: ", error);
         }
     };
 

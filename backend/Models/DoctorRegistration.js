@@ -14,7 +14,7 @@ const doctorSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true, // Ensures the email is unique
+        unique: true, // Ensures the email is unique        
         validate: {
             validator: function(v) {
                 return validator.isEmail(v); // Uses validator library to check for email format

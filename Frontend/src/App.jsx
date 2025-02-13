@@ -15,6 +15,7 @@ import PharmacyLogin from './Components/AllLoginPages/PharmacyLogin/PharmacyLogi
 import PatientResgistration from './Components/UserModules/Patients/PatientRegistration/PatientRegistration';
 import DoctorResgistration from './Components/UserModules/Admin/RegistrationManagement/DoctorRegistration/DoctorRegistration'
 import PharmacyResgistration from './Components/UserModules/Admin/RegistrationManagement/PharmacyRegistration/PharmacyRegistration'
+import AdminResgistration from './Components/UserModules/Admin/RegistrationManagement/NewAdminRegistration/NewAdminRegistration';
 
 import AppointmentList from './Components/OPDQ/AppointmentsList';
 import DisplayBookedAppointment from './Components/OPDQ/DisplayBookedAppointment';
@@ -51,6 +52,11 @@ import BedStatus from './Components/BedManagement/BedStatus/BedStatus';
 import AddBed from './Components/BedManagement/AddBed/AddBed';
 import EditBedPrices from './Components/BedManagement/EditBedPrices/EditBedPrices';
 import AllDischargeBill from './Components/BedManagement/AllDischargeBill/AllDischargeBill';
+
+import HospitalDemand from './Components/UserModules/Pharmacists/HospitalDemands/Hospital_demands';
+import DemandDetails from './Components/UserModules/Pharmacists/DemandDetail/DemandDetail';
+import InventoryRequest from './Components/UserModules/Doctor/Inventory_request/Inventory_request';
+
 
 function MainApp() {
   const location = useLocation();
@@ -91,6 +97,7 @@ function MainApp() {
         <Route path="/patient-registration" element={<PatientResgistration/>} />
         <Route path="/doctor-registration" element={<DoctorResgistration/>} />
         <Route path="/pharmacy-registration" element={<PharmacyResgistration/>} />
+        <Route path="/admin-registration" element={<AdminResgistration/>} />
 
         {/* routes for appointment */}
         <Route path="/appointment-booking" element={<AppointmentBookingForm/>} />
@@ -128,6 +135,11 @@ function MainApp() {
 
      {/* Patient routes */}
      <Route path="/patient/prescription/:id" element={<Prescription_portal />} />
+
+     {/* Inventory demand managment */}
+     <Route path="/Hospital-Demands" element={<HospitalDemand />}/>
+      <Route path="/Demand/:id" element={<DemandDetails/>}/>
+      <Route path="/inventory-request" element={<InventoryRequest />}></Route>
 
      {/* patient bill */}
 <Route path='patient-bill' element={<Patient_Bill/>}></Route>

@@ -19,14 +19,19 @@ const dischargeandbillManagementRoute = require("./routes/DischargeAndBill.js");
 
 // Inventory Management Routes
 const InventoryRoutes = require("./routes/InventoryRoutes.js");
+const Demands= require("./routes/InventoryRequest.js")
+const sendMedicineShortageEmail = require("./routes/sendMedicineShortageEmail.js");
 
 //OPD Routes 
 const OPDRoutes = require("./routes/OPDRoutes");
+const appointmentEmail = require("./routes/appointmentEmail");
 
 // Doctor Routes
 const DoctorRoutes = require("./routes/DoctorRoutes");
 const PrescriptionRoutes = require("./routes/PrescriptionRoutes");
 
+//Admin Routes
+const AdminRoutes = require("./routes/AdminRoutes.js");
 
 const app = express();
 app.use(cors());
@@ -101,13 +106,19 @@ async function initializeBeds() {
 
   // ############################### Inventory Management #########################################
   app.use("/inventory", InventoryRoutes);
+  app.use("/inventory/api", Demands);
+  app.use("/", sendMedicineShortageEmail);
 
   // ############################### OPD management #########################################
   app.use("/opdRoutes", OPDRoutes);
+  app.use("/opdRoutes", appointmentEmail);
 
 // ###############################  doctor section ###############################
   app.use("/doctorRoutes", DoctorRoutes);
   app.use("/prescriptions" , PrescriptionRoutes)
+
+  // ############################### Admin section ###############################
+  app.use("/adminRoutes", AdminRoutes);
 
 
 
