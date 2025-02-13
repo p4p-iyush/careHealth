@@ -98,4 +98,35 @@ router.get("/discharge-bill", async (req, res) => {
   }
 });
 
+// Update payment status from "Not Paid" to "Paid"
+router.put("/:billId/payment-status", async (req, res) => {
+  try {
+      const { billId } = req.params;
+
+      if (!billId) {
+          return res.status(400).json({ message: "Bill ID is required" });
+      }
+
+      // Find the bill by ID
+      const bill = await DischargeBill.findById(billId);
+      if (!bill) {
+          return res.status(404).json({ message: "Bill not found" });
+      }
+
+      // Check if already paid
+      if (bill.paymentStatus === "Paid") {
+          return res.status(400).json({ message: "Bill is already paid" });
+      }
+
+      // Update payment status to "Paid"
+      bill.paymentStatus = "Paid";
+      await bill.save();
+
+      res.status(200).json({ message: "Payment status updated successfully", bill });
+  } catch (error) {
+      console.error("Error updating payment status:", error);
+      res.status(500).json({ message: "Internal server error", error });
+  }
+});
+
 module.exports = router;

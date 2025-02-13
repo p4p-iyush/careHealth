@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const appointmentSchema = new mongoose.Schema({
     name: { type: String, required: true, trim: true },
-    patientId:{type: mongoose.Schema.Types.ObjectId, required: true},
+    patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient', required: true },
     email: { 
         type: String, 
         required: true, 
@@ -20,17 +20,14 @@ const appointmentSchema = new mongoose.Schema({
         required: true, 
         match: [/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format"]
     },
-    time: { 
-        type: String, 
-        required: true, 
-        // match: [/^([01]\d|2[0-3]):([0-5]\d)$/, "Time must be in HH:MM 24-hour format"]
-    },
+    time: { type: String, required: true },
     type: { type: String, required: true, enum: ["General", "Emergency", "Follow-up"] },
-    status: { type: String, required: true, enum: ["Pending", "Completed", "Cancelled"] ,default: "Pending" },
+    status: { type: String, enum: ["Pending", "Booked", "Cancelled"], default: "Pending" },
     department: { type: String, required: true },
-    reached: { type: Boolean, default: false }, // To track if the patient arrived
-    createdAt: { type: Date, default: Date.now }
-});
+    reached: { type: Boolean, default: false }, 
+    doctorId: { type: mongoose.Schema.Types.ObjectId, ref: 'Doctor', required: true },
+    doctorName: { type: String, required: true },
+}, { timestamps: true }); // Auto-adds createdAt and updatedAt fields
 
 const Appointment = mongoose.model('Appointment', appointmentSchema);
 

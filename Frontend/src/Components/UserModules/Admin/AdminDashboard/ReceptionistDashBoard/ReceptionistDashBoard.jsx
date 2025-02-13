@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./ReceptionistDashBoard.css"
 
-const AdminDashboard = () => {
+const ReceptionistDashBoard = () => {
   const navigate = useNavigate();
   const [BedCounts, setBedCounts] = useState({ totalBeds: 0, freeBeds: 0, occupiedBeds: 0 });
 
@@ -113,4 +114,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default ReceptionistDashBoard;

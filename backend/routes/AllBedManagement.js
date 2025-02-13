@@ -1,5 +1,6 @@
 // routes/BedManagement.js
 const express = require("express");
+const mongoose = require('mongoose')
 const router = express.Router();
 const Bed = require("../Models/Bed");
 const BedPrice = require("../Models/BedPrice");
@@ -9,7 +10,14 @@ const Application = require("../Models/BedApplication");
 // Apply for a bed
 router.post("/apply-bed", async (req, res) => {
   try {
-    const { name, contact, department, bedType, doctorname } = req.body;
+    const { name, contact, department, bedType, doctorId, doctorname } = req.body;
+
+    // Check if doctorId is provided
+    if (!doctorId) {
+      return res.status(400).json({ message: "Doctor ID is required" });
+    }
+
+    // Find a free bed of the requested type
     const freeBed = await Bed.findOne({ type: bedType, status: "Free" });
 
     if (!freeBed) {
@@ -20,12 +28,13 @@ router.post("/apply-bed", async (req, res) => {
     freeBed.status = "Occupied";
     await freeBed.save();
 
-    // Create and save application with doctorname
+    // Create and save application with doctor details
     const application = new Application({
       name,
       contact,
       department,
       bedType,
+      doctorId,
       doctorname, // Store doctor name
       bedNumber: freeBed.bedNumber,
     });
@@ -40,15 +49,39 @@ router.post("/apply-bed", async (req, res) => {
 });
 
 
+
 // Get all bed applications
-router.get("/bed-status", async (req, res) => {
+router.get("/bed-status-doctor/:doctorId", async (req, res) => {
   try {
-    const applications = await Application.find().sort({ allocationTime: -1 });
-    res.json(applications);
+    console.log("Request Params:", req.params); // Debugging
+
+    const { doctorId } = req.params; // Extract doctorId from URL params
+    console.log("Doctor ID from URL:", doctorId);
+
+    if (!doctorId) {
+      return res.status(400).json({ message: "doctorId is required" });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(doctorId)) {
+      return res.status(400).json({ message: "Invalid doctor ID format" });
+    }
+
+    // Fetch applications assigned to the doctor
+    const applications = await Application.find({ doctorId }).sort({ allocationTime: -1 });
+
+    if (!applications || applications.length === 0) {
+      console.warn("No applications found for this doctor.");
+      return res.status(200).json([]); // Return empty array if no applications found
+    }
+
+    console.log("Fetched Applications:", applications);
+    res.json(applications); // Send the fetched applications as a response
   } catch (error) {
-    res.status(500).json({ message: "Error fetching bed applications" });
+    console.error("Error fetching bed applications:", error);
+    res.status(500).json({ message: "Error fetching bed applications", error });
   }
 });
+
 
 // Add new beds
 router.post("/add-beds", async (req, res) => {

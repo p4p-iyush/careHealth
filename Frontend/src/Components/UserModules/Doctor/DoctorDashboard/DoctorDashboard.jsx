@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import  { Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
+import axios from "axios"; // Ensure axios is imported
+import BedStatus from "../../../BedManagement/BedStatus/BedStatus.jsx";
 
 const DoctorDashboard = () => {
-  // const { doctorId } = useParams(); 
-  // Get doctorId from the URL
   const [doctor, setDoctor] = useState(null);
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [patientdetails, setPatientdetails] = useState([]);
-
   const location = useLocation();
   const { userDetails } = location.state || {};
-  // const { doctorId } = location.state || {};
-
 
   useEffect(() => {
     const fetchDoctorAndPatients = async () => {
       try {
+        
         const response = await fetch(`http://localhost:5000/doctorRoutes/doctor_patient_list/${userDetails.doctor._id}`);
         const data = await response.json();
 
@@ -37,6 +32,28 @@ const DoctorDashboard = () => {
 
     fetchDoctorAndPatients();
   }, [userDetails.doctor._id]);
+
+  const handleSubmit = async (patientId) => {
+    try {
+        const response = await axios.put('http://localhost:5000/doctorRoutes/doctor_patient_list', {
+            patientId: patientId,  
+            reached: true, 
+        });
+
+        console.log("Response:", response.data);
+        alert("Patient status updated successfully!");
+
+        // Update state to reflect changes instantly
+        setPatients((prevPatients) =>
+            prevPatients.map((patient) =>
+                patient._id === patientId ? { ...patient, reached: true } : patient
+            )
+        );
+    } catch (error) {
+        console.error("Error updating patient status:", error);
+        alert("Failed to update patient status.");
+    }
+  };
 
   return (
     <div className="container">
@@ -61,17 +78,16 @@ const DoctorDashboard = () => {
           <thead>
             <tr>
               <th>Patient Name</th>
-              <th>department</th>
-              <th>date</th>
-              <th>time</th>
+              <th>Department</th>
+              <th>Date</th>
+              <th>Time</th>
               <th>Add Prescription</th>
               <th>View Prescription's</th>
               <th>Allocate Bed</th>
-            
+              <th>Prescription Status</th>
             </tr>
           </thead>
           <tbody>
-
             {patients.map((patient) => (
               <tr key={patient._id}>
                 <td>{patient.name}</td>
@@ -81,9 +97,22 @@ const DoctorDashboard = () => {
                 <td>
                   <Link to="/add-patient-med" state={{ patient, doctor }}>ADD</Link>
                 </td>
-                <td><Link to={`/patient/prescription/${patient.patientId}`} state={{ userDetails: patient }}>View Prev Prescription</Link></td>
-                <td><Link to="/bed-application" state={{ patient, doctor }}>ADD</Link></td>
-                
+                <td>
+                  <Link to={`/patient/prescription/${patient.patientId}`} state={{ userDetails: patient }}>
+                    View Prev Prescription
+                  </Link>
+                </td>
+                <td>
+                  <Link to="/bed-application" state={{ patient, doctor }}>ADD</Link>
+                </td> 
+                <td>
+                  <button 
+                    onClick={() => handleSubmit(patient._id)}
+                    disabled={patient.reached} // Disable button if already marked as reached
+                  >
+                    {patient.reached ? "Done" : "Pending..."}
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -91,6 +120,12 @@ const DoctorDashboard = () => {
       ) : (
         <p>No patients found in this department.</p>
       )}
+
+      <h3>Beds Allocated to Doctor</h3>
+      {/* Add bed status display */}
+      
+      {userDetails.doctor && userDetails.doctor._id ? <BedStatus doctor={userDetails.doctor} /> : <p>Loading doctor data...</p>}
+
     </div>
   );
 };

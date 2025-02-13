@@ -14,8 +14,9 @@ router.get('/doctor_patient_list/:id', async (req, res) => {
         }
 
         const department = doctor.specialization;
-        const patients = await Appointment.find({ department: department });
-
+        const todayDate = new Date().toISOString().split("T")[0]; // Get today's date in "YYYY-MM-DD" format
+        const patients = await Appointment.find({ department: department, date: todayDate });
+        
         console.log("doctor data:", doctor, "patients:", patients);
 
         // Corrected sort function
@@ -29,6 +30,40 @@ router.get('/doctor_patient_list/:id', async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
+
+
+// Update the reached if the patient prescription is done
+router.put('/doctor_patient_list', async (req, res) => {
+    try {
+        const { patientId, reached } = req.body;
+
+        if (!patientId) {
+            return res.status(400).json({ message: "Patient ID is required" });
+        }
+
+        // Find and update the application
+        const updatedApplication = await Appointment.findOneAndUpdate(
+            { _id: patientId },
+            { reached: Boolean(reached) }, // Convert to Boolean
+            { new: true }
+        );
+
+        if (!updatedApplication) {
+            return res.status(404).json({ message: "No matching application found" });
+        }
+
+        res.json({
+            message: "Patient reached status updated successfully",
+            updatedApplication,
+        });
+    } catch (error) {
+        console.error("Error updating reached status:", error);
+        res.status(500).json({ message: "Error updating reached status" });
+    }
+});
+
+module.exports = router;
+
 
 
 module.exports = router;

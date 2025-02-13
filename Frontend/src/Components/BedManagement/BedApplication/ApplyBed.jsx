@@ -13,6 +13,7 @@ const ApplyBed = () => {
     contact: patient?.contact || "",
     department: "General Medicine",
     bedType: "General",
+    doctorId: doctor?._id || "",
     doctorname: doctor?.name || "", // Optional: Storing assigned doctor name
   });
 
@@ -26,7 +27,7 @@ const ApplyBed = () => {
       const res = await axios.post("http://localhost:5000/api/beds/apply-bed", {
         ...formData,
         patientId: patient?.id, // Include patient ID if available
-        doctorId: doctor?.id, // Include doctor ID if available
+        doctorId: doctor?._id, // Include doctor ID if available
       });
       setMessage(`Bed allocated successfully: ${res.data.bedNumber}`);
       navigate(-1);

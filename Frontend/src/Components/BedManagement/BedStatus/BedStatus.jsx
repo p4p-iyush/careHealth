@@ -3,7 +3,7 @@ import axios from "axios";
 import "./BedStatus.css";
 import { useNavigate } from "react-router-dom"; // ✅ Correct import
 
-const BedStatus = () => {
+const BedStatus = ({doctor}) => {
   const [prices, setPrices] = useState({});
   const [applications, setApplications] = useState([]);
   const [bedStats, setBedStats] = useState({});
@@ -13,10 +13,17 @@ const BedStatus = () => {
   // Fetch applications and bed statistics
   const fetchData = async () => {
     try {
-      const appRes = await axios.get("http://localhost:5000/api/beds/bed-status");
-      setApplications(appRes.data);
-      console.log("Applications:", appRes.data);
-
+      console.log('Fetching', doctor._id)
+      const appRes = await fetch(`http://localhost:5000/api/beds/bed-status-doctor/${doctor._id}`);
+      const appData = await appRes.json(); // Parse JSON response
+      
+      if (appRes.ok) {
+        setApplications(appData); // Assuming `data` is the array of prescriptions
+      } else {
+        console.error('Error from server:', appData.message || 'Failed to fetch prescriptions');
+      }
+      console.log("Applications:", appData);
+  
       const statsRes = await axios.get("http://localhost:5000/api/beds/bed-stats");
       setBedStats(statsRes.data);
       console.log("Bed Stats:", statsRes.data);
@@ -24,6 +31,7 @@ const BedStatus = () => {
       console.error("Error fetching data:", err);
     }
   };
+  
 
   // Fetch bed prices
   const fetchPrices = async () => {
@@ -66,7 +74,7 @@ const BedStatus = () => {
       fetchData();
 
       // ✅ Corrected Navigation
-      navigate("/allDischargeBill", { state: billResponse.data });
+      // navigate("/allDischargeBill", { state: billResponse.data });
     } catch (err) {
       console.error("Error discharging patient:", err);
     }
@@ -74,8 +82,8 @@ const BedStatus = () => {
 
   return (
     <div className="bed-status-container">
-      <h1>Bed Status</h1>
 
+      {/* <h1>Bed Status</h1> */}
       {/* Bed Statistics */}
       <div className="bed-stats">
         <h2>Bed Statistics</h2>
@@ -92,11 +100,11 @@ const BedStatus = () => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Email</th>
+              <th>Contact Number</th>
               <th>Department</th>
               <th>Bed Type</th>
               <th>Bed Number</th>
-              <th>Allocation Time</th>
+              <th>Allocation Date</th>
               <th>Days Stayed</th>
               <th>Total Bill</th>
               <th>Action</th>
@@ -119,7 +127,7 @@ const BedStatus = () => {
                   <td>{app.department}</td>
                   <td>{app.bedType}</td>
                   <td>{app.bedNumber}</td>
-                  <td>{allocationTime.toLocaleString()}</td>
+                  <td>{app.allocationTime.split("T")[0]}</td>
                   <td>{daysStayed}</td>
                   <td>₹{totalBill}</td>
                   <td>

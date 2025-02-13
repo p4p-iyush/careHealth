@@ -23,8 +23,11 @@ import AppointmentBookingForm from './Components/UserModules/Patients/Appointmen
 
 import PatientDashboard from './Components/UserModules/Patients/PatientDashboard/PatientDashboard';
 import DoctorDashboard from './Components/UserModules/Doctor/DoctorDashboard/DoctorDashboard';
-import AdminDashboard from './Components/UserModules/Admin/AdminDashboard/AdminDashboard';
 import PharmacyDashboard from './Components/UserModules/Pharmacists/Dashboard/PharmacyDashboard';
+import ReceptionistDashBoard from './Components/UserModules/Admin/AdminDashboard/ReceptionistDashBoard/ReceptionistDashBoard';
+import SystemAdministratorDashBoard from './Components/UserModules/Admin/AdminDashboard/SystemAdministratorDashBoard/SystemAdministratorDashBoard';
+import HRManagerDashboard from './Components/UserModules/Admin/AdminDashboard/HRManagerDashboard/HRManagerDashboard';
+
 // import MainDashboard from './Components/Dashboard/MainDashboard/MainDashboard';
 
 //Inventory
@@ -68,7 +71,7 @@ function MainApp() {
       setUserRole("guest");
       roleSet.current = false; // Reset tracking when on home page
     } else if (!roleSet.current) {
-      if (location.pathname.includes("/admin-dashboard")) {
+      if (location.pathname.includes("/receptionist-admin-dashboard" ) || location.pathname.includes("/systemadministrator-admin-dashboard") || location.pathname.includes("/hrmanager-admin-dashboard")) {
         setUserRole("admin");
       } else if (location.pathname.includes("/patient-dashboard")) {
         setUserRole("patient");
@@ -107,8 +110,10 @@ function MainApp() {
         {/* routes for dashboard */}
         <Route path="/patient-dashboard" element={<PatientDashboard/>} />
         <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard/>} />
         <Route path="/pharmacy-dashboard" element={<PharmacyDashboard />} />
+        <Route path="/receptionist-admin-dashboard" element={<ReceptionistDashBoard/>} />
+        <Route path="/systemadministrator-admin-dashboard" element={<SystemAdministratorDashBoard/>} />
+        <Route path="/hrmanager-admin-dashboard" element={<HRManagerDashboard/>} />
         {/* <Route path ="/main-dashboard" element={<MainDashboard/>} /> */}
 
       {/* Routes for Pharmaciest */}
@@ -125,7 +130,7 @@ function MainApp() {
 
       {/* BadManagement Routes */}
       <Route path="/bed-application" element={<ApplyBed />} />
-      <Route path="/status" element={<BedStatus />} />
+      {/* <Route path="/status" element={<BedStatus />} /> */}
       <Route path="/bedManagement" element={<AddBed />} />
       <Route path="/editDefaultPrices" element={<EditBedPrices />} />
       <Route path="/allDischargeBill" element={<AllDischargeBill />} />

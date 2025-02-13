@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Appointment = require('../Models/AppointmentSchema');
-const Patient = require('../Models/PatientRegistration')
+const Patient = require('../Models/PatientRegistration');
+const Doctor = require('../Models/DoctorRegistration');
 
 router.post('/check-availability', async (req, res) => {
     try {
@@ -22,26 +23,73 @@ router.post('/check-availability', async (req, res) => {
     }
 });
 
-// Endpoint to book an appointment
-router.post('/book-appointment', async (req, res) => {
+
+router.post("/book-appointment", async (req, res) => {
     try {
         const { name, patientId, email, phone, date, time, type, department } = req.body;
-        const existingAppointment = await Appointment.findOne({ date, time, department });
 
-        if (existingAppointment) {
-            return res.status(400).json({ message: 'Time slot already booked' });
+        // Validate required fields
+        if (!name || !patientId || !email || !phone || !date || !time || !type || !department) {
+            return res.status(400).json({ message: "All fields are required" });
         }
 
-        const newAppointment = new Appointment({ name, patientId, email, phone, date, time, type, department });
-        console.log(newAppointment);
+        // Find all doctors in the requested department
+        const availableDoctors = await Doctor.find({ specialization: department });
+
+        if (!availableDoctors.length) {
+            return res.status(404).json({ message: "No doctors available in this department" });
+        }
+
+        // Find the doctor with the least appointments for load balancing
+        let assignedDoctor = availableDoctors[0]; // Default to the first doctor
+
+        for (let doctor of availableDoctors) {
+            const count = await Appointment.countDocuments({ doctorId: doctor._id, date });
+            if (count < (await Appointment.countDocuments({ doctorId: assignedDoctor._id, date }))) {
+                assignedDoctor = doctor;
+            }
+        }
+
+        // Check if the selected doctor's time slot is already booked
+        const existingAppointment = await Appointment.findOne({
+            date,
+            time,
+            doctorId: assignedDoctor._id,
+        });
+
+        if (existingAppointment) {
+            return res.status(400).json({ message: "Selected time slot already booked for this doctor" });
+        }
+
+        // Create appointment
+        const newAppointment = new Appointment({
+            name,
+            patientId,
+            email,
+            phone,
+            date,
+            time,
+            type,
+            department,
+            doctorId: assignedDoctor._id, // Assign doctor ID
+            doctorName: assignedDoctor.name, // Assign doctor name
+            status: "Booked",
+        });
+
         await newAppointment.save();
 
-        res.json({ message: 'Appointment booked successfully' });
+        res.status(201).json({
+            message: "Appointment booked successfully",
+            appointment: newAppointment
+        });
+
     } catch (error) {
-        console.error('Error booking appointment:', error);
-        res.status(500).json({ message: 'Error booking appointment' });
+        console.error("Error booking appointment:", error);
+        res.status(500).json({ message: "Internal server error" });
     }
 });
+
+
 
 // Endpoint to cancel an appointment
 router.delete('/cancel-appointment/:id', async (req, res) => {

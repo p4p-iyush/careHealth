@@ -84,7 +84,7 @@ router.post('/admin_register', async (req, res) => {
             contact: req.body.contact,
             email: req.body.email,
             password: req.body.password,
-            specialization: req.body.specialization,
+            userRole: req.body.userRole,
         });
 
         const registeredDoctor = await newDoctor.save();

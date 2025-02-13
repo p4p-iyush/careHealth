@@ -18,7 +18,7 @@ const adminSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    specialization: {
+    userRole: {
         type: String,
         required: true,
     }

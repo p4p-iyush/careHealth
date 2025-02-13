@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AddPatientMed = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [selectedMed, setSelectedMed] = useState([]);
@@ -78,6 +80,7 @@ const AddPatientMed = () => {
       const data = await response.json();
       if (response.ok) {
         alert("Prescription saved successfully!");
+        navigate(-1);
       } else {
         console.log(data.error)
         alert(`Error: ${data.error}`);

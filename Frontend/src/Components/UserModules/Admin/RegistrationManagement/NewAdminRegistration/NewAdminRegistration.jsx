@@ -10,7 +10,7 @@ const NewAdminRegistration = () => {
     email: "",
     password: "",
     confirm_Password: "",
-    specialization: "",
+    userRole: "",
   });
 
   const [error, setError] = useState("");
@@ -109,14 +109,14 @@ const NewAdminRegistration = () => {
           required
         />
 
-        <label className="admin-registration-label" htmlFor="specialization">
-          Specialization:
+        <label className="admin-registration-label" htmlFor="userRole">
+          Role:
         </label>
         <select
           className="admin-registration-select"
-          id="specialization"
-          name="specialization"
-          value={formData.specialization}
+          id="userRole"
+          name="userRole"
+          value={formData.userRole}
           onChange={handleChange}
           required
         >

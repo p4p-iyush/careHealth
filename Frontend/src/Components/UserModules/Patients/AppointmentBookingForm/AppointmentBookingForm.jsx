@@ -15,7 +15,7 @@ const AppointmentBookingForm = () => {
     return <div>No user data available!</div>; // Handle case where no user data is available
   }
 
-  const predefinedSlots = ['09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM'];
+  const predefinedSlots = ['09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM','11:00 PM'];
 
   const [formData, setFormData] = useState({
     name: userDetails.name || '',   // Default to userDetails if available
@@ -65,33 +65,35 @@ const AppointmentBookingForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!availability) {
+    if (!availability || !availability.includes(formData.time)) {
       alert('Selected time slot is not available!');
       return;
     }
 
     setLoading(true);
     try {
-      await axios.post('http://localhost:5000/opdRoutes/book-appointment', formData);
-       // Send appointment confirmation email
-    await axios.post('http://localhost:5000/opdRoutes/send-appointment-confirmation', {
-      patientEmail: formData.email,
-      patientName: formData.name,
-      appointmentDate: formData.date,
-      appointmentTime: formData.time,
-      department: formData.department,
-    });
+        await axios.post('http://localhost:5000/opdRoutes/book-appointment', formData);
 
-      setSubmitted(true);
-      alert('Appointment booked successfully!');
-      navigate(-1); // Navigate back to previous page
+        // Send appointment confirmation email
+        await axios.post('http://localhost:5000/opdRoutes/send-appointment-confirmation', {
+            patientEmail: formData.email,
+            patientName: formData.name,
+            appointmentDate: formData.date,
+            appointmentTime: formData.time,
+            department: formData.department,
+        });
+
+        setSubmitted(true);
+        alert('Appointment booked successfully!');
+        navigate(-1);
 
     } catch (error) {
-      alert(error.response?.data?.message || 'Error booking appointment');
+        alert(error.response?.data?.message || 'Error booking appointment');
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
+
 
   return (
     <div className="AppointmentBookingForm-container">

@@ -51,14 +51,21 @@ router.post("/inventory_manager_login", async (req, res) => {
 router.post("/admin_login", async (req, res) => {
     try {
         const { email, password } = req.body;
-        const admin = await Admin.findOne({ email: email, password: password });
+        const admin = await Admin.findOne({ email, password });
+
         if (!admin) {
-            return res.status(404).send("User not found");
+            return res.status(404).json({ message: "User not found" });
         }
-        res.json({ admin });
+
+        // Ensure the response includes the role
+        res.json({ 
+            id: admin._id,
+            email: admin.email,
+            userRole: admin.userRole // ✅ This must be present
+        });
+    } catch (err) {
+        res.status(500).json({ message: `Error: ${err.message}` });
     }
-    catch (err) {
-        res.status(500).send(`Error: ${err.message}`);
-    }
-})
+});
+
 module.exports = router;

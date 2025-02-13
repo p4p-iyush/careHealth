@@ -28,8 +28,16 @@ const Login = () => {
 
       alert("Login Successful!");
 
+      // Fetch the receptionist's dashboard data using the user's token
+      if(userDetails.userRole === "Receptionist")
+        navigate("/receptionist-admin-dashboard", { state: { userDetails } });
+      else if(userDetails.userRole === "HR Manager")
+        navigate("/hrmanager-admin-dashboard", { state: { userDetails } });
+      else if(userDetails.userRole === "System Administrator")
+        navigate("/systemadministrator-admin-dashboard", { state: { userDetails } });
+
       // Pass the response data to the next page using navigate
-      navigate("/admin-dashboard", { state: { userDetails } });
+      
     } catch (error) {
       setError("Invalid email or password");
       console.error("Login error:", error);
