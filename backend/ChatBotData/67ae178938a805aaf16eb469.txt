@@ -1,10 +1,17 @@
+#Patient Details: 
+Name:dadi ji
+ Age:100
+ Gender:Male 
+ ContactNumber:8749835720 
+Blood Group:B-
+ Address:Harshwardhan Nagar Bhopal MP 
 Email: jhadenishant@gmail.com
-Login Time: 2025-02-15T09:47:06.357Z
+Login Time: 2025-02-15T16:42:14.645Z
 
-### Prescriptions:
+#Patien Prescriptions:
   1. Prescription Details: dgfdgf (1x/day, 3 units)
 
-### Patient Report Details:
+#Patient Report Details:
 Okay, I've analyzed the provided medical report from Smart Pathology Laboratory for patient Yash M. Patel. Here's a breakdown of the findings:
 
 **Patient Information:**

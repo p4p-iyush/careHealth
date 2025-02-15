@@ -11,9 +11,7 @@ const PatientDashboard = () => {
 
   const [isChatbotOpen, setIsChatbotOpen] = useState(false); // Chatbot state
 
-  console.log(userDetails)
-
-  // Redirect to login if userDetails is missing
+  console.log(userDetails);
 
   // Function to fetch text file data
   const fetchtxtfile = async () => {
@@ -23,6 +21,7 @@ const PatientDashboard = () => {
         return;
       }
 
+      // Fetch the text file data from backend
       const response = await fetch(`http://localhost:5000/api/login/fetchtxtfile/${userDetails.patient._id}`);
 
       if (!response.ok) {
@@ -31,8 +30,33 @@ const PatientDashboard = () => {
       const textData = await response.text(); // Read file data as text
       console.log("Fetched Text Data:", textData);
 
+      // Send textData to FastAPI backend
+      await sendTextToBackend(textData);
+
     } catch (error) {
       console.error("Error fetching text file:", error);
+    }
+  };
+
+  // Function to send text data to FastAPI backend
+  const sendTextToBackend = async (textData) => {
+    try {
+      const response = await fetch("http://localhost:8080/store-text", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: textData }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send text data to backend");
+      }
+
+      const result = await response.json();
+      console.log("Text stored successfully:", result);
+    } catch (error) {
+      console.error("Error sending text data to backend:", error);
     }
   };
 
@@ -118,9 +142,9 @@ const PatientDashboard = () => {
       {isChatbotOpen && (
         <div className="chatbot_popup">
           <div className="chatbot_header">
-            <button onClick={toggleChatbot} className="close_button"><IoClose/></button>
+            <button onClick={toggleChatbot} className="close_button"><IoClose /></button>
           </div>
-          <Chatbot userDetails = {userDetails} /> {/* Render Chatbot */}
+          <Chatbot userDetails={userDetails} /> {/* Render Chatbot */}
         </div>
       )}
     </div>

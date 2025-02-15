@@ -151,9 +151,6 @@ function MainApp() {
      {/* patient bill */}
     <Route path='patient-bill' element={<Patient_Bill/>}></Route>
     <Route path='MedicalReportAnalyzer' element={<MedicalReportAnalyzer/>}></Route>
-
-   
-
    
     </Routes>
       </>

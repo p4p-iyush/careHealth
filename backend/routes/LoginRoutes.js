@@ -6,7 +6,8 @@ const Prescription = require("../Models/Patientprescription");
 const Patient = require("../Models/PatientRegistration");
 const InventoryManager = require("../Models/InventoryManagerRegistration");
 const Doctor = require("../Models/DoctorRegistration");
-const Admin = require("../Models/AdminRegistration")
+const Admin = require("../Models/AdminRegistration");
+
 const Chatbot = require("../Models/Chatbot");
 
 const CHATBOT_DATA_DIR = path.join(__dirname, "../ChatBotData");
@@ -30,6 +31,7 @@ router.post("/patient_login", async (req, res) => {
             return res.status(404).send("User not found");
         }
 
+
         // Fetch prescriptions for the patient
         const prescriptions = await Prescription.find({ patient_id: patient._id });
 
@@ -40,10 +42,10 @@ router.post("/patient_login", async (req, res) => {
         const filePath = path.join(CHATBOT_DATA_DIR, `${patient._id}.txt`);
 
         // Prepare content for the file
-        let content = `Email: ${email}\nLogin Time: ${new Date().toISOString()}\n\n`;
+        let content = `#Patient Details: \nName:${patient.name}\n Age:${patient.age}\n Gender:${patient.gender} \n ContactNumber:${patient.contact} \nBlood Group:${patient.bloodGroup}\n Address:${patient.address} \nEmail: ${patient.email}\nLogin Time: ${new Date().toISOString()}\n\n`;
 
         // Add only prescription number and details
-        content += "### Prescriptions:\n";
+        content += "#Patien Prescriptions:\n";
         if (prescriptions.length > 0) {
             prescriptions.forEach((prescription, index) => {
                 content += `  ${index + 1}. Prescription Details: ${prescription.prescription.map(med => 
@@ -55,7 +57,7 @@ router.post("/patient_login", async (req, res) => {
         }
 
         // Add chatbot reportDetails
-        content += "\n### Patient Report Details:\n";
+        content += "\n#Patient Report Details:\n";
         content += chatbotData && chatbotData.reportDetails ? chatbotData.reportDetails : "  No report details found.\n";
 
         // Write patient login, prescriptions, and chatbot reportDetails to a text file
