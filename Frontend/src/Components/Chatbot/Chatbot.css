@@ -24,7 +24,6 @@
     padding: 1px;
     align-self: self-end;
     border-radius: 50%;
- 
   }
   
   .close_button {
@@ -33,7 +32,7 @@
     color: white;
     font-size: 18px;
     cursor: pointer;
-    margin: -2px -10px;
+    margin: -2px -13px;
   }
   
   .chatbot_logo img {

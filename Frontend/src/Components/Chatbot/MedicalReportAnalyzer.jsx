@@ -1,16 +1,25 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+import { useLocation } from "react-router-dom";
 
 function MedicalReportAnalyzer() {
   const [file, setFile] = useState(null);
   const [response, setResponse] = useState("");
   const [error, setError] = useState("");
 
+  const location = useLocation(); 
+  const navigate = useNavigate();
+  const { userDetails } = location.state || {}; 
+
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
     setError("");
     setResponse("");
   };
+
+  console.log("User Details:", userDetails.patient._id);
 
   const handleSubmit = async () => {
     if (!file) {
@@ -22,15 +31,44 @@ function MedicalReportAnalyzer() {
     formData.append("file", file);
 
     try {
+      // Step 1: Send file to backend for analysis
       const res = await axios.post("http://127.0.0.1:3000/analyze-report", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      setResponse(res.data.response);
+
+      setResponse(res.data.response); // ✅ Store the analyzed report
     } catch (err) {
-      console.error("Error analyzing report:", err);
-      setError(err.response?.data?.error || "Failed to analyze the report.");
+      console.error("Error:", err);
+      setError(err.response?.data?.error);
     }
   };
+
+  const handleSave = async () => {
+    if (!response) {
+      alert("Please analyze the report first.");
+      return;
+    }
+    if (!userDetails || !userDetails.patient || !userDetails.patient._id) {
+      setError("User details missing.");
+      return;
+    }
+  
+    try {
+      // Step 2: Send analyzed report details to MongoDB
+      const saveResponse = await axios.post("http://localhost:5000/api/chatbot/save-report", {
+        patientId: userDetails.patient._id,  // ✅ Fixed: Access correct patient ID
+        reportDetails: response,  // ✅ Fixed: Use correct state variable
+      });
+  
+      console.log("Report saved:", saveResponse.data.message);
+      alert("Report saved successfully!");
+    } catch (err) {
+      console.error("Error saving report:", err);
+      setError(err.response?.data?.error || "Failed to save the report.");
+    }
+  };
+  
+    
 
   return (
     <div className="p-4">
@@ -58,6 +96,7 @@ function MedicalReportAnalyzer() {
           <pre className="whitespace-pre-wrap">{response}</pre>
         </div>
       )}
+      <button onClick={() => {handleSave()}}>Save report</button>
     </div>
   );
 }

@@ -30,7 +30,7 @@ router.post("/book-appointment", async (req, res) => {
 
         // Validate required fields
         if (!name || !patientId || !email || !phone || !date || !time || !type || !department) {
-            return res.status(400).json({ message: "All fields are required" });
+            return res.status(400).json({ message: "All fields are required" }); 
         }
 
         // Find all doctors in the requested department

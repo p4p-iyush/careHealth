@@ -33,6 +33,9 @@ const PrescriptionRoutes = require("./routes/PrescriptionRoutes");
 //Admin Routes
 const AdminRoutes = require("./routes/AdminRoutes.js");
 
+// ChatBot Routes
+const ChatBotRoutes = require("./routes/ChatbotRoutes.js")
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -119,6 +122,9 @@ async function initializeBeds() {
 
   // ############################### Admin section ###############################
   app.use("/adminRoutes", AdminRoutes);
+
+  // ############################### ChatBot section ###############################
+  app.use("/api/chatbot", ChatBotRoutes);
 
 
 

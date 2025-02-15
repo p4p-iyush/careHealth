@@ -26,10 +26,6 @@ export default function PatientLogin() {
       // Assuming 'response.data' contains the user details
       const userDetails = response.data;
       // console.log("User details:", userDetails);
-
-      // Store user data in localStorage (optional)
-      localStorage.setItem("userDetails", JSON.stringify(userDetails));
-
       alert("Login Successful!");
 
       // Pass the response data to the next page using navigate

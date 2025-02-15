@@ -46,6 +46,7 @@ import Add_patient_med from './Components/UserModules/Doctor/Doctor_add_patient/
 // patient
 import Prescription_portal from './Components/UserModules/Patients/PatientPrescription/PatientPrescrption'
 import Patient_Bill from './Components/UserModules/Patients/PatientBills/PatientBills'
+import MedicalReportAnalyzer from "./Components/Chatbot/MedicalReportAnalyzer"
 
 // import ExpiryUpdate from './Components/UserModules/Pharmacists/QuantityManagement/UpdateQuantity';
 
@@ -59,6 +60,7 @@ import AllDischargeBill from './Components/BedManagement/AllDischargeBill/AllDis
 import HospitalDemand from './Components/UserModules/Pharmacists/HospitalDemands/Hospital_demands';
 import DemandDetails from './Components/UserModules/Pharmacists/DemandDetail/DemandDetail';
 import InventoryRequest from './Components/UserModules/Doctor/Inventory_request/Inventory_request';
+
 
 
 function MainApp() {
@@ -147,8 +149,13 @@ function MainApp() {
       <Route path="/inventory-request" element={<InventoryRequest />}></Route>
 
      {/* patient bill */}
-<Route path='patient-bill' element={<Patient_Bill/>}></Route>
-      </Routes>
+    <Route path='patient-bill' element={<Patient_Bill/>}></Route>
+    <Route path='MedicalReportAnalyzer' element={<MedicalReportAnalyzer/>}></Route>
+
+   
+
+   
+    </Routes>
       </>
   );
 }

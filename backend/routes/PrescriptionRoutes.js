@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const PatientPrescriptions = require('../Models/Patientprescription');
 
+
 // Route to create a patient percription
 // POST route to add a patient's prescription
 router.post('/save-prescription', async (req, res) => {
@@ -65,6 +66,25 @@ router.get('/patient/prescription/:id', async (req, res) => {
         console.error(err);
     }
 });
+
+// router.get("save-file/patient/prescription/:id", async (req, res) => {
+//     try {
+//       const patientId = req.params.id;
+//       console.log(`Fetching prescriptions for patient ID: ${patientId}`);
+  
+//       const patientPrescriptions = await PatientPrescriptions.find({ patient_id: patientId });
+  
+//       if (!patientPrescriptions || patientPrescriptions.length === 0) {
+//         return res.status(404).json({ message: "No prescription found" });
+//       }
+  
+//       res.json({ prescriptions: patientPrescriptions, patientId });
+//     } catch (err) {
+//       console.error(err);
+//       res.status(500).json({ message: "Server Error" });
+//     }
+//   });
+  
 
 // Route to show the patient bills of parmacy
 router.get('/patient/bill/:id', async (req, res) => {
