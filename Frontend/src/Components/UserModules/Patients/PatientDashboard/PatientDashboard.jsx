@@ -14,7 +14,30 @@ const PatientDashboard = () => {
   console.log(userDetails)
 
   // Redirect to login if userDetails is missing
+
+  // Function to fetch text file data
+  const fetchtxtfile = async () => {
+    try {
+      if (!userDetails?.patient?._id) {
+        console.error("Patient ID not found.");
+        return;
+      }
+
+      const response = await fetch(`http://localhost:5000/api/login/fetchtxtfile/${userDetails.patient._id}`);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch the file");
+      }
+      const textData = await response.text(); // Read file data as text
+      console.log("Fetched Text Data:", textData);
+
+    } catch (error) {
+      console.error("Error fetching text file:", error);
+    }
+  };
+
   useEffect(() => {
+    fetchtxtfile();
     if (!userDetails || !userDetails.patient) {
       navigate("/login"); // Redirect to login if no user details are found
     }
