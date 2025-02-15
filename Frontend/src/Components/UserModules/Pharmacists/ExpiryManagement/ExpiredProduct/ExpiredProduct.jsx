@@ -21,7 +21,7 @@ const ExpiredProduct = () => {
             const data = await response.json();
             setExpiredProducts(data);
         } catch (error) {
-            setError('Failed to fetch expired products.');
+            setError("There is no expired Medicine's");
             console.error('Error fetching expired products:', error);
         } finally {
             setLoading(false);
