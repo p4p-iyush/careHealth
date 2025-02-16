@@ -1,0 +1,113 @@
+/* Main Container */
+.inventory-request-container {
+    background-color: #1d2228;
+    color: #e1e2e2;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Doctor Info */
+.inventory-request-doctor-info {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.inventory-request-doctor-info h2 {
+    font-size: 1.5rem;
+    color: #fb8122;
+}
+
+.inventory-request-doctor-info h3 {
+    font-size: 1.2rem;
+}
+
+/* Medicine Search */
+.inventory-request-medicine-search {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.inventory-request-medicine-search input {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #e1e2e2;
+    background-color: #e1e2e2;
+    color: #1d2228;
+}
+
+.inventory-request-medicine-search ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 5px;
+}
+
+.inventory-request-medicine-search li {
+    padding: 8px;
+    background: #e1e2e2;
+    color: #1d2228;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 5px;
+    transition: background 0.3s;
+}
+
+.inventory-request-medicine-search li:hover {
+    background: #fb8122;
+    color: #1d2228;
+}
+
+/* Selected Medicines */
+.inventory-request-selected-medicines {
+    margin-top: 1rem;
+    background-color: #e1e2e2;
+    padding: 1rem;
+    border-radius: 10px;
+    color: #1d2228;
+}
+
+.inventory-request-medicine-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #1d2228;
+}
+
+.inventory-request-medicine-item button {
+    background: #fb8122;
+    border: none;
+    color: #1d2228;
+    padding: 5px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.inventory-request-medicine-item button:hover {
+    background: #e06d1d;
+}
+
+/* Submit Button */
+.inventory-request-form-actions {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.inventory-request-form-actions button {
+    background-color: #fb8122;
+    color: #1d2228;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.inventory-request-form-actions button:hover {
+    background-color: #e06d1d;
+}

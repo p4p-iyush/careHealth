@@ -1,0 +1,132 @@
+/* Container Styling */
+.hospital-demand-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hospital-demand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    width: 800px;
+    background-color: #1d2228; /* Dark Background */
+    padding: 20px;
+    gap: 50px;
+    margin-top: 70px;
+    background: rgba(180, 179, 179, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(251, 129, 34, 0.2);
+    text-align: center;
+    border-radius: 10px;
+}
+
+/* Error Message */
+.hospital-demand-error {
+    color: #1d2228; /* Dark Text */
+    background-color: #fb8122; /* Orange */
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Table Styling */
+.hospital-demand-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #e1e2e2; /* Light Gray */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.hospital-demand-thead {
+    background-color: #1d2228; /* Dark Background */
+    color: #e1e2e2; /* Light Gray Text */
+}
+
+.hospital-demand-td{
+    color: #1d2228;
+}
+
+.hospital-demand-th,
+.hospital-demand-td {
+    padding: 12px 20px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+}
+
+.hospital-demand-tr:nth-child(even) {
+    background-color: rgba(180, 179, 179, 0.2);
+}
+
+/* Button Styling */
+.hospital-demand-btn {
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1d2228; /* Dark Gray */
+    background-color: #e1e2e2; /* Light Gray */
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+    cursor: pointer;
+}
+
+.hospital-demand-btn:hover {
+    background-color: #fb8122; /* Orange */
+    color: #fff; /* White Text */
+    transform: translateY(-3px);
+}
+
+/* Home Link */
+.hospital-demand-home-link {
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #e1e2e2; /* Light Gray */
+    background-color: #1d2228; /* Dark Background */
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(251, 129, 34, 0.2);
+}
+
+.hospital-demand-home-link:hover {
+    background-color: #fb8122; /* Orange */
+    color: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hospital-demand {
+        width: 90%;
+        height: auto;
+        padding: 15px;
+    }
+
+    .hospital-demand-table {
+        width: 100%;
+    }
+
+    .hospital-demand-th,
+    .hospital-demand-td {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .hospital-demand-btn {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+
+    .hospital-demand-home-link {
+        font-size: 1rem;
+        padding: 8px 16px;
+    }
+}

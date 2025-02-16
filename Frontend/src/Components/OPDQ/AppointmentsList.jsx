@@ -83,16 +83,21 @@ const AppointmentsList = () => {
     };
 
     return (
-        <div>
-            <h2>Appointments</h2>
-            {appointments.length === 0 ? <p>No appointments found.</p> : (
-                <ul className='appointments-list'>
-                    {appointments.map((appointment) => (
-                        <li key={appointment._id}>
-                            <strong>{appointment.name}</strong> - {appointment.date} at {appointment.time} ({appointment.department})
-                            <div className='btn-appointment'>
-                                <button onClick={() => cancelAppointment(appointment._id)} disabled={loading}>Cancel</button>
-                                <button onClick={() => {
+        <div className="appointmentList">
+        <h2>Appointments</h2>
+        {appointments.length === 0 ? (
+            <p>No appointments found.</p>
+        ) : (
+            <ul className="appointmentList">
+                {appointments.map((appointment) => (
+                    <li key={appointment._id} className="appointmentList">
+                        <strong>{appointment.name}</strong> - {appointment.date} at {appointment.time} ({appointment.department})
+                        <div className="appointmentList">
+                            <button onClick={() => cancelAppointment(appointment._id)} disabled={loading} className="appointmentList">
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() => {
                                     if (rescheduleData?.id === appointment._id) {
                                         setRescheduleData(null);
                                     } else {
@@ -105,56 +110,76 @@ const AppointmentsList = () => {
                                         });
                                         checkAvailability(appointment.date, appointment.department);
                                     }
-                                }}>
-                                    Reschedule
-                                </button>
-                            </div>
-
-                            {/* Reschedule Form - Shown Only for Selected Appointment */}
-                            {rescheduleData?.id === appointment._id && (
-                                <div className="reschedule-form">
-                                    <h3>Reschedule Appointment</h3>
-                                    <p><strong>Patient:</strong> {rescheduleData.name}</p>
-                                    <p><strong>Previous Date:</strong> {rescheduleData.date}</p>
-                                    <p><strong>Previous Time:</strong> {rescheduleData.time}</p>
-
-                                    <label>New Date:</label>
-                                    <input type="date"
-                                        value={rescheduleData.date}
-                                        onChange={(e) => {
-                                            const newDate = e.target.value;
-                                            setRescheduleData({ ...rescheduleData, date: newDate });
-                                            checkAvailability(newDate, rescheduleData.department);
-                                        }}
-                                        required
-                                    />
-
-                                    <label>New Time Slot:</label>
-                                    <select
-                                        value={rescheduleData.time}
-                                        onChange={(e) => setRescheduleData({ ...rescheduleData, time: e.target.value })}
-                                        required
-                                    >
-                                        <option value="">Select a time slot</option>
-                                        {availability.length > 0 ?
-                                            availability.map((slot, index) => (
-                                                <option key={index} value={slot}>{slot}</option>
-                                            ))
-                                            :
-                                            <option disabled>No slots available</option>
-                                        }
-                                    </select>
-                                    <div className="btn-reschedule">
-                                        <button onClick={rescheduleAppointment} disabled={loading}>Confirm Reschedule</button>
-                                        <button onClick={() => setRescheduleData(null)}>Cancel</button>
-                                    </div>
+                                }}
+                                className="appointmentList"
+                            >
+                                Reschedule
+                            </button>
+                        </div>
+    
+                        {/* Reschedule Form - Shown Only for Selected Appointment */}
+                        {rescheduleData?.id === appointment._id && (
+                            <div className="appointmentList">
+                                <h3>Reschedule Appointment</h3>
+                                <p>
+                                    <strong>Patient:</strong> {rescheduleData.name}
+                                </p>
+                                <p>
+                                    <strong>Previous Date:</strong> {rescheduleData.date}
+                                </p>
+                                <p>
+                                    <strong>Previous Time:</strong> {rescheduleData.time}
+                                </p>
+    
+                                <label>New Date:</label>
+                                <input
+                                    type="date"
+                                    value={rescheduleData.date}
+                                    onChange={(e) => {
+                                        const newDate = e.target.value;
+                                        setRescheduleData({ ...rescheduleData, date: newDate });
+                                        checkAvailability(newDate, rescheduleData.department);
+                                    }}
+                                    required
+                                    className="appointmentList"
+                                />
+    
+                                <label>New Time Slot:</label>
+                                <select
+                                    value={rescheduleData.time}
+                                    onChange={(e) => setRescheduleData({ ...rescheduleData, time: e.target.value })}
+                                    required
+                                    className="appointmentList"
+                                >
+                                    <option value="">Select a time slot</option>
+                                    {availability.length > 0 ? (
+                                        availability.map((slot, index) => (
+                                            <option key={index} value={slot} className="appointmentList">
+                                                {slot}
+                                            </option>
+                                        ))
+                                    ) : (
+                                        <option disabled className="appointmentList">
+                                            No slots available
+                                        </option>
+                                    )}
+                                </select>
+                                <div className="appointmentList">
+                                    <button onClick={rescheduleAppointment} disabled={loading} className="appointmentList">
+                                        Confirm Reschedule
+                                    </button>
+                                    <button onClick={() => setRescheduleData(null)} className="appointmentList">
+                                        Cancel
+                                    </button>
                                 </div>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </div>
+                            </div>
+                        )}
+                    </li>
+                ))}
+            </ul>
+        )}
+    </div>
+    
     );
 };
 

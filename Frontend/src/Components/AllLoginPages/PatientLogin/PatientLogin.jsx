@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./PatientLogin.css";
+import '../AllLogin.css';
 
 export default function PatientLogin() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -37,12 +37,12 @@ export default function PatientLogin() {
   };
 
   return (
-    <div className="login-container">
-      <h2>Patient Login</h2>
+    <div className="all-login-container">
+      <h1>Patient Login</h1>
       <form onSubmit={handleSubmit}>
-        {error && <p className="error-message">{error}</p>}
+        {error && <p className="all-login-error">{error}</p>}
 
-        <div className="input-group">
+        <div className="all-login-input-group">
           <label>Email:</label>
           <input 
             type="email" 
@@ -53,7 +53,7 @@ export default function PatientLogin() {
           />
         </div>
 
-        <div className="input-group">
+        <div className="all-login-input-group">
           <label>Password:</label>
           <input 
             type="password" 
@@ -64,12 +64,12 @@ export default function PatientLogin() {
           />
         </div>
 
-        <button type="submit" className="login-button">Login</button>
-      </form>
+        <button type="submit" className="all-login-button">Login</button>
 
-      <p className="register-link">
-        Don't have an account? <Link to="/patient-registration">Register Now</Link>
-      </p>
+        <p className="all-login-register-link">
+          Don't have an account? <Link to="/patient-registration">Register Now</Link>
+        </p>
+      </form>
     </div>
   );
 }

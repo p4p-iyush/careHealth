@@ -153,70 +153,71 @@ const PrescriptionDetails = () => {
     if (loading || inventoryLoading) return <div>Loading details...</div>;
     if (error) return <div>{error}</div>;
     if (!patient) return <div>Patient not found!</div>;
-
+    
     return (
-        <div className="container">
-            <header>Prescription & Inventory Management</header>
-            <div className="content">
-                <div className="left-section">
-                    <h3>{patient.patient_name}'s Prescription</h3>
-                    <table className="prescription-table">
-                        <thead>
-                            <tr>
-                                <th>Medicine Name</th>
-                                <th>Quantity</th>
+        <div className="Prescription-container">
+        <header>Prescription & Inventory Management</header>
+        <div className="Prescription-content">
+            <div className="Prescription-left-section">
+                <h3>{patient.patient_name}'s Prescription</h3>
+                <table className="Prescription-prescription-table">
+                    <thead>
+                        <tr>
+                            <th>Medicine Name</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {prescriptions.map((item, index) => (
+                            <tr key={index}>
+                                <td>{item.medicine_name}</td>
+                                <td>{item.quantity}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {prescriptions.map((item, index) => (
+                        ))}
+                    </tbody>
+                </table>
+                <button className="Prescription-back-btn" onClick={() => navigate(-1)}>Go Back</button>
+            </div>
+            <div className="Prescription-right-section">
+                <h3>Inventory Management</h3>
+                <table className="Prescription-inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Item Cost</th>
+                            <th>Current Quantity</th>
+                            <th>Update Quantity</th>
+                            <th>Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {prescriptions.map((prescription, index) => {
+                            const item = filteredInventory[index];
+                            return (
                                 <tr key={index}>
-                                    <td>{item.medicine_name}</td>
-                                    <td>{item.quantity}</td>
+                                    <td>{prescription.medicine_name}</td>
+                                    <td>₹{item ? item.cost : "N/A"}</td>
+                                    <td>{item ? (item.quantity > 0 ? item.quantity : "Out of Stock") : "Unavailable"}</td>
+                                    <td>{item && item.quantity > 0 ? (
+                                        <input 
+                                            type="number" 
+                                            min="0" 
+                                            value={updatedQuantities[item._id] || ''} 
+                                            onChange={(e) => handleInputChange(item._id, e.target.value)} 
+                                        />
+                                    ) : "N/A"}</td>
+                                    <td>{item && item.quantity > 0 ?` ₹${(updatedQuantities[item._id] || 0) * item.cost}` : "₹0"}</td>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <button className="back-btn" onClick={() => navigate(-1)}>Go Back</button>
-                </div>
-                <div className="right-section">
-                    <h3>Inventory Management</h3>
-                    <table className="inventory-table">
-                        <thead>
-                            <tr>
-                                <th>Item Name</th>
-                                <th>Item Cost</th>
-                                <th>Current Quantity</th>
-                                <th>Update Quantity</th>
-                                <th>Cost</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {prescriptions.map((prescription, index) => {
-                                const item = filteredInventory[index];
-                                return (
-                                    <tr key={index}>
-                                        <td>{prescription.medicine_name}</td>
-                                        <td>₹{item ? item.cost : "N/A"}</td>
-                                        <td>{item ? (item.quantity > 0 ? item.quantity : "Out of Stock") : "Unavailable"}</td>
-                                        <td>{item && item.quantity > 0 ? (
-                                            <input 
-                                                type="number" 
-                                                min="0" 
-                                                value={updatedQuantities[item._id] || ''} 
-                                                onChange={(e) => handleInputChange(item._id, e.target.value)} 
-                                            />
-                                        ) : "N/A"}</td>
-                                        <td>{item && item.quantity > 0 ? `₹${(updatedQuantities[item._id] || 0) * item.cost}` : "₹0"}</td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                    <h3>Grand Total: ₹{calculateTotalCost()}</h3>
-                    <button onClick={handleSubmitUpdate} className="submit-btn">Submit</button>
-                </div>
+                            );
+                        })}
+                    </tbody>
+                </table>
+                <h3>Grand Total: ₹{calculateTotalCost()}</h3>
+                <button onClick={handleSubmitUpdate} className="Prescription-submit-btn">Submit</button>
             </div>
         </div>
+    </div>
+    
     );
 };
 

@@ -82,62 +82,57 @@ const PatientDashboard = () => {
   };
 
   return (
-    <div>
-      <nav>
-        <h1>Patient Dashboard</h1>
-        <Link to="/appointment-booking" state={{ userDetails: userDetails?.patient }}>
-          <h2>Appointments</h2>
+    <div className="patient-dash-container">
+      <nav className="patient-dash-nav">
+        <h1 className="patient-dash-title">Patient Dashboard</h1>
+        <Link className="patient-dash-link-appointments" to="/appointment-booking" state={{ userDetails: userDetails.patient }}>
+          Appointments
         </Link>
-
-        <Link to={`/patient/prescription/${userID}`} state={{ userDetails: userDetails?.patient }}>
-          <h2>View Prescription</h2>
+        <Link className="patient-dash-link-prescription" to={`/patient/prescription/${userDetails.patient._id}`} state={{ userDetails: userDetails.patient }}>
+          View Prescription
         </Link>
-
-        <Link to="/patient-bill" state={{ userDetails: userDetails?.patient }}>
-          <h2>Bills</h2>
+        <Link className="patient-dash-link-bills" to="/patient-bill" state={{ userDetails: userDetails.patient }}>
+          Bills
         </Link>
-
-        <Link to="/appointment-list" state={{ userDetails: userDetails?.patient }}>
-          <h2>Reschedule Appointment</h2>
+        <Link className="patient-dash-link-reschedule" to="/appointment-list" state={{ userDetails: userDetails.patient }}>
+          Reschedule Appointment
         </Link>
-
-        <Link to="/MedicalReportAnalyzer" state={{ userDetails }}>
-          <h2>Medical Report Analyzer</h2>
+        <Link className="patient-dash-link-medical-report" to="/MedicalReportAnalyzer" state={{ userDetails }}>
+          Medical Report Analyzer
         </Link>
       </nav>
 
-      {/* User Details Section */}
-      {userDetails?.patient && (
-        <div>
-          <h1>User Details</h1>
-          <table>
-            <thead>
-              <tr>
-                <th>Field</th>
-                <th>Details</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Name</td>
-                <td>{userDetails.patient.name}</td>
-              </tr>
-              <tr>
-                <td>Email</td>
-                <td>{userDetails.patient.email}</td>
-              </tr>
-              <tr>
-                <td>Phone</td>
-                <td>{userDetails.patient.contact}</td>
-              </tr>
-              <tr>
-                <td>Address</td>
-                <td>{userDetails.patient.address}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      )}
+      <div className="patient-dash-details">
+        <h1 className="patient-dash-details-title">User Details</h1>
+        <table className="patient-dash-table">
+          <thead className="patient-dash-table-head">
+            <tr className="patient-dash-table-row">
+              <th className="patient-dash-table-header">Field</th>
+              <th className="patient-dash-table-header">Details</th>
+            </tr>
+          </thead>
+          <tbody className="patient-dash-table-body">
+            <tr className="patient-dash-table-row">
+              <td className="patient-dash-table-field">Name</td>
+              <td className="patient-dash-table-value">{userDetails.patient.name}</td>
+            </tr>
+            <tr className="patient-dash-table-row">
+              <td className="patient-dash-table-field">Email</td>
+              <td className="patient-dash-table-value">{userDetails.patient.email}</td>
+            </tr>
+            <tr className="patient-dash-table-row">
+              <td className="patient-dash-table-field">Phone</td>
+              <td className="patient-dash-table-value">{userDetails.patient.contact}</td>
+            </tr>
+            <tr className="patient-dash-table-row">
+              <td className="patient-dash-table-field">Address</td>
+              <td className="patient-dash-table-value">{userDetails.patient.address}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    
 
       {/* Chatbot Toggle Button */}
       <div className="chatbot_logo" onClick={toggleChatbot}>

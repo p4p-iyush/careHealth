@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./Total_doctor.css"
 
 const TotalDoctor = () => {
     const [doctors, setDoctors] = useState([]);
@@ -11,35 +12,34 @@ const TotalDoctor = () => {
     }, []);
 
     return (
-        <div className="container mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-6 text-center">Total Patients</h1>
-            <table className="min-w-full bg-white border border-gray-300">
-                <thead>
-                    <tr className="bg-gray-200">
-                        <th className="py-2 px-4 border">Name</th>
-                        <th className="py-2 px-4 border">contact</th>
-                        <th className="py-2 px-4 border">Email</th>
-                        <th className="py-2 px-4 border">Specialization</th>
-                        <th className="py-2 px-4 border">Expirience</th>
-                        <th className="py-2 px-4 border">Qualification</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {doctors.map((doctor) => (
-                        <tr key={doctor._id} className="border">
-                            <td className="py-2 px-4 border">{doctor.name}</td>
-                            <td className="py-2 px-4 border">{doctor.contact}</td>
-                            <td className="py-2 px-4 border">{doctor.email}</td>
-                            <td className="py-2 px-4 border">{doctor.specialization}</td>
-                            <td className="py-2 px-4 border">{doctor.experience}</td>
-                            <td className="py-2 px-4 border">{doctor.qualification}</td>
-                            
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    );
+        <div className="Total-doctor-container">
+  <h1 className="Total-doctor-title">Total Doctors</h1>
+  <table className="Total-doctor-table">
+    <thead>
+      <tr className="Total-doctor-table-header">
+        <th className="Total-doctor-table-cell">Name</th>
+        <th className="Total-doctor-table-cell">Contact</th>
+        <th className="Total-doctor-table-cell">Email</th>
+        <th className="Total-doctor-table-cell">Specialization</th>
+        <th className="Total-doctor-table-cell">Experience</th>
+        <th className="Total-doctor-table-cell">Qualification</th>
+      </tr>
+    </thead>
+    <tbody>
+      {doctors.map((doctor) => (
+        <tr key={doctor._id} className="Total-doctor-table-row">
+          <td className="Total-doctor-table-cell">{doctor.name}</td>
+          <td className="Total-doctor-table-cell">{doctor.contact}</td>
+          <td className="Total-doctor-table-cell">{doctor.email}</td>
+          <td className="Total-doctor-table-cell">{doctor.specialization}</td>
+          <td className="Total-doctor-table-cell">{doctor.experience}</td>
+          <td className="Total-doctor-table-cell">{doctor.qualification}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+    )
 };
 
 export default TotalDoctor;

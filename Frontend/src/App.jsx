@@ -30,7 +30,6 @@ import ReceptionistDashBoard from './Components/UserModules/Admin/AdminDashboard
 import SystemAdministratorDashBoard from './Components/UserModules/Admin/AdminDashboard/SystemAdministratorDashBoard/SystemAdministratorDashBoard';
 import HRManagerDashboard from './Components/UserModules/Admin/AdminDashboard/HRManagerDashboard/HRManagerDashboard';
 
-// import MainDashboard from './Components/Dashboard/MainDashboard/MainDashboard';
 
 //Inventory
 import PatientList from './Components/UserModules/Pharmacists/PatientList/PatientList';
@@ -52,11 +51,13 @@ import Prescription_portal from './Components/UserModules/Patients/PatientPrescr
 import Patient_Bill from './Components/UserModules/Patients/PatientBills/PatientBills'
 import MedicalReportAnalyzer from "./Components/Chatbot/MedicalReportAnalyzer"
 import TotalPatient from './Components/UserModules/Patients/TotalPatients/Total_patient';
+import PatientAppoinment from './Components/UserModules/Patients/PatientAppoinment/PatientAppoinment';
 
 // import ExpiryUpdate from './Components/UserModules/Pharmacists/QuantityManagement/UpdateQuantity';
 
 //Bad Management
 import ApplyBed from './Components/BedManagement/BedApplication/ApplyBed';
+import BedStatusToAdmin from './Components/BedManagement/BedStatus/BedStatusToAdmin';
 import BedStatus from './Components/BedManagement/BedStatus/BedStatus';
 import AddBed from './Components/BedManagement/AddBed/AddBed';
 import EditBedPrices from './Components/BedManagement/EditBedPrices/EditBedPrices';
@@ -128,7 +129,6 @@ function MainApp() {
         <Route path="/receptionist-admin-dashboard" element={<ReceptionistDashBoard/>} />
         <Route path="/systemadministrator-admin-dashboard" element={<SystemAdministratorDashBoard/>} />
         <Route path="/hrmanager-admin-dashboard" element={<HRManagerDashboard/>} />
-        {/* <Route path ="/main-dashboard" element={<MainDashboard/>} /> */}
 
       {/* route for all patient list */}
       <Route path="/total-patients" element={<TotalPatient/>}/>
@@ -152,6 +152,7 @@ function MainApp() {
       <Route path="/editDefaultPrices" element={<EditBedPrices />} />
       <Route path="/allDischargeBill" element={<AllDischargeBill />} />
       <Route path="/Bed-status" element={<BedStatus/>}/>
+      <Route path="/Bed-status-admin" element={<BedStatusToAdmin/>}/>
      
      {/*Doctor routes */}
      <Route path="add-patient-med" element={<Add_patient_med/>}></Route>
@@ -159,6 +160,7 @@ function MainApp() {
 
      {/* Patient routes */}
      <Route path="/patient/prescription/:id" element={<Prescription_portal />} />
+     <Route path="/patient/appoinments" element={<PatientAppoinment />} />
 
      {/* Inventory demand managment */}
      <Route path="/Hospital-Demands" element={<HospitalDemand />}/>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import '../AllLogin.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -46,39 +47,40 @@ const Login = () => {
   
 
   return (
-    <div className="container">
-      <h2>Login</h2>
+    <div className="all-login-container">
+      <h1>Admin Login</h1>
       <form onSubmit={handleSubmit}>
-        <div className="input-group">
-          <label>Email:</label>
+        <div className="all-login-input-group">
+          <label className="all-login-label">Email:</label>
           <input
             type="email"
-            name="email"  // ✅ Added name attribute
+            name="email"
             placeholder="Enter email"
             value={formData.email}
             onChange={handleChange}
             required
           />
         </div>
-
-        <div className="input-group">
-          <label>Password:</label>
+  
+        <div className="all-login-input-group">
+          <label className="all-login-label">Password:</label>
           <input
             type="password"
-            name="password" 
+            name="password"
             placeholder="Enter password"
-            value={formData.password}  
+            value={formData.password}
             onChange={handleChange}
             required
           />
         </div>
-
-        {error && <p className="error">{error}</p>}
-
-        <button type="submit">Login</button>
+  
+        {error && <p className="all-login-error">{error}</p>}
+  
+        <button type="submit" className="all-login-button">Login</button>
       </form>
     </div>
   );
+
 };
 
 export default Login;

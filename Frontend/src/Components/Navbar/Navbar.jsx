@@ -69,10 +69,10 @@ const Navbar = ({ userRole }) => {
         </a>
       </li>
       <li>
-        <a href="/appointments">
+      <Link to={`/patient/appoinments`} state={{ userDetails: userID }}>
           <FaClipboardList size={20} />
           My Appointments
-        </a>
+          </Link>
       </li>
       <li>
       <Link to={`/patient/prescription/${userID}`} state={{ userDetails: userID }}>

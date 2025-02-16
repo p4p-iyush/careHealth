@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import "./Hospital_bills.css"
 
 const HospitalBills = () => {
   const [bills, setBills] = useState([]);
@@ -20,33 +21,34 @@ const HospitalBills = () => {
   };
 
   return (
-    <div>
-      <h2>Hospital Bills</h2>
+    <div className="Hospital-bill-container">
+      <h2 className="Hospital-bill-title">Hospital Bills</h2>
       {Array.isArray(bills) && bills.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Doctor Name</th>
-              <th>Department</th>
-              <th>Request Date</th>
-              <th>Grand Total</th>
+        <table className="Hospital-bill-table">
+          <thead className="Hospital-bill-thead">
+            <tr className="Hospital-bill-header-row">
+              <th className="Hospital-bill-header">Doctor Name</th>
+              <th className="Hospital-bill-header">Department</th>
+              <th className="Hospital-bill-header">Request Date</th>
+              <th className="Hospital-bill-header">Grand Total</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="Hospital-bill-tbody">
             {bills.map((bill) => (
-              <tr key={bill._id}>
-                <td>{bill.doctorName}</td>
-                <td>{bill.department}</td>
-                <td>{new Date(bill.request_date).toLocaleDateString()}</td>
-                <td>{bill.grand_total}</td>
+              <tr key={bill._id} className="Hospital-bill-row">
+                <td className="Hospital-bill-cell">{bill.doctorName}</td>
+                <td className="Hospital-bill-cell">{bill.department}</td>
+                <td className="Hospital-bill-cell">{new Date(bill.request_date).toLocaleDateString()}</td>
+                <td className="Hospital-bill-cell">{bill.grand_total}</td>
               </tr>
             ))}
           </tbody>
         </table>
       ) : (
-        <p>No bills found.</p>
+        <p className="Hospital-bill-no-data">No bills found.</p>
       )}
-    </div>
+</div>
+
   );
 };
 

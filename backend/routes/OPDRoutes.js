@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require('mongoose');
 const Appointment = require('../Models/AppointmentSchema');
 const Patient = require('../Models/PatientRegistration');
 const Doctor = require('../Models/DoctorRegistration');
@@ -96,11 +97,12 @@ router.delete('/cancel-appointment/:id', async (req, res) => {
     try {
         const { id } = req.params;
 
-        // Convert ID to MongoDB ObjectId
+        // Check if ID is a valid MongoDB ObjectId
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({ message: 'Invalid appointment ID' });
         }
 
+        // Delete the appointment
         const deletedAppointment = await Appointment.findByIdAndDelete(id);
 
         if (!deletedAppointment) {
@@ -108,11 +110,13 @@ router.delete('/cancel-appointment/:id', async (req, res) => {
         }
 
         res.json({ message: 'Appointment cancelled successfully' });
+
     } catch (error) {
-        console.error('Error cancelling appointment:', error);
-        res.status(500).json({ message: 'Error cancelling appointment' });
+        console.error('Error cancelling appointment:', error.stack);
+        res.status(500).json({ message: 'Error cancelling appointment', error: error.message });
     }
 });
+
 
 // Endpoint to reschedule an appointment
 router.put('/reschedule-appointment/:id', async (req, res) => {
@@ -152,26 +156,28 @@ router.get('/appointments', async (req, res) => {
 router.get('/appointments/:id', async (req, res) => {
     try {
         const { id } = req.params; // Extract patient ID from route parameters
-        // console.log("Patient ID:", id);
+        
+        // Get today's date in "YYYY-MM-DD" format
+        const currentDate = new Date().toISOString().split('T')[0];
 
-        // Find the patient by ID
-        const patient = await Patient.findById(id);
-        if (!patient) {
-            return res.status(404).json({ message: 'Patient not found' });
-        }
-        // console.log("Patient:", patient);
+        // Find all appointments from today onwards
+        const patientAppointments = await Appointment.find({ 
+            patientId: id,
+            date: { $gte: currentDate } // Fetch today's and all future appointments
+        }).sort({ date: 1, time: 1 });
 
-        // Find appointments associated with the patient
-        const patientAppointments = await Appointment.find({ patientId: id });
         if (!patientAppointments.length) {
-            return res.status(404).json({ message: 'No appointments found for this patient' });
+            return res.status(404).json({ message: 'No upcoming appointments found for this patient' });
         }
 
-        res.json(patientAppointments); // Send the appointments as the response
-    }catch (err) {
+        res.json(patientAppointments); // Send filtered appointments
+    } catch (err) {
+        console.error('Error fetching appointments:', err);
         res.status(500).json({ message: 'Error fetching appointments' });
     }
 });
+
+
 
 
 module.exports = router;

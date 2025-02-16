@@ -1,180 +1,62 @@
-/* General Styles */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #eaf7ff; /* Softer light blue background */
-}
-
-.PrescriptionDetails-header {
-    background-color: #004080; /* Dark blue header */
-    color: white;
+.Prescription-container {
+    background-color: #1d2228;
+    color: #e1e2e2;
     padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    margin: auto;
+}
+
+.Prescription-header {
     text-align: center;
-    font-size: 28px;
-    font-weight: bold;
-    border-bottom: 4px solid #0073e6; /* Enhanced border */
-    letter-spacing: 1px;
-}
-
-.PrescriptionDetails-container {
-    max-width: 1200px;
-    margin: 40px auto;
-    background-color: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    border: 1px solid #b3d9ff; /* Light blue border */
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.PrescriptionDetails-container:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
-}
-
-.PrescriptionDetails-content {
-    display: flex;
-    gap: 25px;
-    margin-top: 30px;
-}
-
-.PrescriptionDetails-left-section,
-.PrescriptionDetails-right-section {
-    flex: 1;
-    padding: 25px;
-    background-color: #fdfdfd; /* Lighter background */
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.PrescriptionDetails-left-section:hover,
-.PrescriptionDetails-right-section:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
-}
-
-h3 {
     font-size: 24px;
-    color: #003366; /* Darker blue for headings */
-    margin-bottom: 20px;
-    border-bottom: 2px solid #b3d9ff; /* Blue border for headings */
-    padding-bottom: 12px;
-    text-transform: uppercase;
-}
-
-/* Prescription Table */
-.PrescriptionDetails-prescription-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 25px;
-    background-color: white;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.PrescriptionDetails-prescription-table th,
-.PrescriptionDetails-prescription-table td {
-    padding: 15px;
-    text-align: left;
-    border: 1px solid #b3d9ff; /* Light blue border */
-}
-
-.PrescriptionDetails-prescription-table th {
-    background-color: #0059b3; /* Medium blue */
-    color: white;
-    text-transform: uppercase;
-}
-
-.PrescriptionDetails-prescription-table tr:nth-child(even) {
-    background-color: #f2f9ff; /* Very light blue for alternating rows */
-}
-
-.PrescriptionDetails-prescription-table tr:hover {
-    background-color: #cce0ff; /* Light blue for hover */
-}
-
-/* Inventory Table */
-.PrescriptionDetails-inventory-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 25px;
-    background-color: white;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.PrescriptionDetails-inventory-table th,
-.PrescriptionDetails-inventory-table td {
-    padding: 15px;
-    text-align: left;
-    border: 1px solid #b3d9ff; /* Light blue border */
-}
-
-.PrescriptionDetails-inventory-table th {
-    background-color: #0073e6; /* Medium blue */
-    color: white;
-    text-transform: uppercase;
-}
-
-.PrescriptionDetails-inventory-table tr:nth-child(even) {
-    background-color: #f2f9ff; /* Very light blue for alternating rows */
-}
-
-.PrescriptionDetails-inventory-table tr:hover {
-    background-color: #cce0ff; /* Light blue for hover */
-}
-
-/* Editable Input Field */
-.PrescriptionDetails-inventory-table td input {
-    width: 100%;
-    padding: 12px;
-    font-size: 14px;
-    border: 1px solid #b3d9ff;
-    border-radius: 6px;
-    background-color: #ffffff; /* White background for input */
-    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
-    color: #333;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.PrescriptionDetails-inventory-table td input:focus {
-    outline: none;
-    border-color: #0073e6; /* Blue border on focus */
-    box-shadow: 0 0 6px rgba(0, 115, 230, 0.6);
-}
-
-/* Submit Button */
-.PrescriptionDetails-submit-btn {
-    display: block;
-    margin: 30px auto 0 auto; /* Centering in the div */
-    padding: 15px 25px;
-    background-color: #0088cc; /* Blue for button */
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-size: 18px;
     font-weight: bold;
-    transition: background-color 0.3s, transform 0.2s;
-    text-align: center;
+    padding: 10px;
+    background-color: #fb8122;
+    border-radius: 5px;
+}
+
+.Prescription-content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.Prescription-left-section, .Prescription-right-section {
+    width: 48%;
+    padding: 15px;
+    background-color: #e1e2e2;
+    color: #1d2228;
+    border-radius: 5px;
+}
+
+.Prescription-prescription-table, .Prescription-inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.Prescription-prescription-table th, .Prescription-inventory-table th {
+    background-color: #fb8122;
+    padding: 10px;
+    text-align: left;
+}
+
+.Prescription-prescription-table td, .Prescription-inventory-table td {
+    padding: 8px;
+    border-bottom: 1px solid #1d2228;
+}
+
+.Prescription-back-btn, .Prescription-submit-btn {
+    background-color: #fb8122;
+    color: #1d2228;
+    padding: 10px 15px;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
+    margin-top: 10px;
 }
 
-.PrescriptionDetails-submit-btn:hover {
-    background-color: #005fa3; /* Dark blue for hover */
-    transform: scale(1.05);
+.Prescription-back-btn:hover, .Prescription-submit-btn:hover {
+    background-color: #e6731b;
 }
-
-.PrescriptionDetails-submit-btn:active {
-    background-color: #004080; /* Darkest blue for active */
-    transform: scale(0.95);
-}
-
-/* Back Button */

@@ -56,25 +56,25 @@ const UpdateQuantity = () => {
     };
     
     return (
-        <div className="UpdateQuantity-container">
-            <h1 className="UpdateQuantity-heading">Update Quantity</h1>
+        <div className="Update-quantity-container">
+            <h1 className="Update-quantity-heading">Update Quantity</h1>
             {loading ? (
-                <p className="UpdateQuantity-loading">Loading...</p>
+                <p className="Update-quantity-loading">Loading...</p>
             ) : error ? (
-                <p className="UpdateQuantity-error-message">{error}</p>
+                <p className="Update-quantity-error-message">{error}</p>
             ) : (
-                <form onSubmit={handleUpdate} className="UpdateQuantity-form">
-                    <p className="UpdateQuantity-current-quantity">current quantity: {quantity}</p>
-                    <label htmlFor="quantity" className="UpdateQuantity-label">Quantity</label>
+                <form onSubmit={handleUpdate} className="Update-quantity-form">
+                    <p className="Update-quantity-current-quantity">Current Quantity: {quantity}</p>
+                    <label htmlFor="quantity" className="Update-quantity-label">Quantity</label>
                     <input
                         type="number"
                         id="quantity"
                         value={quantity}
                         onChange={(e) => setQuantity(Number(e.target.value))}
                         required
-                        className="UpdateQuantity-input-field"
+                        className="Update-quantity-input-field"
                     />
-                    <button type="submit" className="UpdateQuantity-update-btn">Update</button>
+                    <button type="submit" className="Update-quantity-update-btn">Update</button>
                 </form>
             )}
         </div>

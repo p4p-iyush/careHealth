@@ -1,0 +1,62 @@
+/* Main Container */
+.patient-bill-container {
+    background-color: #1d2228;
+    color: #e1e2e2;
+    padding: 2rem;
+    border-radius: 10px;
+    margin: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   
+}
+.patient-bill-container2{
+    display: flex;
+    justify-content: center;
+    
+    gap: 5rem;
+}
+
+/* Titles */
+.patient-bill-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #fb8122;
+    margin-bottom: 1rem;
+}
+
+.patient-bill-subtitle {
+    font-size: 1.5rem;
+    color: #fb8122;
+    margin-bottom: 0.5rem;
+}
+
+/* Section Wrapper */
+.patient-bill-section {
+    width: 500px;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Bill Card */
+.patient-bill-card {
+    background-color: #e1e2e2;
+    color: #1d2228;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.patient-bill-card p {
+    margin: 5px 0;
+    font-size: 1rem;
+}
+
+/* Loading & No Bills Found */
+.patient-bill-loading, .patient-bill-no-bills {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #fb8122;
+    margin-top: 2rem;
+}

@@ -1,70 +1,70 @@
-/* AppointmentsList.css */
-
-.container {
+/* Container Styling */
+.display-appointment-container {
     margin: 20px auto;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
+    background: #1d2228;
+    padding: 30px;
+    max-width: 800px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    color: #e1e2e2;
     text-align: center;
-    color: #333;
+  }
+  
+  /* Heading */
+  .display-appointment-heading {
+    font-size: 2rem;
+    color: #e1e2e2;
     margin-bottom: 20px;
-}
-
-table {
+    background-color: #fb8122;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  /* Table Styling */
+  .display-appointment-table {
     width: 100%;
     border-collapse: collapse;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-thead {
-    background-color: #007bff;
-    color: white;
-}
-
-th, td {
+    background-color: #1d2228;
+  }
+  
+  .display-appointment-table th,
+  .display-appointment-table td {
+    border: 1px solid #e1e2e2;
     padding: 12px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-th {
-    text-transform: uppercase;
-}
-
-tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-tbody tr:hover {
-    background-color: #ddd;
-    transition: 0.3s ease-in-out;
-}
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    table {
-        font-size: 14px;
+    color: #e1e2e2;
+  }
+  
+  .display-appointment-table th {
+    background-color: #fb8122;
+    color: #1d2228;
+    font-weight: 600;
+  }
+  
+  .display-appointment-table tr:nth-child(even) {
+    background-color: #2a2f35;
+  }
+  
+  .display-appointment-table tr:hover {
+    background-color: #fb8122;
+    color: #1d2228;
+    cursor: pointer;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .display-appointment-container {
+      width: 90%;
+      padding: 20px;
     }
-
-    th, td {
-        padding: 10px;
+  
+    .display-appointment-heading {
+      font-size: 1.8rem;
     }
-}
-
-@media screen and (max-width: 480px) {
-    table {
-        display: block;
-        overflow-x: auto;
+  
+    .display-appointment-table th,
+    .display-appointment-table td {
+      padding: 8px;
+      font-size: 0.9rem;
     }
-
-    th, td {
-        white-space: nowrap;
-    }
-}
+  }

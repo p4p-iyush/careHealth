@@ -23,7 +23,7 @@ const AppointmentsList = () => {
     };
 
     // Cancel appointment
-    const cancelAppointment = async (id) => {
+    const cancelAppointment = async (id) => {dv
         setLoading(true);
         try {
             await axios.delete(`http://localhost:5000/opdRoutes/cancel-appointment/${id}`);

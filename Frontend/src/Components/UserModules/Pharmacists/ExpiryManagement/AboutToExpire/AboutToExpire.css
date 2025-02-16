@@ -1,67 +1,98 @@
+/* Container Styling */
 .AboutToExpire-container {
-    width: 80%;
-    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 20px;
-    background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    background-color: #1d2228; /* Dark Gray Background */
+    min-height: 100vh;
+    color: #e1e2e2; /* Light Gray Text */
+    gap: 20px;
 }
 
+/* Title Styling */
 .AboutToExpire-title {
-    text-align: center;
-    color: #333;
+    font-size: 2rem;
+    color: #e1e2e2;
     margin-bottom: 20px;
 }
 
+/* Loading & Error Messages */
+.AboutToExpire-loading {
+    font-size: 1.2rem;
+    color: #e1e2e2;
+}
+
+.AboutToExpire-error-message {
+    background-color: red;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Table Styling */
 .AboutToExpire-list {
-    width: 100%;
+    width: 90%;
+    max-width: 800px;
     border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #e1e2e2; /* Light Gray */
+    color: #1d2228; /* Dark Gray */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .AboutToExpire-list th,
 .AboutToExpire-list td {
-    border: 1px solid #ddd;
-    padding: 8px;
+    padding: 12px;
     text-align: left;
+    border-bottom: 2px solid #1d2228; /* Dark Gray Border */
 }
 
 .AboutToExpire-list th {
-    background-color: #0073e6;
+    background-color: #fb8122; /* Orange */
     color: white;
 }
 
-.AboutToExpire-list tr:nth-child(even) {
-    background-color: #f2f2f2;
+.AboutToExpire-row:hover {
+    background-color: #ffffff; /* Orange */
+    color: #fb8122;
+    transition: 0.3s ease-in-out;
 }
 
-.AboutToExpire-list tr:hover {
-    background-color: #ddd;
+/* No Products Message */
+.AboutToExpire-no-products {
+    font-size: 1.2rem;
+    color: #e1e2e2;
+    margin-top: 10px;
 }
 
-.AboutToExpire-error-message {
-    color: red;
-    text-align: center;
-}
-
-.AboutToExpire-back-btn, .AboutToExpire-home-btn {
-    padding: 15px 25px;
-    margin-left: 10px;
-    background-color: #4a90e2;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: bold;
-    transition: background-color 0.3s, transform 0.2s;
-    text-align: center;
-}
-
-.AboutToExpire-back-btn:hover, .AboutToExpire-home-btn:hover {
-    background-color: #45a049;
-}
-
+/* Button Container */
 .AboutToExpire-buttons {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     margin-top: 20px;
+    gap: 15px;
+}
+
+/* Navigation Buttons */
+
+.AboutToExpire-back-btn,.AboutToExpire-home-btn {
+    background-color: #fb8122; /* Orange */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+
+.AboutToExpire-back-btn:hover,
+.AboutToExpire-home-btn:hover {
+    background-color: #e16a1c; /* Slightly Darker Orange */
 }

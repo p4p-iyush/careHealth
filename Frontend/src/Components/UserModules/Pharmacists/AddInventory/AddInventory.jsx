@@ -87,63 +87,41 @@ const AddItem = () => {
       };
       
 
-    return (
-        <div className="container add-item">
-            <h1>Add New Item</h1>
-            <form onSubmit={addItem} className="add-item-form">
-                {error && <div className="error-message">{error}</div>}
-
-                <label>Item Name:</label>
-                <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-
-                <label>Quantity:</label>
-                <input
-                    type="number"
-                    value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
-                    required
-                    min="1"
-                />
-
-                <label>Cost:</label>
-                <input
-                    type="number"
-                    value={cost}
-                    onChange={(e) => setCost(e.target.value)}
-                    required
-                    min="1"
-                />
-
-                <label>Manufacturer:</label>
-                <input type="text" value={manufacturer} onChange={(e) => setManufacturer(e.target.value)} />
-
-                <label>Manufacturing Date:</label>
-                <input
-                    type="date"
-                    value={manufacturingDate}
-                    onChange={(e) => setManufacturingDate(e.target.value)}
-                    required
-                />
-
-                <label>Expiry Date:</label>
-                <input
-                    type="date"
-                    value={expiryDate}
-                    onChange={(e) => setExpiryDate(e.target.value)}
-                    required
-                />
-
-                <div>
-                    <button type="submit" className="add-btn" disabled={loading}>
-                        {loading ? 'Adding...' : 'Add Item'}
-                    </button>
-                    <Link to="/inventory" className="add-btn">
-                        Go back
-                    </Link>
-                </div>
-            </form>
-        </div>
-    );
+      return (
+        <div className="AddItem-container">
+        <h1 className="AddItem-heading">Add New Item</h1>
+        <form onSubmit={addItem} className="AddItem-form">
+            {error && <div className="AddItem-error-message">{error}</div>}
+  
+            <label className="AddItem-label">Item Name:</label>
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="AddItem-input" />
+  
+            <label className="AddItem-label">Quantity:</label>
+            <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} required min="1" className="AddItem-input" />
+  
+            <label className="AddItem-label">Cost:</label>
+            <input type="number" value={cost} onChange={(e) => setCost(e.target.value)} required min="1" className="AddItem-input" />
+  
+            <label className="AddItem-label">Manufacturer:</label>
+            <input type="text" value={manufacturer} onChange={(e) => setManufacturer(e.target.value)} className="AddItem-input" />
+  
+            <label className="AddItem-label">Manufacturing Date:</label>
+            <input type="date" value={manufacturingDate} onChange={(e) => setManufacturingDate(e.target.value)} required className="AddItem-input" />
+  
+            <label className="AddItem-label">Expiry Date:</label>
+            <input type="date" value={expiryDate} onChange={(e) => setExpiryDate(e.target.value)} required className="AddItem-input" />
+  
+            <div className="AddItem-button-container">
+                <button type="submit" className="AddItem-btn" disabled={loading}>
+                    {loading ? 'Adding...' : 'Add Item'}
+                </button>
+                <Link to="/inventory" className="AddItem-btn">
+                    Go back
+                </Link>
+            </div>
+        </form>
+    </div>
+      );
 };
 
 export default AddItem;

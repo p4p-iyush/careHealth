@@ -1,95 +1,94 @@
-/* Dark Theme Styling */
-.component-remove-beds {
-    /* max-width: 600px; */
-    margin: auto;
-    padding: 20px;
-    background: #1e1e1e;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
-    color: #fff;
-  }
-  
-  .component-title {
-    text-align: center;
-    font-size: 1.5rem;
-    color: #ffffff;
-  }
-  
-  .component-note {
-    text-align: center;
-    font-size: 1rem;
-    color: #bbb;
-    margin-bottom: 15px;
-  }
-  
-  .component-bed-list {
+/* Remove Bed Main Container */
+.remove-bed-container {
     display: flex;
-    /* flex-direction: column; */
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #1d2228;
+    color: #e1e2e2;
+    padding: 2rem;
+  }
+  
+  /* Title */
+  .remove-bed-title {
+    font-size: 2rem;
+    color: #fb8122;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  /* Note */
+  .remove-bed-note {
+    font-size: 1rem;
+    color: #e1e2e2;
+    background-color: rgba(251, 129, 34, 0.2);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Bed List */
+  .remove-bed-list {
+    width: 80%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
     gap: 10px;
   }
   
-  .component-bed-item {
-    flex: 1;
+  /* Individual Bed Item */
+  .remove-bed-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    background: #333;
-    border-radius: 5px;
-    border: 1px solid #444;
+    background-color: #e1e2e2;
+    color: #1d2228;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.3s;
   }
   
-  .component-bed-info {
+  .remove-bed-item:hover {
+    background-color: #fb8122;
+    color: #1d2228;
+  }
+  
+  /* Bed Info */
+  .remove-bed-info {
     font-size: 1rem;
-    font-weight: 500;
-    color: #ddd;
   }
   
-  .component-remove-button {
-    background: #ff4d4d;
-    color: white;
+  /* Remove Button */
+  .remove-bed-button {
+    background-color: #fb8122;
     border: none;
-    padding: 5px 10px;
+    color: #1d2228;
+    padding: 8px 12px;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
     transition: background 0.3s ease;
   }
   
-  .component-remove-button:hover {
-    background: #e60000;
+  .remove-bed-button:hover {
+    background-color: #e06d1d;
   }
   
-  .component-no-beds {
+  /* No Beds Available Message */
+  .remove-bed-no-beds {
     text-align: center;
-    color: #ff4d4d;
-    font-weight: bold;
+    font-size: 1.1rem;
+    color: #fb8122;
   }
   
-  .component-message {
-    text-align: center;
-    color: #4caf50;
+  /* Success/Error Message */
+  .remove-bed-message {
+    margin-top: 1rem;
     font-size: 1rem;
-    margin-top: 10px;
+    color: #fb8122;
+    text-align: center;
   }
-  
-  /* Responsive Design */
-  @media (max-width: 480px) {
-    .component-remove-beds {
-      padding: 15px;
-    }
-  
-    .component-title {
-      font-size: 1.2rem;
-    }
-  
-    .component-bed-item {
-      flex-direction: column;
-      text-align: center;
-    }
-  
-    .component-remove-button {
-      margin-top: 5px;
-    }
-  }
-  

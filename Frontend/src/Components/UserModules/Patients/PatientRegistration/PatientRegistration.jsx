@@ -43,44 +43,119 @@ export default function PatientRegister() {
   };
 
   return (
-    <div className="register-container">
-      <h2>Patient Registration</h2>
-      <form onSubmit={handleSubmit}>
-        {error && <p className="error-message">{error}</p>}
+    <div className="patient-reg-container">
+  <h2 className="patient-reg-title">Patient Registration</h2>
+ <div className="patient-form-cantainer">
+  <form className=".patient-reg-form" onSubmit={handleSubmit}>
+    {error && <p className="patient-reg-error-message">{error}</p>}
 
-        <input type="text" name="name" placeholder="Name" onChange={handleChange} required />
-        <input type="number" name="age" placeholder="Age" onChange={handleChange} required />
+    <label htmlFor="name" className="patient-reg-label">Name:</label>
+    <input
+      type="text"
+      name="name"
+      className="patient-reg-input"
+      placeholder="Name"
+      onChange={handleChange}
+      required
+    />
 
-        {/* Gender Dropdown */}
-        <select name="gender" onChange={handleChange} required>
-          <option value="">Select Gender</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
-        </select>
+    <label htmlFor="age" className="patient-reg-label">Age:</label>
+    <input
+      type="number"
+      name="age"
+      className="patient-reg-input"
+      placeholder="Age"
+      onChange={handleChange}
+      required
+    />
 
-        <input type="text" name="contact" placeholder="Contact" onChange={handleChange} required />
-        <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-        <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-        <input type="password" name="confirm_password" placeholder="Confirm Password" onChange={handleChange} required />
+    <label htmlFor="gender" className="patient-reg-label">Gender:</label>
+    <select
+      name="gender"
+      className="patient-reg-input"
+      onChange={handleChange}
+      required
+    >
+      <option value="">Select Gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
 
-        {/* Blood Group Dropdown */}
-        <select name="bloodGroup" onChange={handleChange} required>
-          <option value="">Select Blood Group</option>
-          <option value="A+">A+</option>
-          <option value="A-">A-</option>
-          <option value="B+">B+</option>
-          <option value="B-">B-</option>
-          <option value="O+">O+</option>
-          <option value="O-">O-</option>
-          <option value="AB+">AB+</option>
-          <option value="AB-">AB-</option>
-        </select>
+    <label htmlFor="contact" className="patient-reg-label">Contact:</label>
+    <input
+      type="text"
+      name="contact"
+      className="patient-reg-input"
+      placeholder="Contact"
+      onChange={handleChange}
+      required
+    />
 
-        <input type="text" name="address" placeholder="Address" onChange={handleChange} required />
+    <label htmlFor="email" className="patient-reg-label">Email:</label>
+    <input
+      type="email"
+      name="email"
+      className="patient-reg-input"
+      placeholder="Email"
+      onChange={handleChange}
+      required
+    />
 
-        <button type="submit">Register</button>
-      </form>
-    </div>
+    <label htmlFor="password" className="patient-reg-label">Password:</label>
+    <input
+      type="password"
+      name="password"
+      className="patient-reg-input"
+      placeholder="Password"
+      onChange={handleChange}
+      required
+    />
+
+    <label htmlFor="confirm_password" className="patient-reg-label">Confirm Password:</label>
+    <input
+      type="password"
+      name="confirm_password"
+      className="patient-reg-input"
+      placeholder="Confirm Password"
+      onChange={handleChange}
+      required
+    />
+
+    <label htmlFor="bloodGroup" className="patient-reg-label">Blood Group:</label>
+    <select
+      name="bloodGroup"
+      className="patient-reg-input"
+      onChange={handleChange}
+      required
+    >
+      <option value="">Select Blood Group</option>
+      <option value="A+">A+</option>
+      <option value="A-">A-</option>
+      <option value="B+">B+</option>
+      <option value="B-">B-</option>
+      <option value="O+">O+</option>
+      <option value="O-">O-</option>
+      <option value="AB+">AB+</option>
+      <option value="AB-">AB-</option>
+    </select>
+
+    <label htmlFor="address" className="patient-reg-label">Address:</label>
+    <input
+      type="text"
+      name="address"
+      className="patient-reg-input"
+      placeholder="Address"
+      onChange={handleChange}
+      required
+    />
+
+    <button type="submit" className="patient-reg-button">Register</button>
+  </form>
+  </div>
+  </div>
+
+
+
   );
 }

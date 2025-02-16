@@ -30,30 +30,33 @@ const RemoveBeds = () => {
   };
 
   return (
-    <div className="component-remove-beds">
-      <h2 className="component-title">Remove Beds</h2>
-      <p className="component-note">Note: Only free beds can be removed.</p>
-
-      <div className="component-bed-list">
-        {freeBeds.length > 0 ? (
-          freeBeds.map((bed) => (
-            <div key={bed._id} className="component-bed-item">
-              <span className="component-bed-info">
-                {bed.bedNumber} ({bed.type})
-              </span>
-              <button className="component-remove-button" onClick={() => handleRemove(bed.bedNumber)}>
-                Remove
-              </button>
-            </div>
-          ))
-        ) : (
-          <p className="component-no-beds">No free beds available for removal.</p>
-        )}
-      </div>
-
-      {message && <p className="component-message">{message}</p>}
+    <div className="remove-bed-container">
+    <h2 className="remove-bed-title">Remove Beds</h2>
+    <p className="remove-bed-note">Note: Only free beds can be removed.</p>
+  
+    <div className="remove-bed-list">
+      {freeBeds.length > 0 ? (
+        freeBeds.map((bed) => (
+          <div key={bed._id} className="remove-bed-item">
+            <span className="remove-bed-info">
+              {bed.bedNumber} ({bed.type})
+            </span>
+            <button
+              className="remove-bed-button"
+              onClick={() => handleRemove(bed.bedNumber)}
+            >
+              Remove
+            </button>
+          </div>
+        ))
+      ) : (
+        <p className="remove-bed-no-beds">No free beds available for removal.</p>
+      )}
     </div>
-  );
+  
+    {message && <p className="remove-bed-message">{message}</p>}
+  </div>
+  )
 };
 
 export default RemoveBeds;

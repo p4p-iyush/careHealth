@@ -35,41 +35,40 @@ const AllDischargeBill = () => {
   }
 
   return (
-    <div className="discharge-bill-container">
-      <h1>Discharge Bills</h1>
-      <table className="bill-table">
+    <div className="Discharge-Bill-container">
+      <h1 className="Discharge-Bill-title">Discharge Bills</h1>
+      <table className="Discharge-Bill-table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Contact</th>
-            <th>Department</th>
-            <th>Bed Type</th>
-            <th>Bed Number</th>
-            <th>Allocation Time</th>
-            <th>Discharge Time</th>
-            <th>Days Stayed</th>
-            <th>Total Cost (₹)</th>
-            <th>Payment Status</th>
+            <th className="Discharge-Bill-header">Name</th>
+            <th className="Discharge-Bill-header">Email</th>
+            <th className="Discharge-Bill-header">Department</th>
+            <th className="Discharge-Bill-header">Bed Type</th>
+            <th className="Discharge-Bill-header">Bed Number</th>
+            <th className="Discharge-Bill-header">Allocation Time</th>
+            <th className="Discharge-Bill-header">Days Stayed</th>
+            <th className="Discharge-Bill-header">Total Cost (₹)</th>
+            <th className="Discharge-Bill-header">Payment Status</th>
           </tr>
         </thead>
         <tbody>
           {bills.map((bill) => (
-            <tr key={bill._id}>
-              <td>{bill.name}</td>
-              <td>{bill.contact}</td>
-              <td>{bill.department}</td>
-              <td>{bill.bedType}</td>
-              <td>{bill.bedNumber}</td>
-              <td>{new Date(bill.allocationTime).toLocaleString()}</td>
-              <td>{new Date(bill.dischargeTime).toLocaleString()}</td>
-              <td>{bill.daysStayed}</td>
-              <td>₹{bill.totalCost}</td>
-              <td><button onClick={() => { handlePaymentStatus(bill._id); }}>{bill.paymentStatus}</button></td>
+            <tr key={bill._id} className="Discharge-Bill-row">
+              <td className="Discharge-Bill-cell">{bill.name}</td>
+              <td className="Discharge-Bill-cell">{bill.email}</td>
+              <td className="Discharge-Bill-cell">{bill.department}</td>
+              <td className="Discharge-Bill-cell">{bill.bedType}</td>
+              <td className="Discharge-Bill-cell">{bill.bedNumber}</td>
+              <td className="Discharge-Bill-cell">{new Date(bill.allocationTime).toLocaleString()}</td>
+              <td className="Discharge-Bill-cell">{bill.daysStayed}</td>
+              <td className="Discharge-Bill-cell">₹{bill.totalCost}</td>
+              <td className="Discharge-Bill-cell"><button classname="Discharge-Bill-btn" onClick={() => { handlePaymentStatus(bill._id); }}>{bill.paymentStatus}</button></td>
             </tr>
           ))}
         </tbody>
       </table>
-    </div>
+</div>
+
   );
 };
 

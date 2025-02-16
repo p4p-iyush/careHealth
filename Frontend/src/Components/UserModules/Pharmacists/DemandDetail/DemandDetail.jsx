@@ -16,18 +16,18 @@ const DemandDetails = () => {
     // Fetch demand details
     useEffect(() => {
         const fetchDemandDetails = async () => {
-          try {
-            const response = await fetch(`http://localhost:5000/inventory/api/demands/${id}`);
-            if (!response.ok) throw new Error('Failed to fetch demand details');
-            const data = await response.json();
-            setDemand(data);
-            setPrescriptions(data); // Assuming this is the correct format
-          } catch (error) {
-            console.error("Error:", error);
-            setError("Failed to fetch demand details.");
-          } finally {
-            setLoading(false);
-          }
+            try {
+                const response = await fetch(`http://localhost:5000/inventory/api/demands/${id}`);
+                if (!response.ok) throw new Error('Failed to fetch demand details');
+                const data = await response.json();
+                setDemand(data);
+                setPrescriptions(data); // Assuming this is the correct format
+            } catch (error) {
+                console.error("Error:", error);
+                setError("Failed to fetch demand details.");
+            } finally {
+                setLoading(false);
+            }
         };
         fetchDemandDetails();
     }, [id]);
@@ -52,7 +52,7 @@ const DemandDetails = () => {
 
     // Match inventory with prescriptions
     const filteredInventory = prescriptions.map(prescription => {
-        const match = inventory.find(item => 
+        const match = inventory.find(item =>
             item.name.replace(/\s+/g, '').toLowerCase() === prescription.medicine_name.replace(/\s+/g, '').toLowerCase()
         );
         return match;
@@ -61,7 +61,8 @@ const DemandDetails = () => {
     // Handle quantity input change
     const handleInputChange = (inventoryId, value) => {
         const quantityToDeduct = parseInt(value);
-        if (isNaN(quantityToDeduct) || quantityToDeduct < 0) return;
+        if (isNaN(quantityToDeduct))
+            return; // Ensure the value is a number
         setUpdatedQuantities((prev) => ({
             ...prev,
             [inventoryId]: quantityToDeduct,
@@ -127,12 +128,12 @@ const DemandDetails = () => {
     if (!demand) return <div>Demand not found!</div>;
 
     return (
-        <div className="container">
-            <header>Demand & Inventory Management</header>
-            <div className="content">
-                <div className="left-section">
-                    <h3>{demand.demand_id}'s Demand</h3>
-                    <table className="demand-table">
+        <div className="demand-details-container">
+            <header className="demand-details-header">Demand & Inventory Management</header>
+            <div className="demand-details-content">
+                <div className="demand-details-left-section">
+                    <h3 className="demand-details-title">{demand.demand_id}'s Demand</h3>
+                    <table className="demand-details-table">
                         <thead>
                             <tr>
                                 <th>Medicine Name</th>
@@ -148,11 +149,11 @@ const DemandDetails = () => {
                             ))}
                         </tbody>
                     </table>
-                    <button className="back-btn" onClick={() => navigate(-1)}>Go Back</button>
+                    <button className="demand-details-back-btn" onClick={() => navigate(-1)}>Go Back</button>
                 </div>
-                <div className="right-section">
-                    <h3>Inventory Management</h3>
-                    <table className="inventory-table">
+                <div className="demand-details-right-section">
+                    <h3 className="demand-details-title">Inventory Management</h3>
+                    <table className="demand-details-inventory-table">
                         <thead>
                             <tr>
                                 <th>Item Name</th>
@@ -171,11 +172,12 @@ const DemandDetails = () => {
                                         <td>₹{item ? item.cost : "N/A"}</td>
                                         <td>{item ? (item.quantity > 0 ? item.quantity : "Out of Stock") : "Unavailable"}</td>
                                         <td>{item && item.quantity > 0 ? (
-                                            <input 
-                                                type="number" 
-                                                min="0" 
-                                                value={updatedQuantities[item._id] || ''} 
-                                                onChange={(e) => handleInputChange(item._id, e.target.value)} 
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                value={updatedQuantities[item._id] || ''}
+                                                onChange={(e) => handleInputChange(item._id, e.target.value)}
+                                                className="demand-details-input"
                                             />
                                         ) : "N/A"}</td>
                                         <td>{item && item.quantity > 0 ? `₹${(updatedQuantities[item._id] || 0) * item.cost}` : "₹0"}</td>
@@ -184,8 +186,8 @@ const DemandDetails = () => {
                             })}
                         </tbody>
                     </table>
-                    <h3>Grand Total: ₹{calculateTotalCost()}</h3>
-                    <button onClick={handleSubmitUpdate} className="submit-btn">Submit</button>
+                    <h3 className="demand-details-grand-total">Grand Total: ₹{calculateTotalCost()}</h3>
+                    <button onClick={handleSubmitUpdate} className="demand-details-submit-btn">Submit</button>
                 </div>
             </div>
         </div>

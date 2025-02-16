@@ -1,0 +1,86 @@
+/* Hospital Bills Container */
+.Hospital-bill-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #1d2228;
+    color: #e1e2e2;
+    padding: 2rem;
+}
+
+/* Title */
+.Hospital-bill-title {
+    font-size: 2rem;
+    color: #fb8122;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+/* Table Styling */
+.Hospital-bill-table {
+    width: 100%;
+    max-width: 900px;
+    border-collapse: collapse;
+    background-color: #e1e2e2;
+    color: #1d2228;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Header */
+.Hospital-bill-thead {
+    background-color: #fb8122;
+    color: #1d2228;
+    font-weight: bold;
+}
+
+.Hospital-bill-header {
+    padding: 12px;
+    font-size: 1.1rem;
+    text-align: center;
+    border: 1px solid #1d2228;
+}
+
+/* Table Body */
+.Hospital-bill-tbody {
+    background-color: #e1e2e2;
+}
+
+/* Rows */
+.Hospital-bill-row {
+    transition: background 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.Hospital-bill-row:hover {
+    background-color: #fb8122;
+    color: #1d2228;
+    font-weight: bold;
+}
+
+/* Table Cells */
+.Hospital-bill-cell {
+    padding: 12px;
+    text-align: center;
+    font-size: 1rem;
+    border: 1px solid #1d2228;
+}
+
+/* No Bills Found */
+.Hospital-bill-no-data {
+    font-size: 1.2rem;
+    color: #fb8122;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .Hospital-bill-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}

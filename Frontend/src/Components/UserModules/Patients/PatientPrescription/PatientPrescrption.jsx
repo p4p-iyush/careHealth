@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
-
+import "./PatientPrescrption.css"
 const PatientPrescrption = () => {
   const location = useLocation();
   const { userDetails } = location.state || {}; // Get userDetails from location.state
@@ -40,42 +40,43 @@ const PatientPrescrption = () => {
   }
 
   return (
-    <div>
-      <h1>
-  {userDetails?.name ? `Prescriptions for ${userDetails.name}` : "Prescriptions Of Patient"}
-</h1>
+    <div className="patient-prescription-container">
+    <h1 className="patient-prescription-title">
+      {userDetails?.name ?` Prescriptions for ${userDetails.name}` : "Prescriptions Of Patient"}
+    </h1>
 
-      {prescriptions ? (
-        prescriptions.length > 0 ? (
-          prescriptions.map((prescription, index) => (
-            <div key={prescription._id} style={{ marginBottom: '20px', padding: '10px', border: '1px solid #ccc' }}>
-              <h2>Prescription {index + 1}</h2>
-              <p><strong>Date:</strong> {new Date(prescription.prescription_date).toLocaleDateString()}</p>
-              <h3>Medicines:</h3>
-              {prescription.prescription.length > 0 ? (
-                <ul>
-                  {prescription.prescription.map((med, medIndex) => (
-                    <li key={medIndex}>
-                      <strong>Medicine:</strong> {med.medicine_name} <br />
-                      <strong>Quantity:</strong> {med.quantity} <br />
-                      <strong>Dosage:</strong> {med.dosage} <br />
-                      <strong>Duration:</strong> {med.duration}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No medicines found in this prescription.</p>
-              )}
-            </div>
-          ))
-        ) : (
-          <p>No prescriptions found for this patient.</p>
-        )
+    {prescriptions ? (
+      prescriptions.length > 0 ? (
+        prescriptions.map((prescription, index) => (
+          <div key={prescription._id} className="patient-prescription-card">
+            <h2 className="patient-prescription-subtitle">Prescription {index + 1}</h2>
+            <p><strong>Date:</strong> {new Date(prescription.prescription_date).toLocaleDateString()}</p>
+
+            <h3 className="patient-prescription-medicine-title">Medicines:</h3>
+            {prescription.prescription.length > 0 ? (
+              <ul className="patient-prescription-medicine-list">
+                {prescription.prescription.map((med, medIndex) => (
+                  <li key={medIndex} className="patient-prescription-medicine-item">
+                    <strong>Medicine:</strong> {med.medicine_name} <br />
+                    <strong>Quantity:</strong> {med.quantity} <br />
+                    <strong>Dosage:</strong> {med.dosage} <br />
+                    <strong>Duration:</strong> {med.duration}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="patient-prescription-no-medicine">No medicines found in this prescription.</p>
+            )}
+          </div>
+        ))
       ) : (
-        <p>Loading prescriptions...</p>
-      )}
-    </div>
-  );
+        <p className="patient-prescription-no-data">No prescriptions found for this patient.</p>
+      )
+    ) : (
+      <p className="patient-prescription-loading">Loading prescriptions...</p>
+    )}
+  </div>
+);
 };
 
 export default PatientPrescrption;

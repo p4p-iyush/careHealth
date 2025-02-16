@@ -95,125 +95,125 @@ const AppointmentBookingForm = () => {
 };
 
 
-  return (
-    <div className="AppointmentBookingForm-container">
-      <form onSubmit={handleSubmit} className="AppointmentBookingForm-form">
-        <h2 className="AppointmentBookingForm-heading">Book an Appointment</h2>
+return (
+  <div className="AppointmentBookingForm-container">
+    <form onSubmit={handleSubmit} className="AppointmentBookingForm-form">
+      <h2 className="AppointmentBookingForm-heading">Book an Appointment</h2>
 
-        <div className="AppointmentBookingForm-field">
-          <label className="AppointmentBookingForm-label">Name:</label>
-          <input
-            className="AppointmentBookingForm-input"
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
+      <div className="AppointmentBookingForm-field">
+        <label className="AppointmentBookingForm-label">Name:</label>
+        <input
+          className="AppointmentBookingForm-input"
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-        <div className="AppointmentBookingForm-field">
-          <label className="AppointmentBookingForm-label">Email:</label>
-          <input
-            className="AppointmentBookingForm-input"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
+      <div className="AppointmentBookingForm-field">
+        <label className="AppointmentBookingForm-label">Email:</label>
+        <input
+          className="AppointmentBookingForm-input"
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-        <div className="AppointmentBookingForm-field">
-          <label className="AppointmentBookingForm-label">Phone:</label>
-          <input
-            className="AppointmentBookingForm-input"
-            type="tel"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-          />
-        </div>
+      <div className="AppointmentBookingForm-field">
+        <label className="AppointmentBookingForm-label">Phone:</label>
+        <input
+          className="AppointmentBookingForm-input"
+          type="tel"
+          name="phone"
+          value={formData.phone}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-        <div className="AppointmentBookingForm-field">
-          <label className="AppointmentBookingForm-label">Department:</label>
-          <select
-            className="AppointmentBookingForm-select"
-            name="department"
-            value={formData.department}
-            onChange={handleChange}
-            required
-          >
-              <option value="">Select Department</option>
-              <option value="Cardiology">Cardiology</option>
-              <option value="Neurology">Neurology</option>
-              <option value="Orthopedics">Orthopedics</option>
-              <option value="Pediatrics">Pediatrics</option>
-              <option value="General Medicine">General Medicine</option>
-          </select>
-        </div>
-
-        <div className="AppointmentBookingForm-field">
-          <label className="AppointmentBookingForm-label">Date:</label>
-          <input
-            className="AppointmentBookingForm-input"
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            required
-            min={new Date().toISOString().split("T")[0]} // Prevents past dates
-          />
-        </div>
-
-        <div className="AppointmentBookingForm-field">
-          <label className="AppointmentBookingForm-label">Time Slot:</label>
-          <select
-            className="AppointmentBookingForm-select"
-            name="time"
-            value={formData.time}
-            onChange={handleChange}
-            required
-            disabled={!formData.date || !formData.department} // Disable time selection if department or date is not selected
-          >
-            <option value="">Select a time slot</option>
-            {availability && availability.map((slot, index) => (
-              <option key={index} value={slot}>
-                {slot}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="AppointmentBookingForm-field">
-          <label className="AppointmentBookingForm-label">Appointment Type:</label>
-          <select
-            className="AppointmentBookingForm-select"
-            name="type"
-            value={formData.type}
-            onChange={handleChange}
-          >
-            <option value="General">General</option>
-            <option value="Emergency">Emergency</option>
-            <option value="VIP">VIP</option>
-          </select>
-        </div>
-
-        {availability === false && (
-          <p className="AppointmentBookingForm-error">This time slot is unavailable.</p>
-        )}
-
-        <button
-          className="AppointmentBookingForm-button"
-          type="submit"
-          disabled={loading}
+      <div className="AppointmentBookingForm-field">
+        <label className="AppointmentBookingForm-label">Department:</label>
+        <select
+          className="AppointmentBookingForm-select"
+          name="department"
+          value={formData.department}
+          onChange={handleChange}
+          required
         >
-          {loading ? 'Booking...' : 'Book Appointment'}
-        </button>
-      </form>
-    </div>
-  );
+            <option value="">Select Department</option>
+            <option value="Cardiology">Cardiology</option>
+            <option value="Neurology">Neurology</option>
+            <option value="Orthopedics">Orthopedics</option>
+            <option value="Pediatrics">Pediatrics</option>
+            <option value="General Medicine">General Medicine</option>
+        </select>
+      </div>
+
+      <div className="AppointmentBookingForm-field">
+        <label className="AppointmentBookingForm-label">Date:</label>
+        <input
+          className="AppointmentBookingForm-input"
+          type="date"
+          name="date"
+          value={formData.date}
+          onChange={handleChange}
+          required
+          min={new Date().toISOString().split("T")[0]} // Prevents past dates
+        />
+      </div>
+
+      <div className="AppointmentBookingForm-field">
+        <label className="AppointmentBookingForm-label">Time Slot:</label>
+        <select
+          className="AppointmentBookingForm-select"
+          name="time"
+          value={formData.time}
+          onChange={handleChange}
+          required
+          disabled={!formData.date || !formData.department} // Disable time selection if department or date is not selected
+        >
+          <option value="">Select a time slot</option>
+          {availability && availability.map((slot, index) => (
+            <option key={index} value={slot}>
+              {slot}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="AppointmentBookingForm-field">
+        <label className="AppointmentBookingForm-label">Appointment Type:</label>
+        <select
+          className="AppointmentBookingForm-select"
+          name="type"
+          value={formData.type}
+          onChange={handleChange}
+        >
+          <option value="General">General</option>
+          <option value="Emergency">Emergency</option>
+          <option value="VIP">VIP</option>
+        </select>
+      </div>
+
+      {availability === false && (
+        <p className="AppointmentBookingForm-error">This time slot is unavailable.</p>
+      )}
+
+      <button
+        className="AppointmentBookingForm-button"
+        type="submit"
+        disabled={loading}
+      >
+        {loading ? 'Booking...' : 'Book Appointment'}
+      </button>
+    </form>
+  </div>
+);
 };
 
 export default AppointmentBookingForm;

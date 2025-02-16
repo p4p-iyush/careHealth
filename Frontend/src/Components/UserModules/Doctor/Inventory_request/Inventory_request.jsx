@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import "./Inventory_request.css"
 
 const Inventory_request = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [selectedMed, setSelectedMed] = useState([]);
@@ -92,6 +95,7 @@ const Inventory_request = () => {
       const data = await response.json();
       if (response.ok) {
         alert("Inventory request saved successfully!");
+        navigate(-1)
       } else {
         alert(`Error: ${data.error}`);
       }
@@ -111,15 +115,15 @@ const Inventory_request = () => {
   }
 
   return (
-    <div className="add-patient-med-container">
+    <div className="inventory-request-container">
       {/* Doctor Info */}
-      <div className="doctor-info">
-        <h2>Doctor: {doctor.name}</h2>
-        <h3>Department: {doctor.specialization}</h3>
+      <div className="inventory-request-doctor-info">
+        <h2>Doctor: {doctor?.name}</h2>
+        <h3>Department: {doctor?.specialization}</h3>
       </div>
 
       {/* Medicine Search */}
-      <div className="medicine-search">
+      <div className="inventory-request-medicine-search">
         <label>Medicine Name:</label>
         <input
           type="text"
@@ -139,10 +143,10 @@ const Inventory_request = () => {
 
       {/* Selected Medicines */}
       {selectedMed.length > 0 && (
-        <div className="selected-medicines">
+        <div className="inventory-request-selected-medicines">
           <h3>Selected Medicines</h3>
           {selectedMed.map((med) => (
-            <div key={med._id} className="medicine-item">
+            <div key={med._id} className="inventory-request-medicine-item">
               <span>{med.name}</span>
               <label>
                 Quantity:
@@ -162,7 +166,7 @@ const Inventory_request = () => {
       )}
 
       {/* Submit Button */}
-      <div className="form-actions">
+      <div className="inventory-request-form-actions">
         <button onClick={handleSubmit}>Submit</button>
       </div>
     </div>

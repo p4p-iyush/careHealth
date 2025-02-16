@@ -81,33 +81,33 @@ const BedStatus = ({doctor}) => {
   };
 
   return (
-    <div className="bed-status-container">
+    <div className="Bed-status-container">
+      <h1 className="Bed-status-title">Bed Status</h1>
 
-      {/* <h1>Bed Status</h1> */}
       {/* Bed Statistics */}
-      <div className="bed-stats">
-        <h2>Bed Statistics</h2>
-        <p>ICU Beds: {bedStats.ICU?.total} (Available: {bedStats.ICU?.available})</p>
-        <p>Private Beds: {bedStats.Private?.total} (Available: {bedStats.Private?.available})</p>
-        <p>General Beds: {bedStats.General?.total} (Available: {bedStats.General?.available})</p>
+      <div className="Bed-status-stats">
+        <h2 className="Bed-status-subtitle">Bed Statistics</h2>
+        <p className="Bed-status-text">ICU Beds: {bedStats.ICU?.total} (Available: {bedStats.ICU?.available})</p>
+        <p className="Bed-status-text">Private Beds: {bedStats.Private?.total} (Available: {bedStats.Private?.available})</p>
+        <p className="Bed-status-text">General Beds: {bedStats.General?.total} (Available: {bedStats.General?.available})</p>
       </div>
 
       {/* Loading State */}
       {loading ? (
-        <p>Loading bed prices...</p>
+        <p className="Bed-status-loading">Loading bed prices...</p>
       ) : (
-        <table className="bed-table">
+        <table className="Bed-status-table">
           <thead>
-            <tr>
-              <th>Name</th>
-              <th>Contact Number</th>
-              <th>Department</th>
-              <th>Bed Type</th>
-              <th>Bed Number</th>
-              <th>Allocation Date</th>
-              <th>Days Stayed</th>
-              <th>Total Bill</th>
-              <th>Action</th>
+            <tr className="Bed-status-table-header">
+              <th className="Bed-status-th">Name</th>
+              <th className="Bed-status-th">Email</th>
+              <th className="Bed-status-th">Department</th>
+              <th className="Bed-status-th">Bed Type</th>
+              <th className="Bed-status-th">Bed Number</th>
+              <th className="Bed-status-th">Allocation Time</th>
+              <th className="Bed-status-th">Days Stayed</th>
+              <th className="Bed-status-th">Total Bill</th>
+              <th className="Bed-status-th">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -121,17 +121,17 @@ const BedStatus = ({doctor}) => {
               const totalBill = daysStayed * bedPrice;
 
               return (
-                <tr key={app._id}>
-                  <td>{app.name}</td>
-                  <td>{app.contact}</td>
-                  <td>{app.department}</td>
-                  <td>{app.bedType}</td>
-                  <td>{app.bedNumber}</td>
-                  <td>{app.allocationTime.split("T")[0]}</td>
-                  <td>{daysStayed}</td>
-                  <td>₹{totalBill}</td>
-                  <td>
-                    <button className="discharge-button" onClick={() => handleDischarge(app._id)}>
+                <tr key={app._id} className="Bed-status-table-row">
+                  <td className="Bed-status-td">{app.name}</td>
+                  <td className="Bed-status-td">{app.email}</td>
+                  <td className="Bed-status-td">{app.department}</td>
+                  <td className="Bed-status-td">{app.bedType}</td>
+                  <td className="Bed-status-td">{app.bedNumber}</td>
+                  <td className="Bed-status-td">{allocationTime.toLocaleString()}</td>
+                  <td className="Bed-status-td">{daysStayed}</td>
+                  <td className="Bed-status-td">₹{totalBill}</td>
+                  <td className="Bed-status-td">
+                    <button className="Bed-status-discharge-button" onClick={() => handleDischarge(app._id)}> 
                       Discharge
                     </button>
                   </td>
@@ -144,5 +144,6 @@ const BedStatus = ({doctor}) => {
     </div>
   );
 };
+
 
 export default BedStatus;

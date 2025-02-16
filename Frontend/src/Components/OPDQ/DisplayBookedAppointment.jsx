@@ -15,36 +15,37 @@ function AppointmentsList() {
     }, []);
 
     return (
-        <div>
-            <h2>Appointments</h2>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Type</th>
-                        <th>Department</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {appointments.map((appointment, index) => (
-                        <tr key={index}>
-                            <td>{appointment.name}</td>
-                            <td>{appointment.email}</td>
-                            <td>{appointment.phone}</td>
-                            <td>{appointment.date}</td>
-                            <td>{appointment.time}</td>
-                            <td>{appointment.type}</td>
-                            <td>{appointment.department}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+        <div className="display-appointment-container">
+    <h2 className="display-appointment-heading">Appointments</h2>
+    <table className="display-appointment-table" border="1">
+        <thead>
+            <tr>
+                <th className="display-appointment-th">Name</th>
+                <th className="display-appointment-th">Email</th>
+                <th className="display-appointment-th">Phone</th>
+                <th className="display-appointment-th">Date</th>
+                <th className="display-appointment-th">Time</th>
+                <th className="display-appointment-th">Type</th>
+                <th className="display-appointment-th">Department</th>
+            </tr>
+        </thead>
+        <tbody>
+            {appointments.map((appointment, index) => (
+                <tr key={index} className="display-appointment-row">
+                    <td className="display-appointment-td">{appointment.name}</td>
+                    <td className="display-appointment-td">{appointment.email}</td>
+                    <td className="display-appointment-td">{appointment.phone}</td>
+                    <td className="display-appointment-td">{appointment.date}</td>
+                    <td className="display-appointment-td">{appointment.time}</td>
+                    <td className="display-appointment-td">{appointment.type}</td>
+                    <td className="display-appointment-td">{appointment.department}</td>
+                </tr>
+            ))}
+        </tbody>
+    </table>
+</div>
+
     );
-}
+};
 
 export default AppointmentsList;

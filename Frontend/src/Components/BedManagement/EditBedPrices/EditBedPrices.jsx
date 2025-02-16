@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./EditBedPrices.css"
 
 const EditBedPrices = () => {
   const [prices, setPrices] = useState({ ICU: 0, Private: 0, General: 0 });
@@ -50,30 +51,57 @@ const EditBedPrices = () => {
   };
 
   return (
-    <div>
-      <h2>Edit Default Prices</h2>
-      {message && <p>{message}</p>}
+    <div className="price-cantainer">
+    <div className="default-price-container">
+  <h2 className="default-price-title">Edit Default Prices</h2>
+  {message && <p className="default-price-message">{message}</p>}
 
-      {Object.keys(prices).length > 0 ? (
-        <>
-          <label>ICU Price:</label>
-          <input type="number" name="ICU" value={prices.ICU} onChange={handleChange} />
+  {Object.keys(prices).length > 0 ? (
+    <>
+      <label className="default-price-label" htmlFor="ICU">ICU Price:</label>
+      <input 
+        className="default-price-input" 
+        type="number" 
+        id="ICU" 
+        name="ICU" 
+        value={prices.ICU} 
+        onChange={handleChange} 
+      />
 
-          <label>Private Room Price:</label>
-          <input type="number" name="Private" value={prices.Private} onChange={handleChange} />
+      <label className="default-price-label" htmlFor="Private">Private Room Price:</label>
+      <input 
+        className="default-price-input" 
+        type="number" 
+        id="Private" 
+        name="Private" 
+        value={prices.Private} 
+        onChange={handleChange} 
+      />
 
-          <label>General Ward Price:</label>
-          <input type="number" name="General" value={prices.General} onChange={handleChange} />
+      <label className="default-price-label" htmlFor="General">General Ward Price:</label>
+      <input 
+        className="default-price-input" 
+        type="number" 
+        id="General" 
+        name="General" 
+        value={prices.General} 
+        onChange={handleChange} 
+      />
 
-          <button onClick={handleUpdatePrices} disabled={loading}>
-            {loading ? "Updating..." : "Update Prices"}
-          </button>
-        </>
-      ) : (
-        <p>Loading default prices...</p>
-      )}
-    </div>
-  );
+      <button 
+        className="default-price-button" 
+        onClick={handleUpdatePrices} 
+        disabled={loading}
+      >
+        {loading ? "Updating..." : "Update Prices"}
+      </button>
+    </>
+  ) : (
+    <p className="default-price-loading">Loading default prices...</p>
+  )}
+</div>
+</div>
+  )
 };
 
 export default EditBedPrices;

@@ -1,0 +1,121 @@
+/* Doctor Dashboard Container */
+.doctor-dash-container {
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #1d2228; /* Dark Gray Background */
+    color: #e1e2e2; /* Light Gray Text */
+}
+
+/* Titles */
+.doctor-dash-title {
+    font-size: 2rem;
+    color: #e1e2e2;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.doctor-dash-subtitle {
+    font-size: 1.5rem;
+    margin-top: 20px;
+    color: #fb8122;
+}
+
+/* Doctor Information */
+.doctor-dash-info {
+    backdrop-filter: blur(5px);
+    background: #222;
+   box-shadow: 0px 1px 2px rgba(0,255,255,0.5), 
+               0px 2px 4px rgba(0,255,255,0.5), 
+               0px 4px 8px rgba(0,255,255,0.5), 
+               0px 8px 16px rgba(0,255,255,0.5); 
+    width: 600px;
+    height: 190px;
+    /* background: rgba(180, 179, 179, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(20, 91, 133, 0.2); */
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 500px;
+    margin-bottom: 20px;
+}
+
+.doctor-dash-name {
+    font-size: 1.5rem;
+    color: #fb8122;
+}
+
+.doctor-dash-specialization,
+.doctor-dash-email,
+.doctor-dash-phone {
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+/* Messages */
+.doctor-dash-loading-message,
+.doctor-dash-not-found-message,
+.doctor-dash-no-patients-message {
+    font-size: 1.2rem;
+    color: #e1e2e2;
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Table Styling */
+.doctor-dash-table {
+    width: 90%;
+    max-width: 800px;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: rgba(180, 179, 179, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(20, 91, 133, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    color: #1d2228;
+    text-align: center;
+}
+
+/* Table Header */
+.doctor-dash-table-head {
+    background-color: #fb8122;
+    color: white;
+}
+
+.doctor-dash-table-header-row th {
+    padding: 12px;
+}
+
+/* Table Data */
+.doctor-dash-table-body .doctor-dash-table-row {
+    background-color: #e1e2e2;
+    color: #1d2228;
+}
+
+.doctor-dash-patient-name,
+.doctor-dash-patient-department,
+.doctor-dash-patient-date,
+.doctor-dash-patient-time,
+.doctor-dash-action {
+    padding: 12px;
+    border-bottom: 2px solid #1d2228;
+}
+
+/* Buttons */
+.doctor-dash-add-btn,
+.doctor-dash-view-btn,
+.doctor-dash-bed-btn {
+    background-color: #fb8122;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+}

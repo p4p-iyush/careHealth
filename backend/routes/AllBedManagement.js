@@ -48,15 +48,22 @@ router.post("/apply-bed", async (req, res) => {
   }
 });
 
+router.get("/bed-status-admin" , async (req,res) => {
+    try{
+      const applications = await Application.find();
+      res.json(applications);
+    }catch(err){
+      console.error("Error fetching bed status:", err);
+      res.status(500).json({ message: "Error fetching bed status" });
+    }
+});
 
 
 // Get all bed applications
 router.get("/bed-status-doctor/:doctorId", async (req, res) => {
   try {
-    console.log("Request Params:", req.params); // Debugging
-
+  
     const { doctorId } = req.params; // Extract doctorId from URL params
-    console.log("Doctor ID from URL:", doctorId);
 
     if (!doctorId) {
       return res.status(400).json({ message: "doctorId is required" });

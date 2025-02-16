@@ -41,23 +41,23 @@ const ApplyBed = () => {
     }
   };
 
-  return (
-    <div className="apply-bed-container">
-      <h1>Apply for Bed</h1>
-      <form onSubmit={handleSubmit} className="apply-bed-form">
-        <label htmlFor="name">Patient Name:</label>
-        <input
+return (
+  <div className="Apply-bed-container">
+  <h1 className="Apply-bed-title">Apply for Bed</h1>
+  <form onSubmit={handleSubmit} className="Apply-bed-form">
+      <label htmlFor="name">Patient Name:</label>
+      <input
           type="text"
-          id="name"
-          placeholder="Enter patient name"
+          className="Apply-bed-input"
+          placeholder="Name"
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           required
-        />
-
-        <label htmlFor="contact">Contact Number:</label>
+      />
+      <label htmlFor="contact">Contact Number:</label>
         <input
           type="text"
+          className="Apply-bed-input"
           id="contact"
           placeholder="Enter contact number"
           value={formData.contact}
@@ -66,37 +66,35 @@ const ApplyBed = () => {
         />
 
         <label htmlFor="department">Department:</label>
-        <select
-          id="department"
+      <select
+          className="Apply-bed-select"
           value={formData.department}
           onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-        >
+      >
           <option>General Medicine</option>
           <option>Cardiology</option>
           <option>Neurology</option>
           <option>Orthopedics</option>
           <option>Pediatrics</option>
-        </select>
+      </select>
 
-        <label htmlFor="bedType">Bed Type:</label>
-        <select
-          id="bedType"
+      <label htmlFor="bedType">Bed Type:</label>
+      <select
+          className="Apply-bed-select"
           value={formData.bedType}
           onChange={(e) => setFormData({ ...formData, bedType: e.target.value })}
-        >
+      >
           <option>General</option>
           <option>Private</option>
           <option>ICU</option>
-        </select>
-
-        <button type="submit" disabled={loading}>
+      </select>
+      <button type="submit" className="Apply-bed-button" disabled={loading}>
           {loading ? "Applying..." : "Apply"}
-        </button>
-      </form>
+      </button>
+  </form>
+  {message && <p className="Apply-bed-message">{message}</p>}
+</div>
 
-      {message && <p className="apply-message">{message}</p>}
-    </div>
-  );
-};
-
+);
+}
 export default ApplyBed;

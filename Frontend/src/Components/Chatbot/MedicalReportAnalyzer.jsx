@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import "./MedicalReportAnalyzer.css"
 
 function MedicalReportAnalyzer() {
   const [file, setFile] = useState(null);
@@ -62,6 +61,7 @@ function MedicalReportAnalyzer() {
   
       console.log("Report saved:", saveResponse.data.message);
       alert("Report saved successfully!");
+      navigate(-1);
     } catch (err) {
       console.error("Error saving report:", err);
       setError(err.response?.data?.error || "Failed to save the report.");
@@ -71,34 +71,43 @@ function MedicalReportAnalyzer() {
     
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold">Medical Report Analyzer</h1>
-      <input
-        type="file"
-        accept="application/pdf"
-        onChange={handleFileChange}
-        className="block mt-2 mb-4"
-      />
-      <button
-        onClick={handleSubmit}
-        className="px-4 py-2 bg-blue-500 text-white rounded"
-      >
-        Analyze Report
-      </button>
-      {error && (
-        <div className="mt-4 p-4 border rounded bg-red-100 text-red-600">
-          <strong>Error:</strong> {error}
-        </div>
-      )}
-      {response && (
-        <div className="mt-4 p-4 border rounded bg-gray-100">
-          <h2 className="text-xl font-semibold">Analysis Report</h2>
-          <pre className="whitespace-pre-wrap">{response}</pre>
-        </div>
-      )}
-      <button onClick={() => {handleSave()}}>Save report</button>
+    <div className="medi-analyser-container">
+    <div className="medi-analyser">
+    <h1 className="medi-analyser-title">Medical Report Analyzer</h1>
+  
+  <input
+    type="file"
+    accept="application/pdf"
+    onChange={handleFileChange}
+    className="medi-analyser-input"
+  />
+  
+  <button
+    onClick={handleSubmit}
+    className="medi-analyser-btn"
+  >
+    Analyze Report
+  </button>
+
+  {error && (
+    <div className="medi-analyser-error">
+      <strong>Error:</strong> {error}
     </div>
-  );
+  )}
+
+  {response && (
+    <div className="medi-analyser-report">
+      <h2 className="medi-analyser-subtitle">Analysis Report</h2>
+      <pre className="medi-analyser-pre">{response}</pre>
+    </div>
+  )}
+
+  <button onClick={handleSave} className="medi-analyser-save-btn">
+    Save Report
+  </button>
+</div>
+</div>
+);
 }
 
 export default MedicalReportAnalyzer;

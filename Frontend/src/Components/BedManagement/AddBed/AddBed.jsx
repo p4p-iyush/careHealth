@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import RemoveBeds from "../RemoveBed/RemoveBed";
+import RemoveBeds from "../RemoveBed/RemoveBeds";
 import "./AddBed.css"; // Import Dark Theme CSS
 
 const BedManagement = () => {
@@ -18,31 +18,39 @@ const BedManagement = () => {
   };
 
   return (
-    <div className="bed-management-container">
-      <h1>Manage Beds</h1>
-
-      <div className="bed-form">
-        <label>Type:</label>
-        <select value={type} onChange={(e) => setType(e.target.value)}>
+    <div className="add-bed-container">
+      <h1 className="add-bed-title">Manage Beds</h1>
+  
+      <div className="add-bed-form">
+        <label className="add-bed-label">Type:</label>
+        <select
+          className="add-bed-select"
+          value={type}
+          onChange={(e) => setType(e.target.value)}
+        >
           <option value="ICU">ICU</option>
           <option value="Private">Private</option>
           <option value="General">General</option>
         </select>
-
-        <label>Number of Beds:</label>
+  
+        <label className="add-bed-label">Number of Beds:</label>
         <input
+          className="add-bed-input"
           type="number"
           value={count}
           onChange={(e) => setCount(parseInt(e.target.value))}
           min="1"
         />
-
-        <button onClick={handleAddBeds}>Add Beds</button>
+  
+        <button className="add-bed-button" onClick={handleAddBeds}>
+          Add Beds
+        </button>
       </div>
-
-      {message && <p className="message">{message}</p>}
-<br></br>
-      <p className="remove-beds-note">Note: Only free beds can be removed.</p>
+  
+      {message && <p className="add-bed-message">{message}</p>}
+  
+      <br />
+      <p className="add-bed-remove-note">Note: Only free beds can be removed.</p>
       <RemoveBeds />
     </div>
   );

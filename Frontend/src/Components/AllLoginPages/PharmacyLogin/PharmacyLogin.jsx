@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";  // ✅ Added axios import
+import '../AllLogin.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -34,40 +35,44 @@ const Login = () => {
   };
 
   return (
-    <div className="container">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="input-group">
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"  // ✅ Added name attribute
-            placeholder="Enter email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="input-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            name="password"  // ✅ Added name attribute
-            placeholder="Enter password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {error && <p className="error">{error}</p>}
-
-        <button type="submit">Login</button>
-      </form>
-      <p className="register-link">
-        Don't have an account? <Link to="/pharmacy-registration">Register Now</Link>
-      </p>
+    <div className="all-login-container">
+      
+      <div className="all-login-container">
+        <h1>Pharmacy Login</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="all-login-input-group">
+            <label>Email:</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+      
+          <div className="all-login-input-group">
+            <label>Password:</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+      
+          {error && <p className="all-login-error">{error}</p>}
+      
+          <button type="submit" className="all-login-button">Login</button>
+        <p className="all-login-register-link">
+          Don't have an account? <Link to="/pharmacy-registration">Register Now</Link>
+        </p>
+         </form>
+       
+      </div>
     </div>
   );
 };

@@ -1,69 +1,71 @@
-/* Dark Theme Styling */
-.apply-bed-container {
-    background-color: #121212;
-    color: #ffffff;
-    min-height: 100vh;
+.Apply-bed-container {
+    background-color: #1d2228;
+    color: #e1e2e2;
     padding: 20px;
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .apply-bed-container h1 {
-    text-align: center;
-    color: #ffffff;
-  }
-  
-  .apply-bed-form {
-    display: flex;
-    flex-direction: column;
+    border-radius: 8px;
+    width: 100%;
     max-width: 400px;
-    width: 100%;
-    background: #1e1e1e;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
-  }
-  
-  .apply-bed-form input,
-  .apply-bed-form select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #333;
-    border-radius: 5px;
-    background-color: #222;
-    color: #fff;
-  }
-  
-  .apply-bed-form button {
-    background-color: #6200ea;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: 0.3s;
-  }
-  
-  .apply-bed-form button:hover {
-    background-color: #3700b3;
-  }
-  
-  /* Message Styling */
-  .apply-message {
+    margin: 90px auto;
+    
     text-align: center;
+    backdrop-filter: blur(5px);
+    background: #222;
+   box-shadow: 0px 1px 2px rgba(0,255,255,0.5), 
+               0px 2px 4px rgba(0,255,255,0.5), 
+               0px 4px 8px rgba(0,255,255,0.5), 
+               0px 8px 16px rgba(0,255,255,0.5); 
+}
+
+.Apply-bed-title {
+    font-size: 24px;
+    color: #f8f6f5;
+    margin-bottom: 20px;
+}
+
+.Apply-bed-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.Apply-bed-input,
+.Apply-bed-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e1e2e2;
+    border-radius: 5px;
+    background-color: #e1e2e2;
+    color: #1d2228;
     font-size: 16px;
-    margin-top: 10px;
-    color: #ffeb3b;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 600px) {
-    .apply-bed-form {
-      width: 90%;
-    }
-  }
-  
+}
+
+.Apply-bed-input::placeholder {
+    color: #666;
+}
+
+.Apply-bed-select {
+    cursor: pointer;
+}
+
+.Apply-bed-button {
+    background-color: #fb8122;
+    color: #1d2228;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.Apply-bed-button:disabled {
+    background-color: #b0b0b0;
+    cursor: not-allowed;
+}
+
+.Apply-bed-message {
+    margin-top: 15px;
+    color: #fb8122;
+    font-size: 14px;
+    font-weight: bold;
+}

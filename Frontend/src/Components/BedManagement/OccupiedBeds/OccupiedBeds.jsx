@@ -40,27 +40,28 @@ const OccupiedBeds = () => {
   };
 
   return (
-    <div className="occupied-beds-container">
-      <h1>Occupied Beds and Pricing</h1>
-      {message && <p className="message">{message}</p>}
+    <div className="Occupied-bed-container">
+      <h1 className="Occupied-bed-title">Occupied Beds and Pricing</h1>
+      {message && <p className="Occupied-bed-message">{message}</p>}
 
-      <table className="occupied-beds-table">
-        <thead>
-          <tr>
-            <th>Bed Number</th>
-            <th>Type</th>
-            <th>Price Per Day (₹)</th>
-            <th>Action</th>
+      <table className="Occupied-bed-table">
+        <thead className="Occupied-bed-thead">
+          <tr className="Occupied-bed-header-row">
+            <th className="Occupied-bed-header">Bed Number</th>
+            <th className="Occupied-bed-header">Type</th>
+            <th className="Occupied-bed-header">Price Per Day (₹)</th>
+            <th className="Occupied-bed-header">Action</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="Occupied-bed-tbody">
           {occupiedBeds.map((bed) => (
-            <tr key={bed.bedNumber}>
-              <td>{bed.bedNumber}</td>
-              <td>{bed.type}</td>
-              <td>
+            <tr key={bed.bedNumber} className="Occupied-bed-row">
+              <td className="Occupied-bed-cell">{bed.bedNumber}</td>
+              <td className="Occupied-bed-cell">{bed.type}</td>
+              <td className="Occupied-bed-cell">
                 <input
                   type="number"
+                  className="Occupied-bed-input"
                   value={priceUpdates[bed.bedNumber] || bed.pricePerDay}
                   onChange={(e) =>
                     setPriceUpdates({ ...priceUpdates, [bed.bedNumber]: e.target.value })
@@ -68,9 +69,9 @@ const OccupiedBeds = () => {
                   min="0"
                 />
               </td>
-              <td>
+              <td className="Occupied-bed-cell">
                 <button
-                  className="update-price-button"
+                  className="Occupied-bed-update-button"
                   onClick={() => handlePriceUpdate(bed.bedNumber)}
                 >
                   Update Price
@@ -80,8 +81,8 @@ const OccupiedBeds = () => {
           ))}
         </tbody>
       </table>
-    </div>
-  );
+</div>
+  )
 };
 
 export default OccupiedBeds;

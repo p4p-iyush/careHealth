@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import "./Total_patient.css"
 const TotalPatient = () => {
     const [patients, setPatients] = useState([]);
 
@@ -11,35 +11,36 @@ const TotalPatient = () => {
     }, []);
 
     return (
-        <div className="container mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-6 text-center">Total Patients</h1>
-            <table className="min-w-full bg-white border border-gray-300">
-                <thead>
-                    <tr className="bg-gray-200">
-                        <th className="py-2 px-4 border">Name</th>
-                        <th className="py-2 px-4 border">Age</th>
-                        <th className="py-2 px-4 border">Gender</th>
-                        <th className="py-2 px-4 border">Contact No.</th>
-                        <th className="py-2 px-4 border">Email</th>
-                        <th className="py-2 px-4 border">Blood Group</th>
-                        <th className="py-2 px-4 border">Address</th>
+        <div className="Total-patient-container">
+        <h1 className="Total-patient-title">Total Patients</h1>
+        <table className="Total-patient-table">
+            <thead>
+                <tr className="Total-patient-header-row">
+                    <th className="Total-patient-header">Name</th>
+                    <th className="Total-patient-header">Age</th>
+                    <th className="Total-patient-header">Gender</th>
+                    <th className="Total-patient-header">Contact No.</th>
+                    <th className="Total-patient-header">Email</th>
+                    <th className="Total-patient-header">Blood Group</th>
+                    <th className="Total-patient-header">Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {patients.map((patient) => (
+                    <tr key={patient._id} className="Total-patient-row">
+                        <td className="Total-patient-cell">{patient.name}</td>
+                        <td className="Total-patient-cell">{patient.age}</td>
+                        <td className="Total-patient-cell">{patient.gender}</td>
+                        <td className="Total-patient-cell">{patient.contact}</td>
+                        <td className="Total-patient-cell">{patient.email}</td>
+                        <td className="Total-patient-cell">{patient.bloodGroup}</td>
+                        <td className="Total-patient-cell">{patient.address}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    {patients.map((patient) => (
-                        <tr key={patient._id} className="border">
-                            <td className="py-2 px-4 border">{patient.name}</td>
-                            <td className="py-2 px-4 border">{patient.age}</td>
-                            <td className="py-2 px-4 border">{patient.gender}</td>
-                            <td className="py-2 px-4 border">{patient.contact}</td>
-                            <td className="py-2 px-4 border">{patient.email}</td>
-                            <td className="py-2 px-4 border">{patient.bloodGroup}</td>
-                            <td className="py-2 px-4 border">{patient.address}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+                ))}
+            </tbody>
+        </table>
+    </div>
+    
     );
 };
 
