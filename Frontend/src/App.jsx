@@ -21,6 +21,7 @@ import AdminResgistration from './Components/UserModules/Admin/RegistrationManag
 import AppointmentList from './Components/OPDQ/AppointmentsList';
 import DisplayBookedAppointment from './Components/OPDQ/DisplayBookedAppointment';
 import AppointmentBookingForm from './Components/UserModules/Patients/AppointmentBookingForm/AppointmentBookingForm';
+import AppointmentCount from './Components/UserModules/Admin/AdminDashboard/Appointment_count/Appointment_count'
 
 import PatientDashboard from './Components/UserModules/Patients/PatientDashboard/PatientDashboard';
 import DoctorDashboard from './Components/UserModules/Doctor/DoctorDashboard/DoctorDashboard';
@@ -40,14 +41,17 @@ import AboutToExpire from './Components/UserModules/Pharmacists/ExpiryManagement
 import UpdateQuantity from './Components/UserModules/Pharmacists/QuantityManagement/UpdateQuantity';
 import ExpiredProduct from './Components/UserModules/Pharmacists/ExpiryManagement/ExpiredProduct/ExpiredProduct';
 import ExpiryUpdate from './Components/UserModules/Pharmacists/ExpiryManagement/ExpiryUpdate/ExpiryUpdate';
+import HospitalBills from './Components/UserModules/Pharmacists/HospitalBills/Hospital_bills';
 
 //Doctor
 import Add_patient_med from './Components/UserModules/Doctor/Doctor_add_patient/Add_patient_med'
+import TotalDoctor from './Components/UserModules/Doctor/TotalDoctors/Total_doctor';
 
 // patient
 import Prescription_portal from './Components/UserModules/Patients/PatientPrescription/PatientPrescrption'
 import Patient_Bill from './Components/UserModules/Patients/PatientBills/PatientBills'
 import MedicalReportAnalyzer from "./Components/Chatbot/MedicalReportAnalyzer"
+import TotalPatient from './Components/UserModules/Patients/TotalPatients/Total_patient';
 
 // import ExpiryUpdate from './Components/UserModules/Pharmacists/QuantityManagement/UpdateQuantity';
 
@@ -126,6 +130,9 @@ function MainApp() {
         <Route path="/hrmanager-admin-dashboard" element={<HRManagerDashboard/>} />
         {/* <Route path ="/main-dashboard" element={<MainDashboard/>} /> */}
 
+      {/* route for all patient list */}
+      <Route path="/total-patients" element={<TotalPatient/>}/>
+
       {/* Routes for Pharmaciest */}
       <Route path="/patient-list" element={<PatientList/>} />
       <Route path="/prescription/:id" element={<PrescriptionDetails />} />
@@ -134,7 +141,7 @@ function MainApp() {
       <Route path="/about-to-expire" element={<AboutToExpire />} />
       <Route path="/Expired-product" element={<ExpiredProduct />} />
       <Route path="/ExpiryUpdate/:id" element={<ExpiryUpdate />} />
-
+      <Route path="/appointment-count" element={<AppointmentCount/>}/>
       <Route path="/update-quantity/:id" element={<UpdateQuantity />} />
       <Route path="/update-quantity/:inventory_id" component={UpdateQuantity} />
 
@@ -144,9 +151,11 @@ function MainApp() {
       <Route path="/bedManagement" element={<AddBed />} />
       <Route path="/editDefaultPrices" element={<EditBedPrices />} />
       <Route path="/allDischargeBill" element={<AllDischargeBill />} />
+      <Route path="/Bed-status" element={<BedStatus/>}/>
      
      {/*Doctor routes */}
      <Route path="add-patient-med" element={<Add_patient_med/>}></Route>
+     <Route path='/Total-Doctors' element={<TotalDoctor/>}/>
 
      {/* Patient routes */}
      <Route path="/patient/prescription/:id" element={<Prescription_portal />} />
@@ -155,6 +164,7 @@ function MainApp() {
      <Route path="/Hospital-Demands" element={<HospitalDemand />}/>
       <Route path="/Demand/:id" element={<DemandDetails/>}/>
       <Route path="/inventory-request" element={<InventoryRequest />}></Route>
+      <Route path="/Hospital-bills" element={<HospitalBills/>}/>
 
      {/* patient bill */}
     <Route path='patient-bill' element={<Patient_Bill/>}></Route>

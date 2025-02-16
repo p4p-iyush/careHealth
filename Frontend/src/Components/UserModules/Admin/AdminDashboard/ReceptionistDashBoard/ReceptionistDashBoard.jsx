@@ -29,13 +29,10 @@ const ReceptionistDashBoard = () => {
       <aside className="admin-dashboard-sidebar">
         <h2>Menu</h2>
         <div className="admin-dashboard-sidebar-buttons">
-          <button onClick={() => navigate("/dashboard")}>Dashboard</button>
+          <button onClick={() => navigate("/")}>Dashboard</button>
           <button onClick={() => navigate("/appointment-count")}>Appointments</button>
-          <button onClick={() => navigate("/status")}>Bed Status</button>
-          <button onClick={() => navigate("/inventory")}>Inventory</button>
-          <button onClick={() => navigate("/doctor-registration")}>Doctor Registration</button>
-          <button onClick={() => navigate("/pharmacist-registration")}>Pharmacist Registration</button>
-          <button onClick={() => navigate("/admin-registration")}>Admin Registration</button>
+          <button onClick={() => navigate("/Bed-Status")}>Bed Status</button>
+          <button onClick={() => navigate("/Hospital-bills")}>Inventory Bills</button>
         </div>
       </aside>
 
@@ -80,8 +77,7 @@ const ReceptionistDashBoard = () => {
             <div className="admin-dashboard-action-buttons">
               <button onClick={() => navigate("/editDefaultPrices")}>Change Bed Price</button>
               <button onClick={() => navigate("/AllDischargeBill")}>View Discharge Bill</button>
-              <button onClick={() => navigate("/doctor-registration")}>Register Doctor</button>
-              <button onClick={() => navigate("/pharmacist-registration")}>Register Pharmacist</button>
+
             </div>
           </section>
 

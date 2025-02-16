@@ -32,6 +32,8 @@ const PrescriptionRoutes = require("./routes/PrescriptionRoutes");
 
 //Admin Routes
 const AdminRoutes = require("./routes/AdminRoutes.js");
+const appointmentCount= require("./routes/appointmentRoutes.js");
+const patientlist= require("./routes/Patientlistroute.js");
 
 // ChatBot Routes
 const ChatBotRoutes = require("./routes/ChatbotRoutes.js")
@@ -122,6 +124,8 @@ async function initializeBeds() {
 
   // ############################### Admin section ###############################
   app.use("/adminRoutes", AdminRoutes);
+  app.use("/api/appointments", appointmentCount);
+  app.use("/api/patients", patientlist);
 
   // ############################### ChatBot section ###############################
   app.use("/api/chatbot", ChatBotRoutes);

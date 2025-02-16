@@ -60,7 +60,20 @@ router.patch('/demands/:id', async (req, res) => {
   }
 });
 
-
+router.get('/hospital-bills', async (req, res) => {
+  try {
+    // Fetch bills with handled_by_pharmacist: true and select required fields
+    const bills = await InventoryRequest.find(
+      { handled_by_pharmacist: true },
+      'doctorName department request_date grand_total'
+    );
+    console.log('Fetched bills:', bills); // Log fetched bills
+    res.json(bills);
+  } catch (error) {
+    console.error('Error fetching hospital bills:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 // Route to handle inventory requests
 router.post("/save-inventory-request", async (req, res) => {
