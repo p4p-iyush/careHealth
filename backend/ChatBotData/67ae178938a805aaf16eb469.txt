@@ -6,10 +6,11 @@ Name:dadi ji
 Blood Group:B-
  Address:Harshwardhan Nagar Bhopal MP 
 Email: jhadenishant@gmail.com
-Login Time: 2025-02-15T17:49:50.668Z
+Login Time: 2025-02-16T06:59:15.043Z
 
 #Patien Prescriptions:
   1. Prescription Details: dgfdgf (1x/day, 3 units)
+  2. Prescription Details: dgfdgf (1x/day, 1 units)
 
 #Patient Report Details:
 Okay, I've analyzed the provided medical report from Smart Pathology Laboratory for patient Yash M. Patel. Here's a breakdown of the findings:

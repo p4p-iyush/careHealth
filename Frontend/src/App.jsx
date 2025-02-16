@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useRef } from 'react';
 import Navbar from './Components/Navbar/Navbar';
 import Footer from './Components/Footer/Footer';
+import UserContext from './Components/Context/UserContext';
 
 import LoginPage from './Components/LoginPage/LoginPage';
 
@@ -65,26 +66,33 @@ import InventoryRequest from './Components/UserModules/Doctor/Inventory_request/
 
 function MainApp() {
   const location = useLocation();
-  const [userRole, setUserRole] = useState("guest"); // Default role
-  const roleSet = useRef(false); // Track if a role has been assigned
+  const [userRole, setUserRole] = useState("guest");
+  const roleSet = useRef(false);
+  const { setUserID } = useContext(UserContext); // Access setUserID from context
 
   useEffect(() => {
     if (location.pathname === "/" || location.pathname === "/admin-login" || location.pathname === "/patient-login" || location.pathname === "/doctor-login" || location.pathname === "/pharmacy-login") {
       setUserRole("guest");
-      roleSet.current = false; // Reset tracking when on home page
+      roleSet.current = false;
+      setUserID(null); // Reset userID when on login pages
     } else if (!roleSet.current) {
-      if (location.pathname.includes("/receptionist-admin-dashboard" ) || location.pathname.includes("/systemadministrator-admin-dashboard") || location.pathname.includes("/hrmanager-admin-dashboard")) {
+      if (location.pathname.includes("/receptionist-admin-dashboard") || location.pathname.includes("/systemadministrator-admin-dashboard") || location.pathname.includes("/hrmanager-admin-dashboard")) {
         setUserRole("admin");
+        setUserID("admin-id"); // Set admin userID
       } else if (location.pathname.includes("/patient-dashboard")) {
         setUserRole("patient");
+        setUserID("patient-id"); // Set patient userID
       } else if (location.pathname.includes("/doctor-dashboard")) {
         setUserRole("doctor");
+        setUserID("doctor-id"); // Set doctor userID
       } else if (location.pathname.includes("/pharmacy-dashboard")) {
         setUserRole("pharmacist");
+        setUserID("pharmacist-id"); // Set pharmacist userID
       }
-      roleSet.current = true; // Mark that a role has been assigned
+      roleSet.current = true;
     }
-  }, [location.pathname]);
+  }, [location.pathname, setUserID]);
+
 
   return ( 
     <>
@@ -158,11 +166,17 @@ function MainApp() {
 }
 
 const App = () => {
+  const [userID, setUserID] = useState(null); // State to hold userID
+
   return (
-    <Router>
-      <MainApp />
-    </Router>
+    <UserContext.Provider value={{ userID, setUserID }}>
+      <Router>
+        <MainApp />
+      </Router>
+    </UserContext.Provider>
   );
-}
+};
+
+
 
 export default App;

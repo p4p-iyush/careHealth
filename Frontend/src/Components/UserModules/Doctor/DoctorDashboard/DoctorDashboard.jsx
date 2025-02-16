@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import { useLocation, Link } from "react-router-dom";
 import axios from "axios"; // Ensure axios is imported
 import BedStatus from "../../../BedManagement/BedStatus/BedStatus.jsx";
+import UserContext from "../../../Context/UserContext.js";
 
 const DoctorDashboard = () => {
   const [doctor, setDoctor] = useState(null);
   const [patients, setPatients] = useState([]);
+  const { userID, setUserID } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   const { userDetails } = location.state || {};
 
+
   useEffect(() => {
     const fetchDoctorAndPatients = async () => {
       try {
-        
+        setUserID(userDetails.doctor._id)
         const response = await fetch(`http://localhost:5000/doctorRoutes/doctor_patient_list/${userDetails.doctor._id}`);
         const data = await response.json();
 
@@ -31,7 +34,7 @@ const DoctorDashboard = () => {
     };
 
     fetchDoctorAndPatients();
-  }, [userDetails.doctor._id]);
+  }, [userDetails.doctor._id , setUserID]);
 
   const handleSubmit = async (patientId) => {
     try {

@@ -6,14 +6,16 @@ const PatientPrescrption = () => {
   const { userDetails } = location.state || {}; // Get userDetails from location.state
   const [prescriptions, setPrescriptions] = useState(null);
 
+  console.log(userDetails)
+
   useEffect(() => {
     const fetchPrescriptions = async () => {
-      if (!userDetails?._id) {
+      if (!userDetails?._id && !userDetails) {
         console.error('User ID is missing');
         return;
       }
       try {
-        const response = await fetch(`http://localhost:5000/prescriptions/patient/prescription/${userDetails.patientId || userDetails._id }`);
+        const response = await fetch(`http://localhost:5000/prescriptions/patient/prescription/${ userDetails.patientId || userDetails._id || userDetails}`);
 
         const data = await response.json();
     
@@ -39,7 +41,10 @@ const PatientPrescrption = () => {
 
   return (
     <div>
-      <h1>Prescriptions for {userDetails?.name}</h1>
+      <h1>
+  {userDetails?.name ? `Prescriptions for ${userDetails.name}` : "Prescriptions Of Patient"}
+</h1>
+
       {prescriptions ? (
         prescriptions.length > 0 ? (
           prescriptions.map((prescription, index) => (

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './PharmacyDashboard.css';
 
+
 const LandingPage = () => {
     return (
         <div className="landingpage-container">

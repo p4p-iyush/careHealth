@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useEffect , useState} from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Chatbot from "../../../Chatbot/Chatbot";
+import UserContext from "../../../Context/UserContext"; // Import the context
 import "./PatientDashboard.css";
 import { IoClose } from "react-icons/io5";
 
@@ -8,17 +9,22 @@ const PatientDashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { userDetails } = location.state || {}; // Get userDetails from state
-
+  const { userID, setUserID } = useContext(UserContext); // Access userID and setUserID from context
   const [isChatbotOpen, setIsChatbotOpen] = useState(false); // Chatbot state
 
-  console.log(userDetails);
+  console.log(userDetails.patient._id)
 
   // Function to fetch text file data
   const fetchtxtfile = async () => {
     try {
-      if (!userDetails?.patient?._id) {
-        console.error("Patient ID not found.");
+      if (!userDetails) {
+        console.error("User ID not found.");
         return;
+      }
+      else
+      {
+        setUserID(userDetails.patient._id); // Update userID in context
+        console.log("User ID", userID)
       }
 
       // Fetch the text file data from backend
@@ -61,11 +67,14 @@ const PatientDashboard = () => {
   };
 
   useEffect(() => {
+    if (userDetails?.patient?._id) {
+      setUserID(userDetails.patient._id); // Set userID in context
+    }
     fetchtxtfile();
     if (!userDetails || !userDetails.patient) {
       navigate("/login"); // Redirect to login if no user details are found
     }
-  }, [userDetails, navigate]);
+  }, [userDetails, navigate, setUserID]);
 
   // Toggle chatbot visibility
   const toggleChatbot = () => {
@@ -80,7 +89,7 @@ const PatientDashboard = () => {
           <h2>Appointments</h2>
         </Link>
 
-        <Link to={`/patient/prescription/${userDetails?.patient?._id}`} state={{ userDetails: userDetails?.patient }}>
+        <Link to={`/patient/prescription/${userID}`} state={{ userDetails: userDetails?.patient }}>
           <h2>View Prescription</h2>
         </Link>
 
