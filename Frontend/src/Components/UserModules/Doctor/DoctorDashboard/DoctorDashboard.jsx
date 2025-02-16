@@ -1,5 +1,5 @@
-import React, { useEffect, useState,useContext } from "react";
-import { useLocation, Link } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { useLocation, Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import axios from "axios"; // Ensure axios is imported
 import BedStatus from "../../../BedManagement/BedStatus/BedStatus.jsx";
 import UserContext from "../../../Context/UserContext.js";
@@ -11,12 +11,12 @@ const DoctorDashboard = () => {
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   const { userDetails } = location.state || {};
-
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const fetchDoctorAndPatients = async () => {
       try {
-        setUserID(userDetails.doctor._id)
+        setUserID(userDetails.doctor._id);
         const response = await fetch(`http://localhost:5000/doctorRoutes/doctor_patient_list/${userDetails.doctor._id}`);
         const data = await response.json();
 
@@ -34,28 +34,33 @@ const DoctorDashboard = () => {
     };
 
     fetchDoctorAndPatients();
-  }, [userDetails.doctor._id , setUserID]);
+  }, [userDetails.doctor._id, setUserID]);
 
   const handleSubmit = async (patientId) => {
     try {
-        const response = await axios.put('http://localhost:5000/doctorRoutes/doctor_patient_list', {
-            patientId: patientId,  
-            reached: true, 
-        });
+      const response = await axios.put('http://localhost:5000/doctorRoutes/doctor_patient_list', {
+        patientId: patientId,
+        reached: true,
+      });
 
-        console.log("Response:", response.data);
-        alert("Patient status updated successfully!");
+      console.log("Response:", response.data);
+      alert("Patient status updated successfully!");
 
-        // Update state to reflect changes instantly
-        setPatients((prevPatients) =>
-            prevPatients.map((patient) =>
-                patient._id === patientId ? { ...patient, reached: true } : patient
-            )
-        );
+      // Update state to reflect changes instantly
+      setPatients((prevPatients) =>
+        prevPatients.map((patient) =>
+          patient._id === patientId ? { ...patient, reached: true } : patient
+        )
+      );
     } catch (error) {
-        console.error("Error updating patient status:", error);
-        alert("Failed to update patient status.");
+      console.error("Error updating patient status:", error);
+      alert("Failed to update patient status.");
     }
+  };
+
+  // Function to handle the button click and navigate to /inventory-request
+  const handleInventoryRequest = () => {
+    navigate("/inventory-request", { state: { doctor_id: userDetails.doctor._id } });
   };
 
   return (
@@ -74,6 +79,13 @@ const DoctorDashboard = () => {
       ) : (
         <p>Doctor not found.</p>
       )}
+
+      <h3>
+        Request to Inventory
+        <button onClick={handleInventoryRequest} style={{ marginLeft: "10px" }}>
+          Request Inventory
+        </button>
+      </h3>
 
       <h3>Appointments</h3>
       {patients.length > 0 ? (
@@ -107,9 +119,9 @@ const DoctorDashboard = () => {
                 </td>
                 <td>
                   <Link to="/bed-application" state={{ patient, doctor }}>ADD</Link>
-                </td> 
+                </td>
                 <td>
-                  <button 
+                  <button
                     onClick={() => handleSubmit(patient._id)}
                     disabled={patient.reached} // Disable button if already marked as reached
                   >
@@ -126,9 +138,7 @@ const DoctorDashboard = () => {
 
       <h3>Beds Allocated to Doctor</h3>
       {/* Add bed status display */}
-      
       {userDetails.doctor && userDetails.doctor._id ? <BedStatus doctor={userDetails.doctor} /> : <p>Loading doctor data...</p>}
-
     </div>
   );
 };

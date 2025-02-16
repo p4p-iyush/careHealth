@@ -19,6 +19,7 @@ const dischargeandbillManagementRoute = require("./routes/DischargeAndBill.js");
 
 // Inventory Management Routes
 const InventoryRoutes = require("./routes/InventoryRoutes.js");
+const InventoryRequest = require("./routes/InventoryRequest")
 const Demands= require("./routes/InventoryRequest.js")
 const sendMedicineShortageEmail = require("./routes/sendMedicineShortageEmail.js");
 
@@ -111,6 +112,7 @@ async function initializeBeds() {
 
   // ############################### Inventory Management #########################################
   app.use("/inventory", InventoryRoutes);
+  app.use("/inventoryrequest", InventoryRequest);
   app.use("/inventory/api", Demands);
   app.use("/", sendMedicineShortageEmail);
 

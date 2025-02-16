@@ -6,10 +6,33 @@ const Inventory_request = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [selectedMed, setSelectedMed] = useState([]);
   const [selectedMedSet, setSelectedMedSet] = useState(new Set());
+  const [doctor, setDoctor] = useState(null); // State to store doctor details
+  const [loading, setLoading] = useState(true); // Loading state
 
   const location = useLocation();
-  const { patient, doctor } = location.state || {};
+  const { doctor_id } = location.state || {}; // Get doctor_id from state
 
+  // Fetch doctor details based on doctor_id
+  useEffect(() => {
+    if (doctor_id) {
+      fetch(`http://localhost:5000/doctorRoutes/doctor/${doctor_id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.doctor) {
+            setDoctor(data.doctor); // Set doctor details
+          } else {
+            console.error("Doctor not found");
+          }
+          setLoading(false); // Set loading to false
+        })
+        .catch((err) => {
+          console.error("Error fetching doctor details:", err);
+          setLoading(false); // Set loading to false in case of error
+        });
+    }
+  }, [doctor_id]);
+
+  // Fetch medicine suggestions based on search term
   useEffect(() => {
     if (searchTerm.trim() === "") {
       setSuggestions([]);
@@ -22,6 +45,7 @@ const Inventory_request = () => {
       .catch((err) => console.error(err));
   }, [searchTerm]);
 
+  // Handle selecting a medicine
   const handleSelectMed = (suggestion) => {
     setSelectedMed((prevMed) => [
       ...prevMed,
@@ -32,12 +56,8 @@ const Inventory_request = () => {
     setSuggestions([]);
   };
 
-/*************  ✨ Codeium Command ⭐  *************/
-  /**
-   * Removes a medication from the list of selected medications.
-   * @param {string} id The id of the medication to remove.
-   */
-/******  72e2e571-1ee1-43cc-9a20-5f991763ed2a  *******/  const handleRemoveMed = (id) => {
+  // Handle removing a medicine
+  const handleRemoveMed = (id) => {
     setSelectedMed((prevMed) => prevMed.filter((med) => med._id !== id));
     setSelectedMedSet((prevSet) => {
       const updatedSet = new Set(prevSet);
@@ -46,6 +66,7 @@ const Inventory_request = () => {
     });
   };
 
+  // Handle changing medicine quantity
   const handleFieldChange = (id, field, value) => {
     setSelectedMed((prevMed) =>
       prevMed.map((med) =>
@@ -54,19 +75,20 @@ const Inventory_request = () => {
     );
   };
 
+  // Handle form submission
   const handleSubmit = async () => {
     try {
       const response = await fetch("http://localhost:5000/inventoryRequest/save-inventory-request", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },  
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           doctorName: doctor?.name,
           department: doctor?.specialization,
-          requests: selectedMed.map(({ name, quantity }) => ({ medicine_name: name, quantity })), // Send only necessary fields
-          grand_total: selectedMed.reduce((total, med) => total + (med.price || 0) * med.quantity, 0), // Calculate grand total
+          requests: selectedMed.map(({ name, quantity }) => ({ medicine_name: name, quantity })),
+          grand_total: selectedMed.reduce((total, med) => total + (med.price || 0) * med.quantity, 0),
         }),
       });
-  
+
       const data = await response.json();
       if (response.ok) {
         alert("Inventory request saved successfully!");
@@ -74,17 +96,26 @@ const Inventory_request = () => {
         alert(`Error: ${data.error}`);
       }
     } catch (err) {
-      console.error("Error while saving invent  ory request:", err);
+      console.error("Error while saving inventory request:", err);
     }
   };
-  
+
+  // Display loading state while fetching doctor details
+  if (loading) {
+    return <p>Loading doctor details...</p>;
+  }
+
+  // Display error if doctor details are not found
+  if (!doctor) {
+    return <p>Doctor not found.</p>;
+  }
 
   return (
     <div className="add-patient-med-container">
       {/* Doctor Info */}
       <div className="doctor-info">
-        <h2>Doctor: {doctor?.name}</h2>
-        <h3>Department: {doctor?.specialization}</h3>
+        <h2>Doctor: {doctor.name}</h2>
+        <h3>Department: {doctor.specialization}</h3>
       </div>
 
       {/* Medicine Search */}

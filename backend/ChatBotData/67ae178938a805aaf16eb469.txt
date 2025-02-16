@@ -1,12 +1,12 @@
 #Patient Details: 
 Name:dadi ji
- Age:100
- Gender:Male 
- ContactNumber:8749835720 
+Age:100
+Gender:Male 
+ContactNumber:8749835720 
 Blood Group:B-
- Address:Harshwardhan Nagar Bhopal MP 
+Address:Harshwardhan Nagar Bhopal MP 
 Email: jhadenishant@gmail.com
-Login Time: 2025-02-16T06:59:15.043Z
+Login Time: 2025-02-16T11:15:54.938Z
 
 #Patien Prescriptions:
   1. Prescription Details: dgfdgf (1x/day, 3 units)

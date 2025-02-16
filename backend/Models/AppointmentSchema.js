@@ -21,7 +21,7 @@ const appointmentSchema = new mongoose.Schema({
         match: [/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format"]
     },
     time: { type: String, required: true },
-    type: { type: String, required: true, enum: ["General", "Emergency", "Follow-up"] },
+    type: { type: String, required: true, enum: ["General", "Emergency", "VIP"] },
     status: { type: String, enum: ["Pending", "Booked", "Cancelled"], default: "Pending" },
     department: { type: String, required: true },
     reached: { type: Boolean, default: false }, 

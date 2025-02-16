@@ -31,7 +31,19 @@ router.get('/doctor_patient_list/:id', async (req, res) => {
     }
 });
 
-
+// Example backend route (Node.js/Express)
+router.get("/doctor/:doctor_id", async (req, res) => {
+    try {
+      const doctor = await Doctor.findById(req.params.doctor_id);
+      if (!doctor) {
+        return res.status(404).json({ error: "Doctor not found" });
+      }
+      res.json({ doctor });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Server error" });
+    }
+  });
 // Update the reached if the patient prescription is done
 router.put('/doctor_patient_list', async (req, res) => {
     try {
