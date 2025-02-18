@@ -95,6 +95,7 @@ const AddPatientMed = () => {
   return (
     <div className="component-add-patient-med-container">
       {/* Patient and Doctor Info */}
+      <h2>Add Prescriptions</h2>
       <div className="component-add-patient-med-info">
         <label>
           Patient Name:

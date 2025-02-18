@@ -27,50 +27,50 @@ if (!fs.existsSync(CHATBOT_DATA_DIR)) {
 
 router.post("/patient_login", async (req, res) => {
   try {
-      const { email, password } = req.body;
+    const { email, password } = req.body;
 
-      // Check if patient exists
-      const patient = await Patient.findOne({ email });
-      if (!patient) {
-          return res.status(404).json({ message: "User not found" });
-      }
+    // Check if patient exists
+    const patient = await Patient.findOne({ email });
+    if (!patient) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-      // Compare hashed password
-      const isMatch = await bcrypt.compare(password, patient.password);
-      if (!isMatch) {
-          return res.status(401).json({ message: "Invalid password" });
-      }
+    // Compare hashed password
+    const isMatch = await bcrypt.compare(password, patient.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid password" });
+    }
 
-      // Generate JWT token
-      const token = jwt.sign(
-          { id: patient._id, email: patient.email },
-          "secretkey",
-          { expiresIn: "1h" }
-      );
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: patient._id, email: patient.email },
+      "secretkey",
+      { expiresIn: "1h" }
+    );
 
-      // Set token in HTTP-only cookie
-      res.cookie("token", token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "strict",
-          maxAge: 60 * 60 * 1000, // 1 hour
-      });
+    // Set token in HTTP-only cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 1000, // 1 hour
+    });
 
-      // Fetch prescriptions for the patient
-      const prescriptions = await Prescription.find({ patient_id: patient._id });
+    // Fetch prescriptions for the patient
+    const prescriptions = await Prescription.find({ patient_id: patient._id });
 
-      // Fetch all chatbot report details for the patient
-      const chatbotData = await Chatbot.find({ patientId: patient._id });
+    // Fetch all chatbot report details for the patient
+    const chatbotData = await Chatbot.find({ patientId: patient._id });
 
-      // Fetch all appointments of the patient
-      const appointments = await Appoinments.find({ patientId: patient._id });
-      console.log(`Fetched ${appointments.length} appointments for patient ${patient._id}`);
+    // Fetch all appointments of the patient
+    const appointments = await Appoinments.find({ patientId: patient._id });
+    console.log(`Fetched ${appointments.length} appointments for patient ${patient._id}`);
 
-      // Define file path: ChatBotData/{patient_id}.txt
-      const filePath = path.join(CHATBOT_DATA_DIR, `${patient._id}.txt`);
+    // Define file path: ChatBotData/{patient_id}.txt
+    const filePath = path.join(CHATBOT_DATA_DIR, `${patient._id}.txt`);
 
-      // Prepare content for the file
-      let content = `# Patient Details:
+    // Prepare content for the file
+    let content = `# Patient Details:
 Name: ${patient.name}
 Age: ${patient.age}
 Gender: ${patient.gender}
@@ -80,53 +80,56 @@ Address: ${patient.address}
 Email: ${patient.email}
 Login Time: ${new Date().toISOString()}\n\n`;
 
-      // Add prescription details
-      content += "# Patient Prescriptions:\n";
-      if (prescriptions.length > 0) {
-          prescriptions.forEach((prescription, index) => {
-              content += ` ${index + 1}. Prescription Details: ${prescription.prescription.map(med => 
-                  `${med.medicine_name} (${med.dosage}, ${med.quantity} units)`
-              ).join(", ")}\n`;
-          });
-      } else {
-          content += "  No prescriptions found.\n";
-      }
+    // Add prescription details
+    content += "# Patient Prescriptions:\n";
+    if (prescriptions.length > 0) {
+      prescriptions.forEach((prescription, index) => {
+        content += ` ${index + 1}. Prescription Details: ${prescription.prescription
+          .map(
+            (med) => `${med.medicine_name} (${med.dosage}, ${med.quantity} units)`
+          )
+          .join(", ")}\n`;
+      });
+    } else {
+      content += "  No prescriptions found.\n";
+    }
 
-      // Add appointment details
-      content += "\n# Patient Appointments:\n";
-      if (appointments.length > 0) {
-          appointments.forEach((appointment, index) => {
-              content += ` Appointment ${index + 1}: Date: ${appointment.date}, Time: ${appointment.time}, Doctor: ${appointment.doctorName}, Department: ${appointment.department}\n`;
-          });
-      } else {
-          content += "  No appointments found.\n";
-      }
+    // Add appointment details
+    content += "\n# Patient Appointments:\n";
+    if (appointments.length > 0) {
+      appointments.forEach((appointment, index) => {
+        content += ` Appointment ${index + 1}: Date: ${appointment.date}, Time: ${appointment.time}, Doctor: ${appointment.doctorName}, Department: ${appointment.department}\n`;
+      });
+    } else {
+      content += "  No appointments found.\n";
+    }
 
-      // Add chatbot report details
-      content += "\n# Patient Report Details:\n";
-      if (chatbotData.length > 0) {
-          chatbotData.forEach((chat, index) => {
-              content += ` Report ${index + 1}. ${chat.reportDetails}\n`;
-          });
-      } else {
-          content += "  No report details found.\n";
-      }
+    // Add chatbot report details
+    content += "\n# Patient Report Details:\n";
+    if (chatbotData.length > 0) {
+      chatbotData.forEach((chat, index) => {
+        content += ` Report ${index + 1}. ${chat.reportDetails}\n`;
+      });
+    } else {
+      content += "  No report details found.\n";
+    }
 
-      // Write content to the text file
-      fs.writeFileSync(filePath, content, "utf8");
+    // Write content to the text file
+    fs.writeFileSync(filePath, content, "utf8");
 
-      res.json({ patient });
+    res.json({ patient });
   } catch (err) {
-      console.error("Error:", err);
-      res.status(500).send(`Error: ${err.message}`);
+    console.error("Error:", err);
+    res.status(500).send(`Error: ${err.message}`);
   }
 });
+
 
 
 router.get("/fetchtxtfile/:patientId", async (req, res) => {
   try {
     const { patientId } = req.params;
-    const filePath = path.join(CHATBOT_DATA_DIR, `${patientId}.txt`);
+    const filePath = path.join(`CHATBOT_DATA_DIR, ${patientId}.txt`);
 
     // Check if the file exists
     if (!fs.existsSync(filePath)) {

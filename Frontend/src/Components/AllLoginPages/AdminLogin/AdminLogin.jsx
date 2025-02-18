@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import axios from "axios";
 import '../AllLogin.css';
 
@@ -48,9 +49,23 @@ const Login = () => {
 
   return (
     <div className="all-login-container">
-      <h1>Admin Login</h1>
+     {/* <div className="svg"></div> <DotLottieReact
+      src="https://lottie.host/aefd25a9-0761-4192-8a02-a1c591fc71a2/kAggrIqva7.lottie"
+      loop
+      autoplay/> */}
+     <h1>Admin Login</h1> 
+      
+    
       <form onSubmit={handleSubmit}>
+    
+    <div className="login-svgs"> <DotLottieReact
+           src="https://lottie.host/0f263f9b-8666-4863-915f-b65c5b9efd4a/HNPBabEUIZ.lottie"
+           loop
+           autoplay
+               />
+      </div>
         <div className="all-login-input-group">
+          <img src="" alt="" />
           <label className="all-login-label">Email:</label>
           <input
             type="email"

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import axios from "axios";
 import '../AllLogin.css';
 
@@ -39,41 +40,46 @@ const Login = () => {
 
   return (
     <div className="all-login-container">
-      <h1>Doctor Login</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="all-login-input-group">
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            placeholder="Enter email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
+    <h1>Doctor Login</h1>
+    <form onSubmit={handleSubmit}>
+     <DotLottieReact
+                src="https://lottie.host/f79a6b3d-f9c6-4c33-9323-bef8a558e756/mhKDzhTWrt.lottie"
+                loop
+                autoplay
+              />
+      <div className="all-login-input-group">
+        <label>Email:</label>
+        <input
+          type="email"
+          name="email"
+          placeholder="Enter email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-        <div className="all-login-input-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
+      <div className="all-login-input-group">
+        <label>Password:</label>
+        <input
+          type="password"
+          name="password"
+          placeholder="Enter password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-        {error && <p className="all-login-error">{error}</p>}
+      {error && <p className="all-login-error">{error}</p>}
 
-        <button type="submit" className="all-login-button">Login</button>
-        <p className="all-login-register-link">
-          Don't have an account? <Link to="/doctor-registration">Register Now</Link>
-        </p>
-      </form>
-    </div>
-  );
+      <button type="submit" className="all-login-button">Login</button>
+      <p className="all-login-register-link">
+        Don't have an account? <Link to="/doctor-registration">Register Now</Link>
+      </p>
+    </form>
+  </div>
+);
 };
 
 export default Login;

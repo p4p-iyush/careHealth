@@ -6,7 +6,7 @@ const PatientPrescrption = () => {
   const { userDetails } = location.state || {}; // Get userDetails from location.state
   const [prescriptions, setPrescriptions] = useState(null);
 
-  console.log(userDetails)
+  console.log("from prescriptions",userDetails)
 
   useEffect(() => {
     const fetchPrescriptions = async () => {

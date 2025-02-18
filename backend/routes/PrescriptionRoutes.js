@@ -67,6 +67,32 @@ router.get('/patient/prescription/:id', async (req, res) => {
     }
 });
 
+router.get('/patient/latest-prescription/:id', async (req, res) => {
+    try {
+        const patientId = req.params.id;
+        // console.log(patientId);
+
+        const latestPrescription = await PatientPrescriptions.findOne({ patient_id: patientId }) 
+        .sort({ prescription_date: -1 })
+        .limit(2);
+    
+
+        // console.log("From Backend",latestPrescription);
+
+        if (!latestPrescription) {
+            return res.status(404).json({ message: 'Latest prescription not found' });
+        }
+
+        res.json(latestPrescription);
+    } catch (err) {
+        console.error('Error fetching latest prescription:', err);
+        res.status(500).json({ message: 'Error fetching latest prescription', error: err.message });
+    }
+})
+
+ 
+
+
 // router.get("save-file/patient/prescription/:id", async (req, res) => {
 //     try {
 //       const patientId = req.params.id;

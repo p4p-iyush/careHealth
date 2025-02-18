@@ -1,110 +1,36 @@
-/* Container */
+/* DemandDetail.css */
+
 .demand-details-container {
-    background-color: #1d2228;
-    color: #e1e2e2;
-    padding: 2rem;
-    border-radius: 10px;
-    max-width: 900px;
-    margin: auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    padding: 20px;
+    background: #f9f9f9; /* Light background */
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
 }
 
-/* Header */
 .demand-details-header {
-    text-align: center;
-    font-size: 2rem;
-    color: #fb8122;
-    margin-bottom: 1.5rem;
+    font-size: 26px;
+    font-weight: bold;
+    color: #2c3e50; /* Dark blue medical theme */
+    margin-bottom: 20px;
 }
 
-/* Sections */
 .demand-details-content {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 20px;
+    width: 100%;
+    max-width: 1200px;
 }
 
 .demand-details-left-section, 
 .demand-details-right-section {
-    background-color: #2a2f36;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     flex: 1;
-}
-
-/* Titles */
-.demand-details-title {
-    font-size: 1.5rem;
-    color: #fb8122;
-    margin-bottom: 1rem;
-}
-
-/* Tables */
-.demand-details-table, 
-.demand-details-inventory-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.demand-details-table th,
-.demand-details-table td,
-.demand-details-inventory-table th,
-.demand-details-inventory-table td {
-    border: 1px solid #fb8122;
-    padding: 10px;
-    text-align: center;
-}
-
-.demand-details-table th,
-.demand-details-inventory-table th {
-    background-color: #fb8122;
-    color: rgb(220, 209, 209);
-}
-
-/* Inputs */
-.demand-details-input {
-    width: 60px;
-    padding: 5px;
-    text-align: center;
-    border-radius: 5px;
-    border: 1px solid #fb8122;
-}
-
-/* Buttons */
-.demand-details-back-btn,
-.demand-details-submit-btn {
-    background-color: #fb8122;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-    display: block;
-    width: 100%;
-    text-align: center;
-}
-
-.demand-details-back-btn:hover,
-.demand-details-submit-btn:hover {
-    background-color: #e06b15;
-}
-
-/* Grand Total */
-.demand-details-grand-total {
-    font-size: 1.5rem;
-    color: #fb8122;
-    text-align: center;
-    margin-top: 15px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .demand-details-content {
-        flex-direction: column;
-    }
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0)
 }

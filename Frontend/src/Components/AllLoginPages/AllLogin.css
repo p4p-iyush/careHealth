@@ -1,99 +1,120 @@
-/* AllLogin.css */
+/* Full Page Container */
 .all-login-container {
- 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    /* height: 100vh; Use full viewport height for better centering */
-    background-color: #1d2228; /* Light teal background */
-    height: 750px;
-  }
-  
-  .all-login-container h1 {
-    color: #ffffff; /* White color for the heading */
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    margin-bottom: 20px; /* Add space below the heading */
-  }
-  
-  .all-login-container form {
-    backdrop-filter: blur(5px);
-    background: #222;
-   box-shadow: 0px 1px 2px rgba(0,255,255,0.5), 
-               0px 2px 4px rgba(0,255,255,0.5), 
-               0px 4px 8px rgba(0,255,255,0.5), 
-               0px 8px 16px rgba(0,255,255,0.5); 
-    padding: 20px;
-    color: #fff;
-    border-radius: 8px;
-   
-    width: 400px;
-    gap: 20px;
-    margin-bottom: 200px;
-    
-    height: 350px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .all-login-input-group {
-    margin-bottom: 15px;
-    width: 100%; /* Ensure input groups take full width */
-  }
-  
-  .all-login-input-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: #ffffff; /* Dark teal color for labels */
-    text-align: left; /* Align labels to the left */
-  }
-  
-  .all-login-input-group input {
-    width: 100%;
-    padding: 8px;
-    border-radius: 4px;
-    color: black;
-    border: 1px solid #1f4051; /* Dark teal border */
-    box-sizing: border-box; /* Ensure padding doesn't affect width */
-  }
-  
-  .all-login-error {
-    color: red;
-    margin-bottom: 10px;
-    text-align: center; /* Center error messages */
-    width: 100%; /* Ensure error messages take full width */
-  }
-  
-  .all-login-button {
-    width: 100%; /* Make button full width */
-    padding: 10px;
-    background-color: #fb8122; /* Dark teal button background */
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px; /* Add space above the button */
-  }
-  
-  .all-login-button:hover {
-    background-color: #184964; /* Darker teal on hover */
-  }
-  
-  .all-login-register-link {
-    margin-top: 15px;
-    
-    color: #ffffff; /* Dark teal color for the link */
-  }
-  
-  .all-login-register-link a {
-    color: #46a2d0; /* Dark teal link color */
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .all-login-register-link a:hover {
-    margin-bottom: 300px;
-    text-decoration: underline; /* Underline the link on hover */
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fdfeff; /* Light background */
+  height: 100vh; /* Full screen height */
+}
+
+/* Animation SVG */
+.svf {
+  width: 100px;
+  height: 100px;
+}
+
+/* Title Styling */
+.all-login-container h1 {
+  color: #ffa500; /* Orange text */
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Form Box */
+.all-login-container form {
+  backdrop-filter: blur(8px);
+  background: #f2eeee;
+  padding: 25px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Input Groups */
+.all-login-input-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+.all-login-input-group label {
+  font-size: 14px;
+  color: #000000;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+/* Input Fields */
+.all-login-input-group input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  color: black;
+  border: 1px solid #ffa500;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+/* Error Message */
+.all-login-error {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  width: 100%;
+}
+
+/* Button */
+.all-login-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #ffa500;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease-in-out;
+}
+
+.all-login-button:hover {
+  background-color: #cc8400;
+}
+
+/* Register Link */
+.all-login-register-link {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+}
+
+.all-login-register-link a {
+  color: #ffa500;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.all-login-register-link a:hover {
+  text-decoration: underline;
+}
+
+/* .admin-img{
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+} */
+/* .login-svgs{
+  object-fit: cover;
+  width: 200px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+} */

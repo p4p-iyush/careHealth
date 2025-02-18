@@ -38,14 +38,14 @@
     padding: 10px;
     border-bottom: 1px solid #ccc;
 }
-.Discharge-Bill-btn {
+.Discharge-Bill-bttn {
     background-color: #fb8122;
     color: white;
     padding: 8px 12px;
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
-    display: inline-block;
+    /* display: inline-block; */
 }
 
     /* .Discharge-Bill-row:hover {

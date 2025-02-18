@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import axios from "axios";
 import '../AllLogin.css';
 
@@ -40,6 +41,11 @@ export default function PatientLogin() {
     <div className="all-login-container">
       <h1>Patient Login</h1>
       <form onSubmit={handleSubmit}>
+          <DotLottieReact
+              src="https://lottie.host/5d84c14b-8935-40f2-a8a7-2996b13dec61/PMwIOzHema.lottie"
+              loop
+              autoplay
+            />
         {error && <p className="all-login-error">{error}</p>}
 
         <div className="all-login-input-group">

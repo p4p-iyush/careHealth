@@ -1,107 +1,130 @@
-/* Container Styling */
+/* AddInventory.css */
+
 .AddItem-container {
-    
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    max-width: 600px;
+    margin: 40px auto;
     padding: 20px;
-    background-color: #1d2228; /* Dark Gray Background */
-    min-height: 100vh;
-    color: #e1e2e2; /* Light Gray Text */
+    background: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
 }
 
-/* Heading */
 .AddItem-heading {
-    font-size: 2rem;
-    color: #e1e2e2;
+    text-align: center;
+    color: #0077b6;
+    font-size: 24px;
+    font-weight: bold;
     margin-bottom: 20px;
 }
 
-/* Form Styling */
-.AddItem-form {backdrop-filter: blur(5px);
-    background: #222;
-   box-shadow: 0px 1px 2px rgba(0,255,255,0.5), 
-               0px 2px 4px rgba(0,255,255,0.5), 
-               0px 4px 8px rgba(0,255,255,0.5), 
-               0px 8px 16px rgba(0,255,255,0.5); 
-    /* background: rgba(180, 179, 179, 0.1);
-    backdrop-filter: blur(10px);
-    /* color: #e1e2e2; 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+.AddItem-form {
     display: flex;
     flex-direction: column;
-    width: 90%;
-    max-width: 500px;
-    /* background-color: #e1e2e2; Light Gray */
-    padding: 20px;
-    /* border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
 }
 
-/* Error Message */
-.AddItem-error-message {
-    background-color: red;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-/* Labels */
 .AddItem-label {
-    font-size: 1rem;
+    font-size: 14px;
     font-weight: bold;
-    margin-top: 10px;
-    color: #1d2228; /* Dark Gray */
-    color: white;
+    color: #333;
+    margin-bottom: 5px;
 }
 
-/* Input Fields */
 .AddItem-input {
     width: 100%;
     padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #1d2228; /* Dark Gray Border */
-    border-radius: 5px;
-    background-color: #e1e2e2; /* Light Gray */
-    color: #1d2228; /* Dark Gray */
-    font-size: 1rem;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #fff;
+    transition: border 0.3s;
 }
 
-/* Input Focus */
 .AddItem-input:focus {
+    border-color: #0077b6;
     outline: none;
-    border: 2px solid #fb8122; /* Orange */
+    box-shadow: 0px 0px 8px rgba(0, 119, 182, 0.2);
 }
 
-/* Button Container */
 .AddItem-button-container {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
 }
 
-/* Button Styling */
 .AddItem-btn {
-    background-color: #fb8122; /* Orange */
-    color: white;
+    flex: 1;
+    padding: 10px;
     border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
+    border-radius: 8px;
+    font-size: 16px;
+    text-align: center;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
+    transition: background 0.3s, transform 0.2s;
+    text-decoration: none;
 }
 
-.AddItem-btn:hover {
-    background-color: #e16a1c; /* Slightly Darker Orange */
+.AddItem-btn:first-child {
+    background: #0077b6;
+    color: white;
+    margin-right: 10px;
 }
 
-/* Disabled Button */
-.AddItem-btn:disabled {
-    background-color: gray;
-    cursor: not-allowed;
+.AddItem-btn:first-child:hover {
+    background: #005f8f;
+    transform: scale(1.05);
+}
+
+.AddItem-btn:last-child {
+    background: #ddd;
+    color: #333;
+}
+
+.AddItem-btn:last-child:hover {
+    background: #bbb;
+    transform: scale(1.05);
+}
+
+.AddItem-error-message {
+    color: #d9534f;
+    background: #f8d7da;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .AddItem-container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .AddItem-heading {
+        font-size: 20px;
+    }
+
+    .AddItem-input {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .AddItem-btn {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .AddItem-button-container {
+        flex-direction: column;
+    }
+
+    .AddItem-btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
 }

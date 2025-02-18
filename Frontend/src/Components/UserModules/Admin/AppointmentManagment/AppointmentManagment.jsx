@@ -1,7 +1,7 @@
 import './AppointmentManagment.css';
 import React from 'react';
 import { FaCalendarPlus, FaClipboardList, FaClock, FaUsers, FaRegCheckCircle } from 'react-icons/fa';
-
+// import "./AppointmentManagment.css";
 export default function QueueManagement() {
   return (
     <div>

@@ -62,7 +62,8 @@ const AllDischargeBill = () => {
               <td className="Discharge-Bill-cell">{new Date(bill.allocationTime).toLocaleString()}</td>
               <td className="Discharge-Bill-cell">{bill.daysStayed}</td>
               <td className="Discharge-Bill-cell">₹{bill.totalCost}</td>
-              <td className="Discharge-Bill-cell"><button classname="Discharge-Bill-btn" onClick={() => { handlePaymentStatus(bill._id); }}>{bill.paymentStatus}</button></td>
+              <td className="Discharge-Bill-cell">
+                <button classname="Discharge-Bill-bttn" onClick={() => { handlePaymentStatus(bill._id); }}>{bill.paymentStatus}</button></td>
             </tr>
           ))}
         </tbody>

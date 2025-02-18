@@ -50,7 +50,7 @@
     cursor: pointer;
     background-color: #fb8122; /* Orange button */
     color: #1d2228;
-    transition: background 0.3s ease-in-out;
+    transition:  0.3s ease-in-out;
   }
   
   .add-bed-button:hover {

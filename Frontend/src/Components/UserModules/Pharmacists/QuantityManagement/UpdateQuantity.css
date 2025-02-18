@@ -1,25 +1,31 @@
+/* UpdateQuantity.css */
+
+/* Container for the update quantity page */
 .Update-quantity-container {
-    background-color: #1d2228; /* Dark background */
-    color: #e1e2e2; /* Light text */
+    max-width: 600px;
+    margin: 0 auto;
     padding: 20px;
-    border-radius: 10px;
-    max-width: 400px;
-    margin: 40px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
 .Update-quantity-heading {
-    font-size: 24px;
-    font-weight: bold;
-    color: #fb8122; /* Orange heading */
-    margin-bottom: 15px;
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
 }
 
-.Update-quantity-loading,
+.Update-quantity-loading {
+    font-size: 18px;
+    color: #ffcc00; /* Medical yellow */
+}
+
 .Update-quantity-error-message {
-    font-size: 16px;
-    margin-bottom: 10px;
+    font-size: 18px;
+    color: #ff4d4d; /* Error red */
+    margin-bottom: 20px;
 }
 
 .Update-quantity-form {
@@ -29,41 +35,80 @@
 }
 
 .Update-quantity-current-quantity {
-    font-size: 16px;
-    margin-bottom: 10px;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
 }
 
 .Update-quantity-label {
-    font-size: 14px;
-    margin-bottom: 5px;
-    display: block;
-    text-align: left;
-    width: 100%;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 8px;
 }
 
 .Update-quantity-input-field {
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
-    border: 2px solid #e1e2e2;
-    border-radius: 5px;
-    background-color: #33383e;
-    color: #e1e2e2;
     font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .Update-quantity-update-btn {
-    width: 100%;
-    padding: 10px;
+    padding: 12px 25px;
+    background-color: #5c9ded;
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
     cursor: pointer;
-    background-color: #fb8122; /* Orange button */
-    color: #1d2228;
-    transition: background 0.3s ease-in-out;
+    font-size: 16px;
+    transition: background-color 0.3s;
 }
 
 .Update-quantity-update-btn:hover {
-    background-color: #e06c13;
+    background-color: #4a90d4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .Update-quantity-container {
+        padding: 15px;
+    }
+
+    .Update-quantity-heading {
+        font-size: 24px;
+    }
+
+    .Update-quantity-label,
+    .Update-quantity-input-field {
+        font-size: 14px;
+    }
+
+    .Update-quantity-update-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .Update-quantity-heading {
+        font-size: 20px;
+    }
+
+    .Update-quantity-form {
+        width: 100%;
+    }
+
+    .Update-quantity-input-field {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .Update-quantity-update-btn {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
 }

@@ -1,125 +1,97 @@
-/* Container Styling */
-.medi-analyser-container{
+/* Medical Report Analyzer - Light Theme & Responsive */
+.medi-analyser-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh;
-    background-color: #1d2228; /* Dark Background */
+    min-height: 90vh;
+    background-color: #f9f9f9;
+    padding: 20px;
 }
+
 .medi-analyser {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 800px;
-    background-color: #1d2228; /* Dark Background */
-    padding: 25px;
-    gap: 20px;
-    margin-top: 50px;
+    width: 100%;
+    max-width: 500px;
+    background: #ffffff;
+    padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(251, 129, 34, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
-/* Title Styling */
 .medi-analyser-title {
-    font-size: 2rem;
+    font-size: 24px;
     font-weight: bold;
-    color: #e1e2e2; /* Light Gray */
+    color: #2c3e50;
+    margin-bottom: 20px;
 }
 
-/* File Input */
 .medi-analyser-input {
-    margin: 10px 0;
+    width: 100%;
     padding: 10px;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    border: 2px solid #e1e2e2;
-    background-color: #e1e2e2;
-    color: #1d2228;
-    font-size: 1rem;
-    cursor: pointer;
-    width: 300px;
+    margin-bottom: 15px;
+    font-size: 16px;
 }
-
-/* Buttons */
-.medi-analyser-btn,
-.medi-analyser-save-btn {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #fff;
-    background-color: #fb8122; /* Orange */
-    padding: 10px 16px;
-    border-radius: 8px;
-    transition: all 0.3s ease-in-out;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.medi-analyser-btn{
+    margin-right: 20px;
 }
-
-.medi-analyser-btn:hover,
-.medi-analyser-save-btn:hover {
-    background-color: #ffffff; /* Light Gray */
-    color: #1d2228;
-    transform: translateY(-3px);
-}
-
-/* Error Message */
-.medi-analyser-error {
-    color: #1d2228;
-    background-color: #fb8122; /* Orange */
+.medi-analyser-btn, .medi-analyser-save-btn {
+    width: 40%;
     padding: 12px;
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
     border-radius: 5px;
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-bottom: 10px;
+
 }
 
-/* Report Display */
+.medi-analyser-btn:hover, .medi-analyser-save-btn:hover {
+    background-color: orange;
+}
+
+.medi-analyser-error {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
 .medi-analyser-report {
-    width: 100%;
-    background-color: #e1e2e2;
+    margin-top: 20px;
     padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    color: #1d2228;
+    background: #ecf0f1;
+    border-radius: 5px;
+    text-align: left;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
 .medi-analyser-subtitle {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #1d2228;
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 10px;
 }
 
 .medi-analyser-pre {
+    font-size: 14px;
     white-space: pre-wrap;
-    text-align: left;
-    color: #1d2228;
-    font-size: 1rem;
+    word-wrap: break-word;
+    color: #333;
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .medi-analyser {
-        width: 90%;
-        padding: 15px;
+        padding: 20px;
+        max-width: 90%;
     }
 
     .medi-analyser-title {
-        font-size: 1.8rem;
-    }
-
-    .medi-analyser-btn,
-    .medi-analyser-save-btn {
-        padding: 8px 14px;
-        font-size: 0.9rem;
-    }
-
-    .medi-analyser-input {
-        font-size: 0.9rem;
-        padding: 8px;
-    }
-
-    .medi-analyser-subtitle {
-        font-size: 1.2rem;
+        font-size: 20px;
     }
 }
