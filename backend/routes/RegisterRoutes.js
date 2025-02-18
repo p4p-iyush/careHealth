@@ -5,93 +5,153 @@ const Doctor = require("../Models/DoctorRegistration");
 const InventoryManager = require("../Models/InventoryManagerRegistration");
 const Admin = require("../Models/AdminRegistration");
 
-router.post('/patient_register', async (req, res) => {
-    try {
-        const password = req.body.password;
-        const confirm_password = req.body.confirm_password;
+const bcypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
+router.post("/patient_register", (req, res) => {
+  try {
+    let {
+      name,
+      age,
+      gender,
+      contact,
+      email,
+      password,
+      confirm_password,
+      bloodGroup,
+      address,
+    } = req.body;
+
+    bcypt.genSalt(10, (err, salt) => {
+      bcypt.hash(password, salt, async (err, hash) => {
         if (password === confirm_password) {
-            const patientRegistered = new Patient({
-                name: req.body.name,
-                age: req.body.age,
-                gender: req.body.gender,
-                contact: req.body.contact,
-                email: req.body.email,
-                password: req.body.password,
-                confirm_password: req.body.confirm_password,
-                bloodGroup: req.body.bloodGroup,
-                address: req.body.address,
-            });
+          const patientRegistered = new Patient({
+            name,
+            age,
+            gender,
+            contact,
+            email,
+            password: hash,
+            confirm_password: hash,
+            bloodGroup,
+            address,
+          });
 
-            const registered = await patientRegistered.save();
-            console.log("Patient registered: ", registered);
-            res.status(201).send("Patient registered successfully");
+          const registered = await patientRegistered.save();
+          console.log("Patient registered: ", registered);
+          res.status(201).send("Patient registered successfully");
         } else {
-            res.status(400).send("Passwords do not match");
+          res.status(400).send("Passwords do not match");
         }
-    } catch (error) {
-        res.status(400).send(error);
-    }
+      });
+    });
+  } catch (error) {
+    res.status(400).send(error);
+  }
 });
 
 // Route to handle doctor registration form submissions
-router.post('/doctor_register', async (req, res) => {
-    try {
+router.post("/doctor_register", async (req, res) => {
+  try {
+    let {
+      name,
+      age,
+      gender,
+      contact,
+      email,
+      password,
+      confirm_password,
+      specialization,
+      experience,
+      qualification,
+    } = req.body;
+    bcypt.genSalt(10, (err, salt) => {
+      bcypt.hash(password, salt, async (err, hash) => {
         const newDoctor = new Doctor({
-            name: req.body.name,
-            contact: req.body.contact,
-            email: req.body.email,
-            password: req.body.password,
-            confirm_password: req.body.confirm_Password,
-            specialization: req.body.specialization,
-            experience: req.body.experience,
-            qualification: req.body.qualification,
+          name,
+          age,
+          gender,
+          contact,
+          email,
+          password:hash,
+          confirm_password:hash,
+          specialization,
+          experience,
+          qualification,
         });
 
         const registeredDoctor = await newDoctor.save();
         res.status(201).send("Doctor registered successfully");
-    } catch (err) {
-        res.status(400).send(`Error: ${err.message}`);
-    }
+      });
+    });
+  } catch (err) {
+    res.status(400).send(`Error: ${err.message}`);
+  }
 });
 
 // Route to handle inventory manager registration form submissions
-router.post('/inventory_register', async (req, res) => {
-    try {
+router.post("/inventory_register", async (req, res) => {
+  try {
+    let {
+      name,
+      age,
+      gender,
+      contact,
+      email,
+      password,
+      confirm_password,
+      department,
+      yearsOfExperience,
+    } = req.body;
+    bcypt.genSalt(10, (err, salt) => {
+      bcypt.hash(password, salt, async (err, hash) => {
         const newInventoryManager = new InventoryManager({
-            name: req.body.name,
-            age: req.body.age,
-            gender: req.body.gender,
-            contact: req.body.contact,
-            email: req.body.email,
-            password: req.body.password,
-            confirm_password: req.body.confirm_password,
-            department: req.body.department,
-            yearsOfExperience: req.body.yearsOfExperience,
+          name,
+          age,
+          gender,
+          contact,
+          email,
+          password:hash,
+          confirm_password:hash,
+          department,
+          yearsOfExperience,
         });
 
         const registeredInventoryManager = await newInventoryManager.save();
         res.status(201).send("Inventory Manager registered successfully");
-    } catch (err) {
-        res.status(400).send(`Error: ${err.message}`);
-    }
+      });
+    });
+  } catch (err) {
+    res.status(400).send(`Error: ${err.message}`);
+  }
 });
 // Route to handle admin registration form sumission
-router.post('/admin_register', async (req, res) => {
-    try {
+router.post("/admin_register", async (req, res) => {
+  try {
+    let { name, contact, email, password, confirm_password, userRole } =
+      req.body;
+    bcypt.genSalt(10, (err, salt) => {
+      bcypt.hash(password, salt, async (err, hash) => {
         const newDoctor = new Admin({
-            name: req.body.name,
-            contact: req.body.contact,
-            email: req.body.email,
-            password: req.body.password,
-            userRole: req.body.userRole,
+          name,
+          contact,
+          email,
+          password:hash,
+          confirm_password:hash,
+          userRole,
         });
 
         const registeredDoctor = await newDoctor.save();
         res.status(201).send("Doctor registered successfully");
-    } catch (err) {
-        res.status(400).send(`Error: ${err.message}`);
-    }
+      });
+    });
+  } catch (err) {
+    res.status(400).send(`Error: ${err.message}`);
+  }
 });
+
+router.post("/logout_token", async (req, res) => {
+res.cookie("token","")
+})
 
 module.exports = router;
