@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
-import "./PatientPrescrption.css"
+import "./PatientPrescrption.css";
 
 const PatientPrescrptionDashBoard = () => {
   const location = useLocation();
   const { userDetails } = location.state || {}; // Get userDetails from location.state
   const [latestPrescription, setLatestPrescription] = useState(null);
 
-  console.log("from prescriptionsdashboard", userDetails.patient._id);
-  console.log("patient userDetails:", userDetails)
+  console.log("from prescriptionsdashboard", userDetails?.patient?._id);
+  console.log("patient userDetails:", userDetails);
   
   useEffect(() => {
     const fetchLatestPrescription = async () => {
@@ -34,7 +34,6 @@ const PatientPrescrptionDashBoard = () => {
     fetchLatestPrescription();
   }, [userDetails?.patient?._id]);
   
-
   if (!userDetails) {
     return <div>No user details found.</div>;
   }

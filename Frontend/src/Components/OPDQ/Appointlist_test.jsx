@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./AppointmentsList.css";
 
 const predefinedSlots = ["09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM"];
@@ -19,18 +21,19 @@ const AppointmentsList = () => {
             setAppointments(response.data);
         } catch (error) {
             console.error("Error fetching appointments:", error);
+            toast.error("Error fetching appointments");
         }
     };
 
     // Cancel appointment
-    const cancelAppointment = async (id) => {dv
+    const cancelAppointment = async (id) => {
         setLoading(true);
         try {
             await axios.delete(`http://localhost:5000/opdRoutes/cancel-appointment/${id}`);
-            alert("Appointment cancelled successfully");
+            toast.success("Appointment cancelled successfully");
             fetchAppointments();
         } catch (error) {
-            alert("Error cancelling appointment");
+            toast.error("Error cancelling appointment");
         }
         setLoading(false);
     };
@@ -40,7 +43,7 @@ const AppointmentsList = () => {
         e.preventDefault();
 
         if (!rescheduleData.date || !rescheduleData.time) {
-            alert("Please select a new date and time");
+            toast.error("Please select a new date and time");
             return;
         }
 
@@ -52,7 +55,7 @@ const AppointmentsList = () => {
             });
 
             if (!response.data.available) {
-                alert("Selected time slot is already taken! Choose another.");
+                toast.error("Selected time slot is already taken! Choose another.");
                 return;
             }
 
@@ -62,10 +65,10 @@ const AppointmentsList = () => {
                 time: rescheduleData.time,
             });
 
-            alert("Appointment rescheduled successfully");
+            toast.success("Appointment rescheduled successfully");
             fetchAppointments();
         } catch (error) {
-            alert("Error rescheduling appointment");
+            toast.error("Error rescheduling appointment");
         } finally {
             setLoading(false);
             setRescheduleData({ id: "", date: "", time: "" });
@@ -74,6 +77,7 @@ const AppointmentsList = () => {
 
     return (
         <div>
+            <ToastContainer />
             <h2>Appointments</h2>
             {appointments.length === 0 ? (
                 <p>No appointments found.</p>

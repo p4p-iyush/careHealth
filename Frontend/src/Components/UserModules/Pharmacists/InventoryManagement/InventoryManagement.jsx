@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './InventoryManagement.css';
 
 const InventoryManagement = () => {
@@ -21,12 +23,12 @@ const InventoryManagement = () => {
             }
             const data = await response.json();
             setItems(data);
-
-            // Check for shortages after fetching data
+            toast.success("Inventory loaded successfully!"); // Success toast
             checkForShortages(data);
         } catch (error) {
             setError(`Failed to fetch items: ${error.message}`);
             console.error('Error fetching items:', error);
+            toast.error("Error fetching inventory."); // Error toast
         } finally {
             setLoading(false);
         }
@@ -37,6 +39,7 @@ const InventoryManagement = () => {
         items.forEach((item) => {
             if (item.quantity < shortageThreshold) {
                 sendMedicineShortageEmail("sighaikrish769@gmail.com", item.name, item.quantity);
+                toast.warn(`Low stock alert: ${item.name} has only ${item.quantity} left!`);
             }
         });
     };
@@ -57,8 +60,10 @@ const InventoryManagement = () => {
 
             const data = await response.json();
             console.log("Email sent: ", data.message);
+            toast.info(`Shortage email sent for ${medicineName}`);
         } catch (error) {
             console.error("Error sending email: ", error);
+            toast.error("Failed to send shortage email.");
         }
     };
 
@@ -68,6 +73,7 @@ const InventoryManagement = () => {
 
     return (
         <div className="inventorymanagement-container">
+            <ToastContainer />
             <h1>Manage Inventory</h1>
 
             <div className="inventorymanagement-button-container">

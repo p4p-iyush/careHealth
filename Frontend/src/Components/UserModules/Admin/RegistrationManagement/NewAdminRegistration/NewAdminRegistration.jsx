@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import './NewAdminRegistration.css';
 
 const NewAdminRegistration = () => {
@@ -26,22 +28,26 @@ const NewAdminRegistration = () => {
 
     if (formData.password !== formData.confirm_Password) {
       setError("Passwords do not match!");
+      toast.error("Passwords do not match!");
       return;
     }
 
     try {
       const response = await axios.post("http://localhost:5000/api/register/admin_register", formData);
       console.log("Response received:", response.data);
-      alert(response.data);
+      toast.success(response.data);
       navigate("/admin-login");
     } catch (error) {
-      setError(error.response?.data?.message || "Registration failed. Try again.");
+      const errMsg = error.response?.data?.message || "Registration failed. Try again.";
+      setError(errMsg);
+      toast.error(errMsg);
       console.error("Error details:", error.response?.data);
     }
   };
 
   return (
     <div className="admin-registration-container">
+      <ToastContainer />
       <h1 className="admin-registration-title">Admin Register</h1>
       <form className="admin-registration-form" onSubmit={handleSubmit}>
         <label className="admin-registration-label" htmlFor="name">

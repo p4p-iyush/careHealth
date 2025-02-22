@@ -80,6 +80,10 @@
   flex-direction: column;
 }
 
+.login-span{
+  color: #FFA500;
+}
+
 .login-card:hover {
   transform: translateY(-5px);
   color: #cc8400;

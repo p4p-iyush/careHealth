@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './ExpiryUpdate.css';
 
 const ExpiryUpdate = () => {
@@ -25,6 +27,7 @@ const ExpiryUpdate = () => {
             setProduct(data);
         } catch (error) {
             setError('Failed to fetch product details.');
+            toast.error('Failed to fetch product details.');
             console.error('Error fetching product:', error);
         } finally {
             setLoading(false);
@@ -43,9 +46,11 @@ const ExpiryUpdate = () => {
                 throw new Error('Failed to update expiry date');
             }
 
-            navigate('/inventory');
+            toast.success('Expiry date updated successfully!');
+            setTimeout(() => navigate('/inventory'), 2000);
         } catch (error) {
             setError('Failed to update expiry date.');
+            toast.error('Failed to update expiry date.');
             console.error('Error updating expiry date:', error);
         }
     };
@@ -56,8 +61,11 @@ const ExpiryUpdate = () => {
 
     return (
         <div className="ExpiryUpdate-container">
+            <ToastContainer />
             <h1 className="ExpiryUpdate-title">Update Expiry Date</h1>
-            <p className="ExpiryUpdate-current-date">Current Expiry Date: {product.expiry_date ? product.expiry_date.split('T')[0] : 'N/A'}</p>
+            <p className="ExpiryUpdate-current-date">
+                Current Expiry Date: {product.expiry_date ? product.expiry_date.split('T')[0] : 'N/A'}
+            </p>
             <input 
                 className="ExpiryUpdate-input" 
                 type="date" 
@@ -71,4 +79,3 @@ const ExpiryUpdate = () => {
 };
 
 export default ExpiryUpdate;
-

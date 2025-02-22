@@ -21,6 +21,10 @@
   
   /* Bed Statistics Section */
   .Bed-status-stats {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 30px;
     padding: 20px;
     background-color: #fff;

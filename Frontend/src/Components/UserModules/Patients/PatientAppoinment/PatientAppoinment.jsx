@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import "./PatientAppoinment.css"; // Ensure correct file name
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./PatientAppoinment.css";
+
+
 
 const AppointmentDetails = () => {
   const location = useLocation();
-  const { userDetails } = location.state || {}; // Ensure fallback value
+  const { userDetails } = location.state || {};
 
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  console.log("Patient ID:", userDetails); // Debugging check
-
   useEffect(() => {
     if (!userDetails) {
       setError("Invalid patient ID");
       setLoading(false);
+      toast.error("Invalid patient ID");
       return;
     }
 
@@ -29,12 +32,14 @@ const AppointmentDetails = () => {
       .then((data) => {
         setAppointments(data);
         setLoading(false);
+        toast.success("Appointments fetched successfully");
       })
       .catch((error) => {
         setError(error.message);
         setLoading(false);
+        toast.error(error.message);
       });
-  }, [userDetails]); // ✅ Correct dependency
+  }, [userDetails]);
 
   if (loading) return <p className="loading">Loading...</p>;
   if (error) return <p className="error">Error: {error}</p>;
@@ -50,10 +55,10 @@ const AppointmentDetails = () => {
               <th className="appointment-header">Date</th>
               <th className="appointment-header">Time</th>
               <th className="appointment-header">Type</th>
-              <th className="appointment-header">Appoinment Status</th>
+              <th className="appointment-header">Appointment Status</th>
               <th className="appointment-header">Department</th>
               <th className="appointment-header">Doctor</th>
-              <th className="appointment-header">Prescrition Status</th>
+              <th className="appointment-header">Prescription Status</th>
             </tr>
           </thead>
           <tbody>
@@ -66,7 +71,7 @@ const AppointmentDetails = () => {
                 <td className="appointment-cell">{appointment.status}</td>
                 <td className="appointment-cell">{appointment.department}</td>
                 <td className="appointment-cell">{appointment.doctorName}</td>
-                <td className="appointment-cell">{appointment.reached == true ? "Yes" : "No"}</td>
+                <td className="appointment-cell">{appointment.reached ? "Yes" : "No"}</td>
               </tr>
             ))}
           </tbody>

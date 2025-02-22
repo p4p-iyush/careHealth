@@ -71,7 +71,7 @@ export default function HomePage() {
       loop
       autoplay
           />
-          <span>Admin Login</span>
+          <span className="login-span">Admin Login</span>
         </Link>
         <Link to="/patient-login" className="login-card">
         <DotLottieReact
@@ -79,7 +79,7 @@ export default function HomePage() {
       loop
       autoplay
     />
-          <span>Patient Login</span>
+          <span className="login-span">Patient Login</span>
         </Link>
         <Link to="/doctor-login" className="login-card">
           <DotLottieReact
@@ -87,7 +87,7 @@ export default function HomePage() {
             loop
             autoplay
           />
-          <span>Doctor Login</span>
+          <span className="login-span">Doctor Login</span>
         </Link>
         <Link to="/pharmacy-login" className="login-card">
         <DotLottieReact
@@ -95,7 +95,7 @@ export default function HomePage() {
       loop
       autoplay
     />
-          <span>Pharmacy Login</span>
+          <span className="login-span">Pharmacy Login</span>
         </Link>
       </div>
 

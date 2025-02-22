@@ -2,6 +2,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import { useRef } from 'react';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import the CSS
+
+
 import Navbar from './Components/Navbar/Navbar';
 import Footer from './Components/Footer/Footer';
 import UserContext from './Components/Context/UserContext';
@@ -173,6 +177,7 @@ function MainApp() {
     <Route path='MedicalReportAnalyzer' element={<MedicalReportAnalyzer/>}></Route>
    
     </Routes>
+    <Footer/>
       </>
   );
 }
@@ -182,7 +187,21 @@ const App = () => {
 
   return (
     <UserContext.Provider value={{ userID, setUserID }}>
+      
+
       <Router>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        style={{ zIndex: 999999 }} // Ensure it's above other elements
+      />
         <MainApp />
       </Router>
     </UserContext.Provider>

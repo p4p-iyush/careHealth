@@ -1,39 +1,47 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./BedStatus.css";
-import { useNavigate } from "react-router-dom"; // ✅ Correct import
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const BedStatus = ({doctor}) => {
+
+
+const BedStatus = ({ doctor }) => {
   const [prices, setPrices] = useState({});
   const [applications, setApplications] = useState([]);
   const [bedStats, setBedStats] = useState({});
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); // ✅ Use useNavigate hook
+  const navigate = useNavigate();
 
-  // Fetch applications and bed statistics
   const fetchData = async () => {
     try {
-      console.log('Fetching', doctor._id)
-      const appRes = await fetch(`http://localhost:5000/api/beds/bed-status-doctor/${doctor._id}`);
-      const appData = await appRes.json(); // Parse JSON response
-      
+      console.log("Fetching", doctor._id);
+      const appRes = await fetch(
+        `http://localhost:5000/api/beds/bed-status-doctor/${doctor._id}`
+      );
+      const appData = await appRes.json();
+
       if (appRes.ok) {
-        setApplications(appData); // Assuming `data` is the array of prescriptions
+        setApplications(appData);
+        toast.success("Fetched bed applications successfully!");
       } else {
-        console.error('Error from server:', appData.message || 'Failed to fetch prescriptions');
+        console.error("Error from server:", appData.message || "Failed to fetch applications");
+        toast.error("Failed to fetch bed applications.");
       }
+      
       console.log("Applications:", appData);
-  
+
       const statsRes = await axios.get("http://localhost:5000/api/beds/bed-stats");
       setBedStats(statsRes.data);
+      toast.success("Fetched bed statistics successfully!");
       console.log("Bed Stats:", statsRes.data);
     } catch (err) {
       console.error("Error fetching data:", err);
+      toast.error("Error fetching bed data.");
     }
   };
-  
 
-  // Fetch bed prices
   const fetchPrices = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/beds/get-default-prices");
@@ -43,9 +51,11 @@ const BedStatus = ({doctor}) => {
           return acc;
         }, {});
         setPrices(priceMap);
+        toast.success("Fetched bed prices successfully!");
       }
     } catch (err) {
       console.error("Error fetching prices:", err);
+      toast.error("Failed to fetch bed prices.");
     } finally {
       setLoading(false);
     }
@@ -54,29 +64,28 @@ const BedStatus = ({doctor}) => {
   useEffect(() => {
     fetchData();
     fetchPrices();
-
-    // ✅ Auto-refresh every 30 seconds (optional)
     const interval = setInterval(fetchData, 30000);
     return () => clearInterval(interval);
   }, []);
 
   const handleDischarge = async (id) => {
     try {
-      // Generate the bill first
-      const billResponse = await axios.post(`http://localhost:5000/api/bill/discharge-bill/${id}`);
+      const billResponse = await axios.post(
+        `http://localhost:5000/api/bill/discharge-bill/${id}`
+      );
       console.log("Discharge Bill Response:", billResponse.data);
+      toast.success("Bill generated successfully!");
 
-      // Discharge the patient after the bill is saved
-      const dischargeResponse = await axios.put(`http://localhost:5000/api/bill/discharge/${id}`);
+      const dischargeResponse = await axios.put(
+        `http://localhost:5000/api/bill/discharge/${id}`
+      );
       console.log("Discharge Response:", dischargeResponse.data);
+      toast.success("Patient discharged successfully!");
 
-      // Refresh data after successful discharge
       fetchData();
-
-      // ✅ Corrected Navigation
-      // navigate("/allDischargeBill", { state: billResponse.data });
     } catch (err) {
       console.error("Error discharging patient:", err);
+      toast.error("Failed to discharge patient.");
     }
   };
 
@@ -84,7 +93,6 @@ const BedStatus = ({doctor}) => {
     <div className="Bed-status-container">
       <h1 className="Bed-status-title">Bed Status</h1>
 
-      {/* Bed Statistics */}
       <div className="Bed-status-stats">
         <h2 className="Bed-status-subtitle">Bed Statistics</h2>
         <p className="Bed-status-text">ICU Beds: {bedStats.ICU?.total} (Available: {bedStats.ICU?.available})</p>
@@ -92,7 +100,6 @@ const BedStatus = ({doctor}) => {
         <p className="Bed-status-text">General Beds: {bedStats.General?.total} (Available: {bedStats.General?.available})</p>
       </div>
 
-      {/* Loading State */}
       {loading ? (
         <p className="Bed-status-loading">Loading bed prices...</p>
       ) : (
@@ -100,7 +107,7 @@ const BedStatus = ({doctor}) => {
           <thead>
             <tr className="Bed-status-table-header">
               <th className="Bed-status-th">Name</th>
-              <th className="Bed-status-th">Email</th>
+              <th className="Bed-status-th">Contact</th>
               <th className="Bed-status-th">Department</th>
               <th className="Bed-status-th">Bed Type</th>
               <th className="Bed-status-th">Bed Number</th>
@@ -115,15 +122,13 @@ const BedStatus = ({doctor}) => {
               const allocationTime = new Date(app.allocationTime);
               const currentTime = new Date();
               const daysStayed = Math.ceil((currentTime - allocationTime) / (1000 * 60 * 60 * 24));
-
-              // Ensure bedPrice exists before calculating totalBill
               const bedPrice = prices[app.bedType] || 0;
               const totalBill = daysStayed * bedPrice;
 
               return (
                 <tr key={app._id} className="Bed-status-table-row">
                   <td className="Bed-status-td">{app.name}</td>
-                  <td className="Bed-status-td">{app.email}</td>
+                  <td className="Bed-status-td">{app.contact}</td>
                   <td className="Bed-status-td">{app.department}</td>
                   <td className="Bed-status-td">{app.bedType}</td>
                   <td className="Bed-status-td">{app.bedNumber}</td>
@@ -131,7 +136,10 @@ const BedStatus = ({doctor}) => {
                   <td className="Bed-status-td">{daysStayed}</td>
                   <td className="Bed-status-td">₹{totalBill}</td>
                   <td className="Bed-status-td">
-                    <button className="Bed-status-discharge-button" onClick={() => handleDischarge(app._id)}> 
+                    <button
+                      className="Bed-status-discharge-button"
+                      onClick={() => handleDischarge(app._id)}
+                    >
                       Discharge
                     </button>
                   </td>
@@ -144,6 +152,5 @@ const BedStatus = ({doctor}) => {
     </div>
   );
 };
-
 
 export default BedStatus;

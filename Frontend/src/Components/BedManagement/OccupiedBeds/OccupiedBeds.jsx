@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./OccupiedBeds.css"; // Import CSS for styling
 
 const OccupiedBeds = () => {
   const [occupiedBeds, setOccupiedBeds] = useState([]);
   const [priceUpdates, setPriceUpdates] = useState({}); // Stores price updates temporarily
-  const [message, setMessage] = useState("");
 
   // Fetch occupied beds
   const fetchOccupiedBeds = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/beds/occupied-beds");
       setOccupiedBeds(res.data);
-      console.log(res.data);
     } catch (err) {
-      console.error("Error fetching occupied beds:", err);
+      toast.error("Error fetching occupied beds");
     }
   };
 
@@ -26,23 +26,23 @@ const OccupiedBeds = () => {
   const handlePriceUpdate = async (bedNumber) => {
     const pricePerDay = priceUpdates[bedNumber];
     if (!pricePerDay || pricePerDay <= 0) {
-      setMessage("Invalid price");
+      toast.error("Invalid price");
       return;
     }
 
     try {
       await axios.put("http://localhost:5000/api/beds/update-bed-price", { bedNumber, pricePerDay });
-      setMessage(`Price for bed ${bedNumber} updated successfully`);
+      toast.success(`Price for bed ${bedNumber} updated successfully`);
       setPriceUpdates({ ...priceUpdates, [bedNumber]: "" }); // Clear the input field
     } catch (err) {
-      setMessage("Error updating bed price");
+      toast.error("Error updating bed price");
     }
   };
 
   return (
     <div className="Occupied-bed-container">
+      <ToastContainer />
       <h1 className="Occupied-bed-title">Occupied Beds and Pricing</h1>
-      {message && <p className="Occupied-bed-message">{message}</p>}
 
       <table className="Occupied-bed-table">
         <thead className="Occupied-bed-thead">
@@ -81,8 +81,8 @@ const OccupiedBeds = () => {
           ))}
         </tbody>
       </table>
-</div>
-  )
+    </div>
+  );
 };
 
 export default OccupiedBeds;

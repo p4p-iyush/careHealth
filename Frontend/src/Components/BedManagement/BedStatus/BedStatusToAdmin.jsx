@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./BedStatus.css";
 import { useNavigate } from "react-router-dom"; // ✅ Correct import
 
 export default function BedStatusToAdmin() {
-
   const [prices, setPrices] = useState({});
   const [applications, setApplications] = useState([]);
   const [bedStats, setBedStats] = useState({});
@@ -16,22 +17,37 @@ export default function BedStatusToAdmin() {
     try {
       const appRes = await fetch(`http://localhost:5000/api/beds/bed-status-admin`);
       const appData = await appRes.json(); // Parse JSON response
-      
+
       if (appRes.ok) {
         setApplications(appData); // Assuming `data` is the array of prescriptions
       } else {
-        console.error('Error from server:', appData.message || 'Failed to fetch prescriptions');
+        console.error("Error from server:", appData.message || "Failed to fetch prescriptions");
+        toast.error("Failed to fetch bed applications. Please try again later.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
       console.log("Applications:", appData);
-  
+
       const statsRes = await axios.get("http://localhost:5000/api/beds/bed-stats");
       setBedStats(statsRes.data);
       console.log("Bed Stats:", statsRes.data);
     } catch (err) {
       console.error("Error fetching data:", err);
+      toast.error("Error fetching bed data. Please try again later.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
-  
 
   // Fetch bed prices
   const fetchPrices = async () => {
@@ -46,6 +62,14 @@ export default function BedStatusToAdmin() {
       }
     } catch (err) {
       console.error("Error fetching prices:", err);
+      toast.error("Error fetching bed prices. Please try again later.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     } finally {
       setLoading(false);
     }
@@ -60,28 +84,31 @@ export default function BedStatusToAdmin() {
     return () => clearInterval(interval);
   }, []);
 
-//   const handleDischarge = async (id) => {
-//     try {
-//       // Generate the bill first
-//       const billResponse = await axios.post(`http://localhost:5000/api/bill/discharge-bill/${id}`);
-//       console.log("Discharge Bill Response:", billResponse.data);
+  //   const handleDischarge = async (id) => {
+  //     try {
+  //       // Generate the bill first
+  //       const billResponse = await axios.post(`http://localhost:5000/api/bill/discharge-bill/${id}`);
+  //       console.log("Discharge Bill Response:", billResponse.data);
 
-//       // Discharge the patient after the bill is saved
-//       const dischargeResponse = await axios.put(`http://localhost:5000/api/bill/discharge/${id}`);
-//       console.log("Discharge Response:", dischargeResponse.data);
+  //       // Discharge the patient after the bill is saved
+  //       const dischargeResponse = await axios.put(`http://localhost:5000/api/bill/discharge/${id}`);
+  //       console.log("Discharge Response:", dischargeResponse.data);
 
-//       // Refresh data after successful discharge
-//       fetchData();
+  //       // Refresh data after successful discharge
+  //       fetchData();
 
-//       // ✅ Corrected Navigation
-//       // navigate("/allDischargeBill", { state: billResponse.data });
-//     } catch (err) {
-//       console.error("Error discharging patient:", err);
-//     }
-//   };
+  //       // ✅ Corrected Navigation
+  //       // navigate("/allDischargeBill", { state: billResponse.data });
+  //     } catch (err) {
+  //       console.error("Error discharging patient:", err);
+  //     }
+  //   };
 
   return (
     <div className="Bed-status-container">
+      {/* Toast Container */}
+      <ToastContainer />
+
       <h1 className="Bed-status-title">Bed Status</h1>
 
       {/* Bed Statistics */}
@@ -100,7 +127,7 @@ export default function BedStatusToAdmin() {
           <thead>
             <tr className="Bed-status-table-header">
               <th className="Bed-status-th">Name</th>
-              <th className="Bed-status-th">Email</th>
+              <th className="Bed-status-th">Contact</th>
               <th className="Bed-status-th">Department</th>
               <th className="Bed-status-th">Bed Type</th>
               <th className="Bed-status-th">Bed Number</th>
@@ -123,7 +150,7 @@ export default function BedStatusToAdmin() {
               return (
                 <tr key={app._id} className="Bed-status-table-row">
                   <td className="Bed-status-td">{app.name}</td>
-                  <td className="Bed-status-td">{app.email}</td>
+                  <td className="Bed-status-td">{app.contact}</td>
                   <td className="Bed-status-td">{app.department}</td>
                   <td className="Bed-status-td">{app.bedType}</td>
                   <td className="Bed-status-td">{app.bedNumber}</td>
@@ -143,5 +170,4 @@ export default function BedStatusToAdmin() {
       )}
     </div>
   );
-};
-
+}

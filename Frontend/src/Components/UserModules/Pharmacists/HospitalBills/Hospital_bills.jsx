@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./Hospital_bills.css"
 
 const HospitalBills = () => {
@@ -11,17 +13,19 @@ const HospitalBills = () => {
 
   const fetchBills = async () => {
     try {
-        const response = await axios.get('http://localhost:5000/inventory/api/hospital-bills');
-        // Ensure this matches your route
+      const response = await axios.get('http://localhost:5000/inventory/api/hospital-bills');
       setBills(response.data);
+      toast.success('Hospital bills loaded successfully!');
     } catch (error) {
       console.error('Error fetching bills:', error);
-      setBills([]); // Set bills to an empty array in case of an error
+      setBills([]);
+      toast.error('Failed to fetch hospital bills.');
     }
   };
 
   return (
     <div className="Hospital-bill-container">
+      <ToastContainer />
       <h2 className="Hospital-bill-title">Hospital Bills</h2>
       {Array.isArray(bills) && bills.length > 0 ? (
         <table className="Hospital-bill-table">
@@ -47,8 +51,7 @@ const HospitalBills = () => {
       ) : (
         <p className="Hospital-bill-no-data">No bills found.</p>
       )}
-</div>
-
+    </div>
   );
 };
 

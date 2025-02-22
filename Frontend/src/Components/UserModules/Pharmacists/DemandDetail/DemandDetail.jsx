@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './DemandDetail.css';
 
 const DemandDetails = () => {
@@ -13,7 +15,6 @@ const DemandDetails = () => {
     const [inventoryLoading, setInventoryLoading] = useState(true);
     const [updatedQuantities, setUpdatedQuantities] = useState({});
 
-    // Fetch demand details
     useEffect(() => {
         const fetchDemandDetails = async () => {
             try {
@@ -21,7 +22,7 @@ const DemandDetails = () => {
                 if (!response.ok) throw new Error('Failed to fetch demand details');
                 const data = await response.json();
                 setDemand(data);
-                setPrescriptions(data); // Assuming this is the correct format
+                setPrescriptions(data);
             } catch (error) {
                 console.error("Error:", error);
                 setError("Failed to fetch demand details.");
@@ -32,7 +33,6 @@ const DemandDetails = () => {
         fetchDemandDetails();
     }, [id]);
 
-    // Fetch inventory data
     useEffect(() => {
         const fetchInventory = async () => {
             try {
@@ -50,7 +50,6 @@ const DemandDetails = () => {
         fetchInventory();
     }, []);
 
-    // Match inventory with prescriptions
     const filteredInventory = prescriptions.map(prescription => {
         const match = inventory.find(item =>
             item.name.replace(/\s+/g, '').toLowerCase() === prescription.medicine_name.replace(/\s+/g, '').toLowerCase()
@@ -58,18 +57,15 @@ const DemandDetails = () => {
         return match;
     }).filter(item => item);
 
-    // Handle quantity input change
     const handleInputChange = (inventoryId, value) => {
         const quantityToDeduct = parseInt(value);
-        if (isNaN(quantityToDeduct))
-            return; // Ensure the value is a number
+        if (isNaN(quantityToDeduct)) return;
         setUpdatedQuantities((prev) => ({
             ...prev,
             [inventoryId]: quantityToDeduct,
         }));
     };
 
-    // Calculate total cost
     const calculateTotalCost = () => {
         return Object.entries(updatedQuantities).reduce((total, [inventoryId, quantity]) => {
             const item = inventory.find(item => item._id === inventoryId);
@@ -77,12 +73,10 @@ const DemandDetails = () => {
         }, 0);
     };
 
-    // Handle inventory update
     const handleSubmitUpdate = async () => {
         const grandTotal = calculateTotalCost();
 
         try {
-            // Update inventory
             const inventoryUpdatePromises = Object.entries(updatedQuantities).map(async ([inventoryId, quantityToDeduct]) => {
                 const inventoryItem = inventory.find(item => item._id === inventoryId);
                 if (!inventoryItem) return;
@@ -100,7 +94,6 @@ const DemandDetails = () => {
 
             await Promise.all(inventoryUpdatePromises);
 
-            // Update demand status and grand total
             const demandResponse = await fetch(`http://localhost:5000/inventory/api/demands/${id.trim()}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
@@ -111,6 +104,7 @@ const DemandDetails = () => {
                 throw new Error('Failed to update demand status');
             }
 
+            toast.success('Inventory and demand status updated successfully!');
             setDemand((prev) => ({
                 ...prev,
                 handled_by_pharmacist: true,
@@ -119,6 +113,7 @@ const DemandDetails = () => {
             navigate('/Hospital-demands');
         } catch (err) {
             console.error('Error in handleSubmitUpdate:', err);
+            toast.error('Failed to update data. Please try again.');
             setError('Failed to update data. Please try again.');
         }
     };
@@ -129,6 +124,7 @@ const DemandDetails = () => {
 
     return (
         <div className="demand-details-container">
+            <ToastContainer />
             <header className="demand-details-header">Demand & Inventory Management</header>
             <div className="demand-details-content">
                 <div className="demand-details-left-section">

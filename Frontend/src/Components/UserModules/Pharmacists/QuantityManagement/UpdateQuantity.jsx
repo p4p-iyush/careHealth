@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './UpdateQuantity.css';
 
 const UpdateQuantity = () => {
-    const { id } = useParams();  // Fixed _id to id
+    const { id } = useParams();
     const [quantity, setQuantity] = useState('');
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -23,7 +24,7 @@ const UpdateQuantity = () => {
             const data = await response.json();
             setQuantity(data.quantity);
         } catch (error) {
-            setError('Failed to fetch medicine.');
+            toast.error('Failed to fetch medicine.', { position: 'top-right' });
             console.error('Error fetching medicine:', error);
         } finally {
             setLoading(false);
@@ -33,7 +34,7 @@ const UpdateQuantity = () => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         if (isNaN(quantity) || quantity < 0) {
-            setError('Quantity must be a valid non-negative number.');
+            toast.error('Quantity must be a valid non-negative number.', { position: 'top-right' });
             return;
         }
         setLoading(true);
@@ -41,15 +42,16 @@ const UpdateQuantity = () => {
             const response = await fetch(`http://localhost:5000/inventory/api/inventory/${id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ quantity: quantity }) // No need for Number() if already a number
+                body: JSON.stringify({ quantity: quantity })
             });
             if (!response.ok) {
                 throw new Error('Failed to update quantity');
             }
+            toast.success('Quantity updated successfully!', { position: 'top-right' });
             navigate('/inventory');
         } catch (error) {
-            setError('Failed to update quantity.');
-            console.error('Error updating quantity:', error); // Log the error details
+            toast.error('Failed to update quantity.', { position: 'top-right' });
+            console.error('Error updating quantity:', error);
         } finally {
             setLoading(false);
         }
@@ -60,8 +62,6 @@ const UpdateQuantity = () => {
             <h1 className="Update-quantity-heading">Update Quantity</h1>
             {loading ? (
                 <p className="Update-quantity-loading">Loading...</p>
-            ) : error ? (
-                <p className="Update-quantity-error-message">{error}</p>
             ) : (
                 <form onSubmit={handleUpdate} className="Update-quantity-form">
                     <p className="Update-quantity-current-quantity">Current Quantity: {quantity}</p>

@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './AppointmentsList.css';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./AppointmentsList.css";
 
-const predefinedSlots = ['09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM'];
+const predefinedSlots = ["09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM"];
 
 const AppointmentsList = () => {
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [rescheduleData, setRescheduleData] = useState(null);
-    const [availability, setAvailability] = useState([]);
-
-    const location = useLocation();
-    const { userDetails } = location.state || {};
+    const [rescheduleData, setRescheduleData] = useState({ id: "", date: "", time: "" });
 
     useEffect(() => {
         fetchAppointments();
@@ -20,172 +17,116 @@ const AppointmentsList = () => {
 
     const fetchAppointments = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/opdRoutes/appointments/${userDetails._id || userDetails.patient._id}`);
+            const response = await axios.get("http://localhost:5000/opdRoutes/appointments");
             setAppointments(response.data);
         } catch (error) {
-            console.error('Error fetching appointments:', error);
+            console.error("Error fetching appointments:", error);
+            toast.error("Error fetching appointments");
         }
     };
 
+    // Cancel appointment
     const cancelAppointment = async (id) => {
-        if (!window.confirm('Are you sure you want to cancel this appointment?')) return;
-
         setLoading(true);
         try {
             await axios.delete(`http://localhost:5000/opdRoutes/cancel-appointment/${id}`);
-            alert('Appointment cancelled successfully');
+            toast.success("Appointment cancelled successfully");
             fetchAppointments();
         } catch (error) {
-            console.error('Error cancelling appointment:', error);
-            alert('Error cancelling appointment');
+            toast.error("Error cancelling appointment");
         }
         setLoading(false);
     };
 
-    const checkAvailability = async (date, department) => {
-        if (date && department) {
-            try {
-                const response = await axios.post('http://localhost:5000/opdRoutes/check-availability', {
-                    date,
-                    department,
-                });
-
-                const unavailableSlots = response.data.unavailableSlots || [];
-                const availableSlots = predefinedSlots.filter(slot => !unavailableSlots.includes(slot));
-                setAvailability(availableSlots);
-            } catch (error) {
-                console.error('Error checking availability:', error);
-            }
-        }
-    };
-
+    // Reschedule appointment with availability check
     const rescheduleAppointment = async (e) => {
         e.preventDefault();
+
         if (!rescheduleData.date || !rescheduleData.time) {
-            alert('Please select a new date and time');
+            toast.error("Please select a new date and time");
             return;
         }
 
-        setLoading(true);
         try {
+            // Check if the slot is available before rescheduling
+            const response = await axios.post("http://localhost:5000/opdRoutes/check-availability", {
+                date: rescheduleData.date,
+                time: rescheduleData.time,
+            });
+
+            if (!response.data.available) {
+                toast.error("Selected time slot is already taken! Choose another.");
+                return;
+            }
+
+            setLoading(true);
             await axios.put(`http://localhost:5000/opdRoutes/reschedule-appointment/${rescheduleData.id}`, {
                 date: rescheduleData.date,
-                time: rescheduleData.time
+                time: rescheduleData.time,
             });
-            alert('Appointment rescheduled successfully');
+
+            toast.success("Appointment rescheduled successfully");
             fetchAppointments();
         } catch (error) {
-            alert(error.response?.data?.message || 'Error rescheduling appointment');
+            toast.error("Error rescheduling appointment");
+        } finally {
+            setLoading(false);
+            setRescheduleData({ id: "", date: "", time: "" });
         }
-        setLoading(false);
-        setRescheduleData(null);
     };
 
     return (
-        <div className="reschedule-container">
+        <div>
+            <ToastContainer />
+            <h2>Appointments</h2>
             {appointments.length === 0 ? (
-                <p className="reschedule-no-appointments">No appointments found.</p>
+                <p>No appointments found.</p>
             ) : (
-                <ul className="reschedule-list">
+                <ul className="appointments-list">
                     {appointments.map((appointment) => (
-                        <li key={appointment._id} className="reschedule-item">
-                            <div className="reschedule-details">
-                                <strong>{appointment.name}</strong> - {appointment.date} at {appointment.time} ({appointment.department})
-                            </div>
-                            <div className="reschedule-actions">
-                                <button 
-                                    onClick={() => cancelAppointment(appointment._id)} 
-                                    disabled={loading} 
-                                    className="reschedule-cancel-button"
-                                >
+                        <li key={appointment._id}>
+                            <strong>{appointment.name}</strong> - {appointment.date} at {appointment.time}
+                            <div className="btn-appointment">
+                                <button onClick={() => cancelAppointment(appointment._id)} disabled={loading}>
                                     Cancel
                                 </button>
-                                <button
-                                    onClick={() => {
-                                        if (rescheduleData?.id === appointment._id) {
-                                            setRescheduleData(null);
-                                        } else {
-                                            setRescheduleData({
-                                                id: appointment._id,
-                                                name: appointment.name,
-                                                date: appointment.date,
-                                                time: appointment.time,
-                                                department: appointment.department,
-                                            });
-                                            checkAvailability(appointment.date, appointment.department);
-                                        }
-                                    }}
-                                    className="reschedule-action-button"
-                                >
+                                <button onClick={() => setRescheduleData({ id: appointment._id, date: "", time: "" })}>
                                     Reschedule
                                 </button>
                             </div>
-
-                            {/* Reschedule Form - Shown Only for Selected Appointment */}
-                            {rescheduleData?.id === appointment._id && (
-                                <div className="reschedule-form">
-                                    <h3>Reschedule Appointment</h3>
-                                    <p>
-                                        <strong>Patient:</strong> {rescheduleData.name}
-                                    </p>
-                                    <p>
-                                        <strong>Previous Date:</strong> {rescheduleData.date}
-                                    </p>
-                                    <p>
-                                        <strong>Previous Time:</strong> {rescheduleData.time}
-                                    </p>
-
-                                    <label>New Date:</label>
-                                    <input
-                                        type="date"
-                                        value={rescheduleData.date}
-                                        onChange={(e) => {
-                                            const newDate = e.target.value;
-                                            setRescheduleData({ ...rescheduleData, date: newDate });
-                                            checkAvailability(newDate, rescheduleData.department);
-                                        }}
-                                        required
-                                        className="reschedule-date-input"
-                                    />
-
-                                    <label>New Time Slot:</label>
-                                    <select
-                                        value={rescheduleData.time}
-                                        onChange={(e) => setRescheduleData({ ...rescheduleData, time: e.target.value })}
-                                        required
-                                        className="reschedule-time-select"
-                                    >
-                                        <option value="">Select a time slot</option>
-                                        {availability.length > 0 ? (
-                                            availability.map((slot, index) => (
-                                                <option key={index} value={slot}>
-                                                    {slot}
-                                                </option>
-                                            ))
-                                        ) : (
-                                            <option disabled>No slots available</option>
-                                        )}
-                                    </select>
-                                    <div className="reschedule-form-actions">
-                                        <button 
-                                            onClick={rescheduleAppointment} 
-                                            disabled={loading} 
-                                            className="reschedule-confirm-button"
-                                        >
-                                            Confirm Reschedule
-                                        </button>
-                                        <button 
-                                            onClick={() => setRescheduleData(null)} 
-                                            className="reschedule-cancel-form-button"
-                                        >
-                                            Cancel
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
                         </li>
                     ))}
                 </ul>
+            )}
+
+            {rescheduleData.id && (
+                <div>
+                    <h3>Reschedule Appointment</h3>
+                    <label>New Date:</label>
+                    <input
+                        type="date"
+                        onChange={(e) => setRescheduleData({ ...rescheduleData, date: e.target.value })}
+                        required
+                    />
+
+                    <label>New Time Slot:</label>
+                    <select
+                        onChange={(e) => setRescheduleData({ ...rescheduleData, time: e.target.value })}
+                        required
+                    >
+                        <option value="">Select a time slot</option>
+                        {predefinedSlots.map((slot, index) => (
+                            <option key={index} value={slot}>
+                                {slot}
+                            </option>
+                        ))}
+                    </select>
+
+                    <button onClick={rescheduleAppointment} disabled={loading}>
+                        Confirm Reschedule
+                    </button>
+                    <button onClick={() => setRescheduleData({ id: "", date: "", time: "" })}>Cancel</button>
+                </div>
             )}
         </div>
     );

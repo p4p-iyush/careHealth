@@ -1,9 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import BedStatus from "../../../BedManagement/BedStatus/BedStatus.jsx";
 import UserContext from "../../../Context/UserContext.js";
-import "./DoctorDashboard.css"; // Import CSS file for styling
+import "./DoctorDashboard.css";
+
+
 
 const DoctorDashboard = () => {
   const [doctor, setDoctor] = useState(null);
@@ -14,61 +18,44 @@ const DoctorDashboard = () => {
   const { userDetails } = location.state || {};
   const navigate = useNavigate();
 
-  // Fetch doctor and patient data
   useEffect(() => {
     const fetchDoctorAndPatients = async () => {
+      if (!userDetails?.doctor?._id) return;
       try {
-        if (userDetails?.doctor?._id) {
-          setUserID(userDetails.doctor._id);
-          const response = await fetch(
-            `http://localhost:5000/doctorRoutes/doctor_patient_list/${userDetails.doctor._id}`
-          );
-          const data = await response.json();
-
-          if (response.ok) {
-            setDoctor(data.doctor);
-            setPatients(data.patients);
-          } else {
-            console.error("Error:", data.message);
-          }
-        }
+        setUserID(userDetails.doctor._id);
+        const response = await axios.get(
+          `http://localhost:5000/doctorRoutes/doctor_patient_list/${userDetails.doctor._id}`
+        );
+        setDoctor(response.data.doctor);
+        setPatients(response.data.patients);
       } catch (error) {
         console.error("Error fetching data:", error);
+        toast.error("Error fetching data.");
       } finally {
         setLoading(false);
       }
     };
-
     fetchDoctorAndPatients();
   }, [userDetails?.doctor?._id, setUserID]);
 
-  // Handle updating patient status
   const handleSubmit = async (patientId) => {
     try {
-      const response = await axios.put(
-        "http://localhost:5000/doctorRoutes/doctor_patient_list",
-        {
-          patientId: patientId,
-          reached: true,
-        }
-      );
-
-      console.log("Response:", response.data);
-      alert("Patient status updated successfully!");
-
-      // ✅ Update only the selected patient while keeping others unchanged
+      await axios.put("http://localhost:5000/doctorRoutes/doctor_patient_list", {
+        patientId,
+        reached: true,
+      });
       setPatients((prevPatients) =>
         prevPatients.map((patient) =>
           patient._id === patientId ? { ...patient, reached: true } : patient
         )
       );
+      toast.success("Patient status updated successfully!");
     } catch (error) {
       console.error("Error updating patient status:", error);
-      alert("Failed to update patient status.");
+      toast.error("Failed to update patient status.");
     }
   };
 
-  // Navigate to inventory request page
   const handleInventoryRequest = () => {
     navigate("/inventory-request", { state: { doctor_id: userDetails.doctor._id } });
   };
@@ -82,15 +69,9 @@ const DoctorDashboard = () => {
       ) : doctor ? (
         <div className="doctor-dash-info">
           <h3 className="doctor-dash-name">Dr. {doctor.name}</h3>
-          <p className="doctor-dash-specialization">
-            <strong>Specialization:</strong> {doctor.specialization}
-          </p>
-          <p className="doctor-dash-email">
-            <strong>Email:</strong> {doctor.email}
-          </p>
-          <p className="doctor-dash-phone">
-            <strong>Phone:</strong> {doctor.contact}
-          </p>
+          <p><strong>Specialization:</strong> {doctor.specialization}</p>
+          <p><strong>Email:</strong> {doctor.email}</p>
+          <p><strong>Phone:</strong> {doctor.contact}</p>
         </div>
       ) : (
         <p className="doctor-dash-not-found-message">Doctor not found.</p>
@@ -98,72 +79,42 @@ const DoctorDashboard = () => {
 
       <h3 className="doctor-dash-subtitle">
         Request to Inventory
-        <button
-          onClick={handleInventoryRequest}
-          className="doctor-dash-bed-btn"
-        >
-          Request Inventory
-        </button>
+        <button onClick={handleInventoryRequest} className="doctor-dash-bed-btn">Request Inventory</button>
       </h3>
 
       <h3 className="doctor-dash-subtitle">Appointments</h3>
-
       {patients.length > 0 ? (
         <table className="doctor-dash-table">
-          <thead className="doctor-dash-table-head">
-            <tr className="doctor-dash-table-header-row">
-              <th className="doctor-dash-table-header">Patient Name</th>
-              <th className="doctor-dash-table-header">Department</th>
-              <th className="doctor-dash-table-header">Date</th>
-              <th className="doctor-dash-table-header">Time</th>
-              <th className="doctor-dash-table-header">Add Prescription</th>
-              <th className="doctor-dash-table-header">View Prescription</th>
-              <th className="doctor-dash-table-header">Allocate Bed</th>
-              <th className="doctor-dash-table-header">Prescription Status</th>
+          <thead>
+            <tr>
+              <th>Patient Name</th>
+              <th>Department</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Add Prescription</th>
+              <th>View Prescription</th>
+              <th>Allocate Bed</th>
+              <th>Prescription Status</th>
             </tr>
           </thead>
-          <tbody className="doctor-dash-table-body">
+          <tbody>
             {patients.map((patient) => (
-              <tr key={patient._id} className="doctor-dash-table-row">
-                <td className="doctor-dash-patient-name">{patient.name}</td>
-                <td className="doctor-dash-patient-department">
-                  {patient.department}
+              <tr key={patient._id}>
+                <td>{patient.name}</td>
+                <td>{patient.department}</td>
+                <td>{patient.date}</td>
+                <td>{patient.time}</td>
+                <td>
+                  <Link to="/add-patient-med" state={{ patient, doctor }} className="doctor-dash-add-btn">ADD</Link>
                 </td>
-                <td className="doctor-dash-patient-date">{patient.date}</td>
-                <td className="doctor-dash-patient-time">{patient.time}</td>
-                <td className="doctor-dash-action">
-                  <Link
-                    to="/add-patient-med"
-                    state={{ patient, doctor }}
-                    className="doctor-dash-add-btn"
-                  >
-                    ADD
-                  </Link>
+                <td>
+                  <Link to={`/patient/prescription/${patient.patientId}`} state={{ userDetails: patient }} className="doctor-dash-view-btn">View Prev Prescription</Link>
                 </td>
-                <td className="doctor-dash-action">
-                  <Link
-                    to={`/patient/prescription/${patient.patientId}`}
-                    state={{ userDetails: patient }}
-                    className="doctor-dash-view-btn"
-                  >
-                    View Prev Prescription
-                  </Link>
+                <td>
+                  <Link to="/bed-application" state={{ patient, doctor }} className="doctor-dash-bed-btn">ADD</Link>
                 </td>
-                <td className="doctor-dash-action">
-                  <Link
-                    to="/bed-application"
-                    state={{ patient, doctor }}
-                    className="doctor-dash-bed-btn"
-                  >
-                    ADD
-                  </Link>
-                </td>
-                <td className="doctor-dash-action">
-                  <button
-                    className="doctor-dash-bed-btn"
-                    onClick={() => handleSubmit(patient._id)}
-                    disabled={patient.reached} // ✅ Only disable the clicked button
-                  >
+                <td>
+                  <button onClick={() => handleSubmit(patient._id)} disabled={patient.reached} className="doctor-dash-bed-btn">
                     {patient.reached ? "Done" : "Pending..."}
                   </button>
                 </td>
@@ -172,9 +123,7 @@ const DoctorDashboard = () => {
           </tbody>
         </table>
       ) : (
-        <p className="doctor-dash-no-patients-message">
-          No patients found in this department.
-        </p>
+        <p className="doctor-dash-no-patients-message">No patients found in this department.</p>
       )}
 
       <h3 className="doctor-dash-subtitle">Beds Allocated to Doctor</h3>

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import "./Add_patient_med.css"
+import { useNavigate, useLocation } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./Add_patient_med.css";
 
 const AddPatientMed = () => {
   const navigate = useNavigate();
@@ -11,7 +12,6 @@ const AddPatientMed = () => {
   const [selectedMedSet, setSelectedMedSet] = useState(new Set());
   const [patientName, setPatientName] = useState("");
   const [doctorName, setDoctorName] = useState("");
-
 
   const location = useLocation();
   const { patient, doctor } = location.state || {};
@@ -33,7 +33,10 @@ const AddPatientMed = () => {
       fetch(`http://localhost:5000/inventory/search/inventory?search=${searchTerm}`)
         .then((res) => res.json())
         .then((data) => setSuggestions(data))
-        .catch((err) => console.error(err));
+        .catch((err) => {
+          console.error(err);
+          toast.error("Error fetching medicines");
+        });
     };
 
     fetchMed();
@@ -65,6 +68,7 @@ const AddPatientMed = () => {
       )
     );
   };
+
   const handleSubmit = async () => {
     try {
       const response = await fetch("http://localhost:5000/prescriptions/save-prescription", {
@@ -80,20 +84,21 @@ const AddPatientMed = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        alert("Prescription saved successfully!");
+        toast.success("Prescription saved successfully!");
         navigate(-1);
       } else {
-        console.log(data.error)
-        alert(`Error: ${data.error}`);
+        console.log(data.error);
+        toast.error(`Error: ${data.error}`);
       }
     } catch (err) {
       console.error("Error while saving prescription:", err);
+      toast.error("Error while saving prescription");
     }
   };
 
-
   return (
     <div className="component-add-patient-med-container">
+      <ToastContainer />
       {/* Patient and Doctor Info */}
       <h2>Add Prescriptions</h2>
       <div className="component-add-patient-med-info">
@@ -198,11 +203,8 @@ const AddPatientMed = () => {
 
       {/* Submit Button */}
       <div className="component-add-patient-med-actions">
-        <button onClick={handleSubmit}>
-          Submit
-        </button>
+        <button onClick={handleSubmit}>Submit</button>
       </div>
-
     </div>
   );
 };

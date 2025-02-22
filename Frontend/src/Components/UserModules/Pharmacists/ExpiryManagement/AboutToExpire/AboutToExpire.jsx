@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './AboutToExpire.css';
 
 const AboutToExpire = () => {
@@ -22,8 +24,10 @@ const AboutToExpire = () => {
             }
             const data = await response.json();
             setAboutToExpireProducts(data);
+            toast.success('Products loaded successfully!');
         } catch (error) {
             setError('Failed to fetch products about to expire.');
+            toast.error('Failed to fetch products about to expire.');
             console.error('Error fetching products about to expire:', error);
         } finally {
             setLoading(false);
@@ -36,6 +40,7 @@ const AboutToExpire = () => {
 
     return (
         <div className="AboutToExpire-container">
+            <ToastContainer />
             <h1 className="AboutToExpire-title">About to Expire Products</h1>
             {loading ? (
                 <p className="AboutToExpire-loading">Loading...</p>
@@ -70,5 +75,3 @@ const AboutToExpire = () => {
 };
 
 export default AboutToExpire;
-
-

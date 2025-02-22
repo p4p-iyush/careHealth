@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import "./Inventory_request.css"
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./Inventory_request.css";
 
 const Inventory_request = () => {
   const navigate = useNavigate();
@@ -9,33 +10,32 @@ const Inventory_request = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [selectedMed, setSelectedMed] = useState([]);
   const [selectedMedSet, setSelectedMedSet] = useState(new Set());
-  const [doctor, setDoctor] = useState(null); // State to store doctor details
-  const [loading, setLoading] = useState(true); // Loading state
+  const [doctor, setDoctor] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const location = useLocation();
-  const { doctor_id } = location.state || {}; // Get doctor_id from state
+  const { doctor_id } = location.state || {};
 
-  // Fetch doctor details based on doctor_id
   useEffect(() => {
     if (doctor_id) {
       fetch(`http://localhost:5000/doctorRoutes/doctor/${doctor_id}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.doctor) {
-            setDoctor(data.doctor); // Set doctor details
+            setDoctor(data.doctor);
           } else {
-            console.error("Doctor not found");
+            toast.error("Doctor not found!");
           }
-          setLoading(false); // Set loading to false
+          setLoading(false);
         })
         .catch((err) => {
           console.error("Error fetching doctor details:", err);
-          setLoading(false); // Set loading to false in case of error
+          toast.error("Error fetching doctor details!");
+          setLoading(false);
         });
     }
   }, [doctor_id]);
 
-  // Fetch medicine suggestions based on search term
   useEffect(() => {
     if (searchTerm.trim() === "") {
       setSuggestions([]);
@@ -48,18 +48,13 @@ const Inventory_request = () => {
       .catch((err) => console.error(err));
   }, [searchTerm]);
 
-  // Handle selecting a medicine
   const handleSelectMed = (suggestion) => {
-    setSelectedMed((prevMed) => [
-      ...prevMed,
-      { ...suggestion, quantity: 1 },
-    ]);
+    setSelectedMed((prevMed) => [...prevMed, { ...suggestion, quantity: 1 }]);
     setSelectedMedSet((prevSet) => new Set(prevSet).add(suggestion._id));
     setSearchTerm("");
     setSuggestions([]);
   };
 
-  // Handle removing a medicine
   const handleRemoveMed = (id) => {
     setSelectedMed((prevMed) => prevMed.filter((med) => med._id !== id));
     setSelectedMedSet((prevSet) => {
@@ -69,7 +64,6 @@ const Inventory_request = () => {
     });
   };
 
-  // Handle changing medicine quantity
   const handleFieldChange = (id, field, value) => {
     setSelectedMed((prevMed) =>
       prevMed.map((med) =>
@@ -78,7 +72,6 @@ const Inventory_request = () => {
     );
   };
 
-  // Handle form submission
   const handleSubmit = async () => {
     try {
       const response = await fetch("http://localhost:5000/inventoryRequest/save-inventory-request", {
@@ -94,35 +87,34 @@ const Inventory_request = () => {
 
       const data = await response.json();
       if (response.ok) {
-        alert("Inventory request saved successfully!");
-        navigate(-1)
+        toast.success("Inventory request saved successfully!");
+        setTimeout(() => navigate(-1), 2000);
       } else {
-        alert(`Error: ${data.error}`);
+        toast.error(`Error: ${data.error}`);
       }
     } catch (err) {
       console.error("Error while saving inventory request:", err);
+      toast.error("Failed to save inventory request!");
     }
   };
 
-  // Display loading state while fetching doctor details
   if (loading) {
     return <p>Loading doctor details...</p>;
   }
 
-  // Display error if doctor details are not found
   if (!doctor) {
     return <p>Doctor not found.</p>;
   }
 
   return (
     <div className="inventory-request-container">
-      {/* Doctor Info */}
+      <ToastContainer position="top-right" autoClose={3000} />
+      
       <div className="inventory-request-doctor-info">
         <h2>Doctor: {doctor?.name}</h2>
         <h3>Department: {doctor?.specialization}</h3>
       </div>
 
-      {/* Medicine Search */}
       <div className="inventory-request-medicine-search">
         <label>Medicine Name:</label>
         <input
@@ -141,7 +133,6 @@ const Inventory_request = () => {
         </ul>
       </div>
 
-      {/* Selected Medicines */}
       {selectedMed.length > 0 && (
         <div className="inventory-request-selected-medicines">
           <h3>Selected Medicines</h3>
@@ -165,7 +156,6 @@ const Inventory_request = () => {
         </div>
       )}
 
-      {/* Submit Button */}
       <div className="inventory-request-form-actions">
         <button onClick={handleSubmit}>Submit</button>
       </div>

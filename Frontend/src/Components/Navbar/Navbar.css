@@ -3,17 +3,20 @@
   background-color: #ffffff;
   color: #333;
   display: flex;
-  width: 50%;
+  width: 70%;
   justify-content: space-between;
   align-items: center;
   padding: 15px 20px;
-  z-index: 99999;
-  margin: 20px -10% ;
+  z-index: 9999;
+  position: fixed;
+  top: 20px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   font-family: Arial, sans-serif;
-  position: fixed;
   border-radius: 20px;
 }
+
 
 .navbar-brand h2 {
   margin: 0;
