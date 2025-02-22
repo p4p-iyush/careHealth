@@ -1,12 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { BsFillRecordCircleFill, BsRecordCircle } from "react-icons/bs";
 import "./Chatbot.css";
 
 const Chatbot = ({ userDetails }) => {
-  const [messages, setMessages] = useState([]); // Chat messages
-  const [userInput, setUserInput] = useState(""); // User input
-  const [loading, setLoading] = useState(false); // Loading state
+  const [messages, setMessages] = useState([]);
+  const [userInput, setUserInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [isSpeechEnabled, setIsSpeechEnabled] = useState(false); // Track speech enabled state
+  const recognitionRef = useRef(null);
+  const speechRef = useRef(null); // Track the current speech instance
 
-  // Function to send user message to backend
+  useEffect(() => {
+    if ("webkitSpeechRecognition" in window) {
+      const recognition = new window.webkitSpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = "en-US";
+
+      recognition.onresult = (event) => {
+        let finalTranscript = "";
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript + " ";
+          }
+        }
+        setUserInput((prev) => prev + finalTranscript.trim());
+      };
+
+      recognitionRef.current = recognition;
+    } else {
+      alert("Speech recognition is not supported in this browser.");
+    }
+  }, []);
+
+  const startRecording = () => {
+    if (recognitionRef.current) {
+      setIsRecording(true);
+      recognitionRef.current.start();
+    }
+  };
+
+  const stopRecording = () => {
+    if (recognitionRef.current) {
+      setIsRecording(false);
+      recognitionRef.current.stop();
+    }
+  };
+
+  const textToSpeech = (text, lang = "en-US") => {
+    if ("speechSynthesis" in window) {
+      // Stop any ongoing speech before starting new one
+      if (speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+      }
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = lang; // Set the language based on input
+      speechSynthesis.speak(utterance);
+      speechRef.current = utterance; // Store current utterance
+    } else {
+      console.error("Text-to-Speech is not supported in this browser.");
+    }
+  };
+
   const sendMessage = async () => {
     if (userInput.trim() === "" || loading) return;
 
@@ -27,13 +84,21 @@ const Chatbot = ({ userDetails }) => {
       }
 
       const data = await response.json();
-      console.log(data);
       const botResponse = data.response || "I'm here to help!";
+
+      // Check if the response is in Hindi, change language for text-to-speech
+      const isHindi = /[\u0900-\u097F]/.test(userInput); // Check if input contains Hindi characters
+      const speechLang = isHindi ? "hi-IN" : "en-US"; // Use Hindi language for text-to-speech if detected
 
       setMessages((prevMessages) => [
         ...prevMessages,
         { sender: "bot", text: botResponse },
       ]);
+
+      // Only start text-to-speech if isSpeechEnabled is true
+      if (isSpeechEnabled) {
+        textToSpeech(botResponse, speechLang);
+      }
     } catch (error) {
       console.error("Error communicating with chatbot:", error);
       setMessages((prevMessages) => [
@@ -45,9 +110,13 @@ const Chatbot = ({ userDetails }) => {
     }
   };
 
+  // Toggle speech enabled state
+  const toggleSpeech = () => {
+    setIsSpeechEnabled((prev) => !prev);
+  };
+
   return (
     <div className="chatbot_container">
-      {/* Messages Display */}
       <div className="chatbot_messages">
         {messages.map((message, index) => (
           <div
@@ -62,7 +131,6 @@ const Chatbot = ({ userDetails }) => {
         {loading && <div className="bot_message">Thinking...</div>}
       </div>
 
-      {/* Input Field */}
       <div className="chatbot_input">
         <input
           type="text"
@@ -70,10 +138,18 @@ const Chatbot = ({ userDetails }) => {
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-          disabled={loading} // Disable input while waiting for response
+          disabled={loading}
         />
+        <button onClick={isRecording ? stopRecording : startRecording}>
+          {isRecording ? <BsFillRecordCircleFill /> : <BsRecordCircle />}
+        </button>
         <button onClick={sendMessage} disabled={loading}>
           {loading ? "..." : "Send"}
+        </button>
+
+        {/* Button to toggle text-to-speech */}
+        <button onClick={toggleSpeech}>
+          {isSpeechEnabled ? "Stop Sound" : "Start Sound"}
         </button>
       </div>
     </div>

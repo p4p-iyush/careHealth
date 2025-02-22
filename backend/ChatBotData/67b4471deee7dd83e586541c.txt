@@ -6,7 +6,7 @@ Contact Number: 8749835720
 Blood Group: A+
 Address: Harshwardhan Nagar , Bhopal (M.P)
 Email: jhadenishant@gmail.com
-Login Time: 2025-02-22T11:51:15.275Z
+Login Time: 2025-02-22T17:29:58.321Z
 
 # Patient Prescriptions:
  1. Prescription Details: Paracetamol (1x/day, 1 units), Cough Syrup (1x/day, 1 units)
