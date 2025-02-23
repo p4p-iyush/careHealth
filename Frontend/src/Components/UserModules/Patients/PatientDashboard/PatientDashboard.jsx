@@ -160,7 +160,7 @@ const PatientDashboard = () => {
         </Link>
         <Link
           className="patient-dash-link-reschedule"
-          to="/appointment-list"
+          to="/appointment-reschedule"
           state={{ userDetails: userDetails.patient }}
         >
           Reschedule Appointment
@@ -227,24 +227,16 @@ const PatientDashboard = () => {
                         : "N/A"}
                     </p>
                     <p>
-                      <strong>Time:</strong>{" "}
-                      {latestAppointment.time
-                        ? new Date(latestAppointment.time).toLocaleTimeString(
-                            "en-US",
-                            {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                              hour12: true,
-                            }
-                          )
-                        : "N/A"}
+                    <strong>Time:</strong>{" "}
+                    {latestAppointment.time}
+
                     </p>
                     <p>
                       <strong>Doctor:</strong>{" "}
                       {latestAppointment.doctorName || "N/A"}
                     </p>
                     <p>
-                      <strong>Reason:</strong> {latestAppointment.reason || "N/A"}
+                      <strong>Department:</strong> {latestAppointment.department || "N/A"}
                     </p>
                   </div>
                 ) : (

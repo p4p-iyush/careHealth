@@ -124,7 +124,7 @@ function MainApp() {
         {/* routes for appointment */}
         <Route path="/appointment-booking" element={<AppointmentBookingForm/>} />
         <Route path="/display-booked-appointment" element={<DisplayBookedAppointment/>} />
-        <Route path="/appointment-list" element={<AppointmentList/>} />
+        <Route path="/appointment-reschedule" element={<AppointmentList/>} />
 
         {/* routes for dashboard */}
         <Route path="/patient-dashboard" element={<PatientDashboard/>} />

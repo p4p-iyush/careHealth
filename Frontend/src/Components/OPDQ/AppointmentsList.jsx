@@ -99,35 +99,43 @@ const AppointmentsList = () => {
                 </ul>
             )}
 
-            {rescheduleData.id && (
-                <div>
-                    <h3>Reschedule Appointment</h3>
-                    <label>New Date:</label>
-                    <input
-                        type="date"
-                        onChange={(e) => setRescheduleData({ ...rescheduleData, date: e.target.value })}
-                        required
-                    />
+{rescheduleData.id && (
+    <div className="reschedule-container">
+        <h3 className="reschedule-title">Reschedule Appointment</h3>
+        
+        <label className="reschedule-label">New Date:</label>
+        <input
+            type="date"
+            className="reschedule-input"
+            onChange={(e) => setRescheduleData({ ...rescheduleData, date: e.target.value })}
+            required
+        />
 
-                    <label>New Time Slot:</label>
-                    <select
-                        onChange={(e) => setRescheduleData({ ...rescheduleData, time: e.target.value })}
-                        required
-                    >
-                        <option value="">Select a time slot</option>
-                        {predefinedSlots.map((slot, index) => (
-                            <option key={index} value={slot}>
-                                {slot}
-                            </option>
-                        ))}
-                    </select>
+        <label className="reschedule-label">New Time Slot:</label>
+        <select
+            className="reschedule-select"
+            onChange={(e) => setRescheduleData({ ...rescheduleData, time: e.target.value })}
+            required
+        >
+            <option value="">Select a time slot</option>
+            {predefinedSlots.map((slot, index) => (
+                <option key={index} value={slot}>
+                    {slot}
+                </option>
+            ))}
+        </select>
 
-                    <button onClick={rescheduleAppointment} disabled={loading}>
-                        Confirm Reschedule
-                    </button>
-                    <button onClick={() => setRescheduleData({ id: "", date: "", time: "" })}>Cancel</button>
-                </div>
-            )}
+        <div className="reschedule-btn-group">
+            <button className="btn btn-confirm" onClick={rescheduleAppointment} disabled={loading}>
+                Confirm Reschedule
+            </button>
+            <button className="btn btn-cancel-reschedule" onClick={() => setRescheduleData({ id: "", date: "", time: "" })}>
+                Cancel
+            </button>
+        </div>
+    </div>
+)}
+
         </div>
     );
 };
